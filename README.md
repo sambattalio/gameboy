@@ -10,8 +10,8 @@ I Think most of the stuff for the processor and cartidges can be found in the Fu
 
 ## Resource references
 
-    * (Opcodes)[https://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html]
-    * (Full Manual)[https://realboyemulator.files.wordpress.com/2013/01/gbcpuman.pdf]
+   - [Opcodes](https://www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html)
+   - [Full Manual](https://realboyemulator.files.wordpress.com/2013/01/gbcpuman.pdf)
 
 
 ## Example project (CHIP-8 Emulator)
