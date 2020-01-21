@@ -15,7 +15,6 @@ void proc_delete(proc* p) {
     free(p);
 }
 
-// follows instruction set defined @ https://gekkio.fi/files/gb-docs/gbctr.pdf
 void proc_handle_word(proc *p) {
     if (!p) return;
 
@@ -254,6 +253,6 @@ void proc_handle_word(proc *p) {
         case 0x42: // LD B, D
             // 1
             break;
-        
+
     }
 }
