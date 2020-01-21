@@ -14,5 +14,6 @@ typedef struct {
 proc*          proc_create();
 void           proc_delete(proc* p);
 void           proc_handle_word(proc *p);
+void           proc_initialize_memory(proc * p);
 
 #endif
