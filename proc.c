@@ -135,5 +135,125 @@ void proc_handle_word(proc *p) {
             // 1
             // 0 0 0 C
             break;
+        case 0x20: // JR NZ, r8
+            // 2
+            break;
+        case 0x21: // LD HL, d16
+            //3 
+            break;
+        case 0x22: // LD (HL+), A
+            // 1
+            break;
+        case 0x23: // INC HL
+            // 1
+            break;
+        case 0x24: // INC H
+            // 1
+            // Z 0 H -
+            break;
+        case 0x25: // DEC H
+            // 1
+            // Z 1 H -
+            break;
+        case 0x26: // LD H, d8
+            // 2
+            break;
+        case 0x27: // DAA
+            // 1
+            // Z - 0 C
+            break;
+        case 0x28: // JR Z,r8
+            // 2
+            break;
+        case 0x29: // ADD HL, HL
+            // 1
+            // - 0 H C
+            break;
+        case 0x2A: // LD A, (HL+)
+            // 1
+            break;
+        case 0x2B: // DEC HL
+            // 1
+            break;
+        case 0x2C: //INC L
+            // 1
+            // Z 0 H -
+            break;
+        case 0x2D: // DEC L
+            // 1
+            // Z 1 H -
+            break;
+        case 0x2E: // LD L, d8
+            // 2
+            break;
+        case 0x2F: // CPL
+            //1
+            // - 1 1 -
+            break;
+        case 0x30: // JR NC,r8
+            // 2
+            break;
+        case 0x31: // LD SP, d16
+            // 3
+            break;
+        case 0x32: // LD (HL-), A
+            //1
+            break;
+        case 0x33: // INC SP
+            // 1
+            break;
+        case 0x34: // INC (HL)
+            // 1
+            // Z 0 H -
+            break;
+        case 0x35: // DEC (HL)
+            // 1
+            // Z 1 H -
+            break;
+        case 0x36: // LD (HL), d8
+            // 2
+            break;
+        case 0x37: // SCF
+            // 1
+            // - 0 0 1
+            break;
+        case 0x38: // JR C, r8
+            // 2
+            break;
+        case 0x39: // ADD HL, SP
+            // 1
+            // - 0 H C
+            break;
+        case 0x3A: // LD A, (HL-)
+            // 1
+            break;
+        case 0x3B: // DEC SP
+            // 1
+            break;
+        case 0x3C: // INC A
+            // 1
+            // Z 0 H -
+            break;
+        case 0x3D: // DEC A
+            // 1
+            // Z 1 H -
+            break;
+        case 0x3E: // LD A, d8
+            // 2
+            break;
+        case 0x3F: // CCF
+            // 1
+            // - 0 0 C 
+            break;
+        case 0x40: // LD B, B
+            // 1
+            break;
+        case 0x41: // LD B, C
+            // 1
+            break;
+        case 0x42: // LD B, D
+            // 1
+            break;
+        
     }
 }
