@@ -355,5 +355,6 @@ void proc_handle_word(proc *p) {
         case 0x64: // LD H, H
             // 1
             break;
+        
     }
 }
