@@ -26,9 +26,11 @@ typedef struct {
 typedef struct {
     uint8_t memory[MEM_SIZE];
 
-    unsigned pc;
     Registers registers;
     FlagRegister flagRegister;
+    
+    uint16_t pc;
+    uint16_t sp;
 } Proc;
 
 Proc*          proc_create();
