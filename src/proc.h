@@ -8,7 +8,8 @@
 typedef struct {
     uint8_t memory[MEM_SIZE];
 
-    unsigned pc;
+    uint16_t pc;
+    uint16_t sp;
 } proc;
 
 proc*          proc_create();
