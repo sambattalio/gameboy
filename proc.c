@@ -253,6 +253,47 @@ void proc_handle_word(proc *p) {
         case 0x42: // LD B, D
             // 1
             break;
-
+        case 0x43: // LD B, E
+            // 1
+            break;
+        case 0x44: // LD B, H
+            // 1
+            break;
+        case 0x45: // LD B, L
+            // 1
+            break;
+        case 0x46: // LD B, (HL)
+            // 1
+            break;
+        case 0x47: // LD B, A
+            // 1
+            break;
+        case 0x48: //LD C, B
+            // 1
+            break;
+        case 0x49: //LD C, C
+            // 1
+            break;
+        case 0x4A: //LD C, D
+            // 1
+            break;
+        case 0x4B: //LD C, E
+            // 1
+            break;
+        case 0x4C: //LD C, H
+            // 1
+            break;
+        case 0x4D: //LD C, L
+            // 1
+            break;
+        case 0x4E: // LD C, (HL)
+            // 1
+            break;
+        case 0x4F: // LD C, A
+            // 1
+            break;
+        case 0x50: // LD D, B
+            // 1
+            break;
     }
 }
