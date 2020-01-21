@@ -2,20 +2,20 @@
 #include "proc.h"
 
 
-proc* proc_create() {
-    proc *p = calloc(1, sizeof(proc));
+Proc* proc_create() {
+    Proc* p = calloc(1, sizeof(proc));
     if (p) {
         p->pc = 0x100;
     }
     return p;
 }
 
-void proc_delete(proc* p) {
+void proc_delete(Proc* p) {
     if (!p) return;
     free(p);
 }
 
-void proc_handle_word(proc *p) {
+void proc_handle_word(Proc* p) {
     if (!p) return;
 
     unsigned char* word = &p->memory[p->pc];
