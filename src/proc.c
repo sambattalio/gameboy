@@ -944,7 +944,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             debug_print("ADD A,A\n", NULL);
-			break;
+            break;
         case 0x88:
             // ADC A,B
             // 1 4
@@ -1292,6 +1292,9 @@ void proc_read_word(Proc *p) {
             // 1 12
             // - - - -
             debug_print("POP BC\n", NULL);
+            p->registers.c = p->memory[p->sp];
+            p->registers.b = p->memory[p->sp - 1];
+            p->sp += 2;
 			break;
         case 0xC2:
             // JP NZ,a16
@@ -1317,7 +1320,7 @@ void proc_read_word(Proc *p) {
             // - - - -
             debug_print("PUSH BC\n", NULL);
             p->memory[p->sp] = p->registers.c;
-            p->memory[p->sp - 1] = (p->registers.b >> 8);
+            p->memory[p->sp - 1] = p->registers.b;
             p->sp -= 2;
 			break;
         case 0xC6:
@@ -1391,6 +1394,9 @@ void proc_read_word(Proc *p) {
             // 1 12
             // - - - -
             debug_print("POP DE\n", NULL);
+            p->registers.e = p->memory[p->sp];
+            p->registers.d = p->memory[p->sp - 1];
+            p->sp += 2;
 			break;
         case 0xD2:
             // JP NC,a16
@@ -1412,7 +1418,7 @@ void proc_read_word(Proc *p) {
             // - - - -
             debug_print("PUSH DE\n", NULL);
             p->memory[p->sp] = p->registers.e;
-            p->memory[p->sp - 1] = (p->registers.d >> 8);
+            p->memory[p->sp - 1] = p->registers.d;
             p->sp -= 2;
 			break;
         case 0xD6:
@@ -1480,6 +1486,9 @@ void proc_read_word(Proc *p) {
             // 1 12
             // - - - -
             debug_print("POP HL\n", NULL);
+            p->registers.l = p->memory[p->sp];
+            p->registers.h = p->memory[p->sp - 1];
+            p->sp += 2;
 			break;
         case 0xE2:
             // LD (C),A
@@ -1499,7 +1508,7 @@ void proc_read_word(Proc *p) {
             // - - - -
             debug_print("PUSH HL\n", NULL);
             p->memory[p->sp] = p->registers.l;
-            p->memory[p->sp - 1] = (p->registers.h >> 8);
+            p->memory[p->sp - 1] = p->registers.h;
             p->sp -= 2;
 			break;
         case 0xE6:
@@ -1565,6 +1574,9 @@ void proc_read_word(Proc *p) {
             // 1 12
             // Z N H C
             debug_print("POP AF\n", NULL);
+            p->registers.f = p->memory[p->sp];
+            p->registers.a = p->memory[p->sp - 1];
+            p->sp += 2;
 			break;
         case 0xF2:
             // LD A,(C)
@@ -1588,7 +1600,7 @@ void proc_read_word(Proc *p) {
             // - - - -
             debug_print("PUSH AF\n", NULL);
             p->memory[p->sp] = p->registers.f;
-            p->memory[p->sp - 1] = (p->registers.a >> 8);
+            p->memory[p->sp - 1] = p->registers.a;
             p->sp -= 2;
 			break;
         case 0xF6:
