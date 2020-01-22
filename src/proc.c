@@ -18,9 +18,13 @@ void proc_delete(Proc* p) {
 void proc_read_word(Proc *p) {
     if (!p) return;
 
-    uint8_t eightbit_opcode = p->memory[p->pc + 1];
+    uint8_t eightbit_opcode = p->memory[p->pc];
+
+    /* set a variable instead of just ++ -- to account for changing PC value as inst */
+    int bytes_ate = 1;
 
     /* https:/www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html */
+    /* LITTLE ENDIAN I THINK */
     switch (eightbit_opcode) {
         case 0x0:
             //  NOP
@@ -33,12 +37,17 @@ void proc_read_word(Proc *p) {
             // 3 12
             // - - - -
             debug_print("LD BC,d16\n", NULL);
+            /* Assuming B is most significant... so c gets first byte and B gets second */
+            p->registers.c = p->memory[p->pc + 1];
+            p->registers.b = p->memory[p->pc + 2];
+            bytes_ate = 3;
 			break;
         case 0x2:
             // LD (BC),A
             // 1 8
             // - - - -
             debug_print("LD (BC),A\n", NULL);
+            p->registers
 			break;
         case 0x3:
             // INC BC
@@ -62,6 +71,8 @@ void proc_read_word(Proc *p) {
             // LD B,d8
             // 2 8
             // - - - -
+            p->registers.b = p->memory[p->pc + 1];
+            bytes_ate = 1;
             debug_print("LD B,d8\n", NULL);
 			break;
         case 0x7:
@@ -110,6 +121,8 @@ void proc_read_word(Proc *p) {
             // LD C,d8
             // 2 8
             // - - - -
+            p->registers.c = p->memory[p->pc + 1];
+            bytes_ate = 2;
             debug_print("LD C,d8\n", NULL);
 			break;
         case 0xF:
@@ -128,6 +141,9 @@ void proc_read_word(Proc *p) {
             // LD DE,d16
             // 3 12
             // - - - -
+            p->registers.e = p->memory[p->pc + 1];
+            p->registers.d = p->memory[p->pc + 2];
+            bytes_ate = 3;
             debug_print("LD DE,d16\n", NULL);
 			break;
         case 0x12:
@@ -158,6 +174,8 @@ void proc_read_word(Proc *p) {
             // LD D,d8
             // 2 8
             // - - - -
+            p->registers.d = p->memory[p->pc + 1];
+            bytes_ate = 2;
             debug_print("LD D,d8\n", NULL);
 			break;
         case 0x17:
@@ -206,6 +224,8 @@ void proc_read_word(Proc *p) {
             // LD E,d8
             // 2 8
             // - - - -
+            p->registers.e = p->memory[p->pc + 1];
+            bytes_ate = 2;
             debug_print("LD E,d8\n", NULL);
 			break;
         case 0x1F:
@@ -224,6 +244,9 @@ void proc_read_word(Proc *p) {
             // LD HL,d16
             // 3 12
             // - - - -
+            p->registers.l = p->memory[p->pc + 1];
+            p->registers.h = p->memory[p->pc + 2];
+            bytes_ate = 3;
             debug_print("LD HL,d16\n", NULL);
 			break;
         case 0x22:
@@ -254,6 +277,8 @@ void proc_read_word(Proc *p) {
             // LD H,d8
             // 2 8
             // - - - -
+            p->registers.h = p->memory[p->pc + 1];
+            bytes_ate = 2;
             debug_print("LD H,d8\n", NULL);
 			break;
         case 0x27:
@@ -302,6 +327,8 @@ void proc_read_word(Proc *p) {
             // LD L,d8
             // 2 8
             // - - - -
+            p->registers.l = p->memory[p->pc + 1];
+            bytes_ate = 2;
             debug_print("LD L,d8\n", NULL);
 			break;
         case 0x2F:
@@ -321,6 +348,8 @@ void proc_read_word(Proc *p) {
             // 3 12
             // - - - -
             debug_print("LD SP,d16\n", NULL);
+            p->sp = p->memory[p->pc + 1] + p->memory[p->pc + 2] << 8;
+            bytes_ate = 3;
 			break;
         case 0x32:
             // LD (HL-),A
@@ -1515,8 +1544,11 @@ void proc_read_word(Proc *p) {
             debug_print("RST 38H\n", NULL);
 			break;
     }
+
+    p->pc += bytes_ate;
 }
 
+// TODO ...
 void proc_handle_cb_prefix(Proc *p) {
 
     uint8_t opcode_two = 0x00; // REPLACE ME

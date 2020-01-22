@@ -12,7 +12,9 @@ int main(int argc, char **argv) {
 
     cart_load(cartridge, processor);
 
-    proc_read_word(processor);
+    while (1) {
+        proc_read_word(processor);
+    }
 
     return 0; 
 }
