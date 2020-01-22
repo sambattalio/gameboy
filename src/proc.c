@@ -19,6 +19,7 @@ Proc* proc_create() {
     Proc* p = calloc(1, sizeof(Proc));
     if (p) {
         p->pc = 0x100;
+        p->sp = 0xFFFE;
     }
     return p;
 }
@@ -32,7 +33,6 @@ void proc_read_word(Proc *p) {
     if (!p) return;
 
     uint8_t eightbit_opcode = p->memory[p->pc];
-
     /* set a variable instead of just ++ -- to account for changing PC value as inst */
     int bytes_ate = 1;
 
