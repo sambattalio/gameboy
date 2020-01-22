@@ -47,7 +47,6 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("LD (BC),A\n", NULL);
-            p->registers
 			break;
         case 0x3:
             // INC BC
@@ -439,24 +438,28 @@ void proc_read_word(Proc *p) {
             // LD B,B
             // 1 4
             // - - - -
+            p->registers.b = p->registers.b;
             debug_print("LD B,B\n", NULL);
 			break;
         case 0x41:
             // LD B,C
             // 1 4
             // - - - -
+            p->registers.b = p->registers.c;
             debug_print("LD B,C\n", NULL);
 			break;
         case 0x42:
             // LD B,D
             // 1 4
             // - - - -
+            p->registers.b = p->registers.d;
             debug_print("LD B,D\n", NULL);
 			break;
         case 0x43:
             // LD B,E
             // 1 4
             // - - - -
+            p->registers.b = p->registers.e;
             debug_print("LD B,E\n", NULL);
 			break;
         case 0x44:
@@ -469,108 +472,126 @@ void proc_read_word(Proc *p) {
             // LD B,L
             // 1 4
             // - - - -
+            p->registers.b = p->registers.l;
             debug_print("LD B,L\n", NULL);
 			break;
         case 0x46:
             // LD B,(HL)
             // 1 8
             // - - - -
+            p->registers.b = p->memory[p->registers.l + p->registers.h << 8];
             debug_print("LD B,(HL)\n", NULL);
 			break;
         case 0x47:
             // LD B,A
             // 1 4
             // - - - -
+            p->registers.b = p->registers.a;
             debug_print("LD B,A\n", NULL);
 			break;
         case 0x48:
             // LD C,B
             // 1 4
             // - - - -
+            p->registers.c = p->registers.b;
             debug_print("LD C,B\n", NULL);
 			break;
         case 0x49:
             // LD C,C
             // 1 4
             // - - - -
+            p->registers.c = p->registers.c;
             debug_print("LD C,C\n", NULL);
 			break;
         case 0x4A:
             // LD C,D
             // 1 4
             // - - - -
+            p->registers.c = p->registers.d;
             debug_print("LD C,D\n", NULL);
 			break;
         case 0x4B:
             // LD C,E
             // 1 4
             // - - - -
+            p->registers.c = p->registers.e;
             debug_print("LD C,E\n", NULL);
 			break;
         case 0x4C:
             // LD C,H
             // 1 4
             // - - - -
+            p->registers.c = p->registers.h;
             debug_print("LD C,H\n", NULL);
 			break;
         case 0x4D:
             // LD C,L
             // 1 4
             // - - - -
+            p->registers.c = p->registers.l;
             debug_print("LD C,L\n", NULL);
 			break;
         case 0x4E:
             // LD C,(HL)
             // 1 8
             // - - - -
+            p->registers.c = p->memory[p->registers.l + p->registers.h << 8];
             debug_print("LD C,(HL)\n", NULL);
 			break;
         case 0x4F:
             // LD C,A
             // 1 4
             // - - - -
+            p->registers.c = p->registers.a;
             debug_print("LD C,A\n", NULL);
 			break;
         case 0x50:
             // LD D,B
             // 1 4
             // - - - -
+            p->registers.d = p->registers.b;
             debug_print("LD D,B\n", NULL);
 			break;
         case 0x51:
             // LD D,C
             // 1 4
             // - - - -
+            p->registers.d = p->registers.c;
             debug_print("LD D,C\n", NULL);
 			break;
         case 0x52:
             // LD D,D
             // 1 4
             // - - - -
+            p->registers.d = p->registers.d;
             debug_print("LD D,D\n", NULL);
 			break;
         case 0x53:
             // LD D,E
             // 1 4
             // - - - -
+            p->registers.d = p->registers.e;
             debug_print("LD D,E\n", NULL);
 			break;
         case 0x54:
             // LD D,H
             // 1 4
             // - - - -
+            p->registers.d = p->registers.h;
             debug_print("LD D,H\n", NULL);
 			break;
         case 0x55:
             // LD D,L
             // 1 4
             // - - - -
+            p->registers.d = p->registers.l;
             debug_print("LD D,L\n", NULL);
 			break;
         case 0x56:
             // LD D,(HL)
             // 1 8
             // - - - -
+            p->registers.d = p->memory[p->registers.l + p->registers.h << 8];
             debug_print("LD D,(HL)\n", NULL);
 			break;
         case 0x57:
@@ -583,42 +604,49 @@ void proc_read_word(Proc *p) {
             // LD E,B
             // 1 4
             // - - - -
+            p->registers.e = p->registers.b;
             debug_print("LD E,B\n", NULL);
 			break;
         case 0x59:
             // LD E,C
             // 1 4
             // - - - -
+            p->registers.e = p->registers.c;
             debug_print("LD E,C\n", NULL);
 			break;
         case 0x5A:
             // LD E,D
             // 1 4
             // - - - -
+            p->registers.e = p->registers.d;
             debug_print("LD E,D\n", NULL);
 			break;
         case 0x5B:
             // LD E,E
             // 1 4
             // - - - -
+            p->registers.e = p->registers.e;
             debug_print("LD E,E\n", NULL);
 			break;
         case 0x5C:
             // LD E,H
             // 1 4
             // - - - -
+            p->registers.e = p->registers.h;
             debug_print("LD E,H\n", NULL);
 			break;
         case 0x5D:
             // LD E,L
             // 1 4
             // - - - -
+            p->registers.e = p->registers.l;
             debug_print("LD E,L\n", NULL);
 			break;
         case 0x5E:
             // LD E,(HL)
             // 1 8
             // - - - -
+            p->registers.e = p->memory[p->registers.l + p->registers.h << 8];
             debug_print("LD E,(HL)\n", NULL);
 			break;
         case 0x5F:
@@ -631,42 +659,49 @@ void proc_read_word(Proc *p) {
             // LD H,B
             // 1 4
             // - - - -
+            p->registers.h = p->registers.b;
             debug_print("LD H,B\n", NULL);
 			break;
         case 0x61:
             // LD H,C
             // 1 4
             // - - - -
+            p->registers.h = p->registers.c;
             debug_print("LD H,C\n", NULL);
 			break;
         case 0x62:
             // LD H,D
             // 1 4
             // - - - -
+            p->registers.h = p->registers.d;
             debug_print("LD H,D\n", NULL);
 			break;
         case 0x63:
             // LD H,E
             // 1 4
             // - - - -
+            p->registers.h = p->registers.e;
             debug_print("LD H,E\n", NULL);
 			break;
         case 0x64:
             // LD H,H
             // 1 4
             // - - - -
+            p->registers.h = p->registers.h;
             debug_print("LD H,H\n", NULL);
 			break;
         case 0x65:
             // LD H,L
             // 1 4
             // - - - -
+            p->registers.h = p->registers.l;
             debug_print("LD H,L\n", NULL);
 			break;
         case 0x66:
             // LD H,(HL)
             // 1 8
             // - - - -
+            p->registers.h = p->memory[p->registers.l + p->registers.h << 8];
             debug_print("LD H,(HL)\n", NULL);
 			break;
         case 0x67:
@@ -679,12 +714,14 @@ void proc_read_word(Proc *p) {
             // LD L,B
             // 1 4
             // - - - -
+            p->registers.l = p->registers.b;
             debug_print("LD L,B\n", NULL);
 			break;
         case 0x69:
             // LD L,C
             // 1 4
             // - - - -
+            p->registers.l = p->registers.c;
             debug_print("LD L,C\n", NULL);
 			break;
         case 0x6A:
@@ -692,29 +729,34 @@ void proc_read_word(Proc *p) {
             // 1 4
             // - - - -
             debug_print("LD L,D\n", NULL);
+            p->registers.l = p->registers.d;
 			break;
         case 0x6B:
             // LD L,E
             // 1 4
             // - - - -
             debug_print("LD L,E\n", NULL);
+            p->registers.l = p->registers.e;
 			break;
         case 0x6C:
             // LD L,H
             // 1 4
             // - - - -
             debug_print("LD L,H\n", NULL);
+            p->registers.l = p->registers.h;
 			break;
         case 0x6D:
             // LD L,L
             // 1 4
             // - - - -
             debug_print("LD L,L\n", NULL);
+            p->registers.l = p->registers.l;
 			break;
         case 0x6E:
             // LD L,(HL)
             // 1 8
             // - - - -
+            p->registers.l = p->memory[p->registers.l + p->registers.h << 8];
             debug_print("LD L,(HL)\n", NULL);
 			break;
         case 0x6F:
@@ -727,36 +769,42 @@ void proc_read_word(Proc *p) {
             // LD (HL),B
             // 1 8
             // - - - -
+            p->memory[p->registers.l + p->registers.h << 8] = p->registers.b;
             debug_print("LD (HL),B\n", NULL);
 			break;
         case 0x71:
             // LD (HL),C
             // 1 8
             // - - - -
+            p->memory[p->registers.l + p->registers.h << 8] = p->registers.c;
             debug_print("LD (HL),C\n", NULL);
 			break;
         case 0x72:
             // LD (HL),D
             // 1 8
             // - - - -
+            p->memory[p->registers.l + p->registers.h << 8] = p->registers.d;
             debug_print("LD (HL),D\n", NULL);
 			break;
         case 0x73:
             // LD (HL),E
             // 1 8
             // - - - -
+            p->memory[p->registers.l + p->registers.h << 8] = p->registers.e;
             debug_print("LD (HL),E\n", NULL);
 			break;
         case 0x74:
             // LD (HL),H
             // 1 8
             // - - - -
+            p->memory[p->registers.l + p->registers.h << 8] = p->registers.h;
             debug_print("LD (HL),H\n", NULL);
 			break;
         case 0x75:
             // LD (HL),L
             // 1 8
             // - - - -
+            p->memory[p->registers.l + p->registers.h << 8] = p->registers.l;
             debug_print("LD (HL),L\n", NULL);
 			break;
         case 0x76:
@@ -776,47 +824,55 @@ void proc_read_word(Proc *p) {
             // 1 4
             // - - - -
             debug_print("LD A,B\n", NULL);
+            p->registers.a = p->registers.b;
 			break;
         case 0x79:
             // LD A,C
             // 1 4
             // - - - -
             debug_print("LD A,C\n", NULL);
+            p->registers.a = p->registers.c;
 			break;
         case 0x7A:
             // LD A,D
             // 1 4
             // - - - -
             debug_print("LD A,D\n", NULL);
+            p->registers.a = p->registers.d;
 			break;
         case 0x7B:
             // LD A,E
             // 1 4
             // - - - -
             debug_print("LD A,E\n", NULL);
+            p->registers.a = p->registers.e;
 			break;
         case 0x7C:
             // LD A,H
             // 1 4
             // - - - -
             debug_print("LD A,H\n", NULL);
+            p->registers.a = p->registers.h;
 			break;
         case 0x7D:
             // LD A,L
             // 1 4
             // - - - -
             debug_print("LD A,L\n", NULL);
+            p->registers.a = p->registers.l;
 			break;
         case 0x7E:
             // LD A,(HL)
             // 1 8
             // - - - -
+            p->registers.a = p->memory[p->registers.l + p->registers.h << 8];
             debug_print("LD A,(HL)\n", NULL);
 			break;
         case 0x7F:
             // LD A,A
             // 1 4
             // - - - -
+            p->registers.a = p->registers.a;
             debug_print("LD A,A\n", NULL);
 			break;
         case 0x80:

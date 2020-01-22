@@ -1,6 +1,6 @@
 #include "proc.h"
 
-void proc_initialize_memory(proc * p) { 
+void proc_initialize_memory(Proc * p) { 
     /* initializes the memory, always set these on reset */
     p->memory[0xFF05] = 0;
     p->memory[0xFF06] = 0;
