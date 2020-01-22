@@ -12,5 +12,6 @@ main: main.o proc.o cart.o
 
 clean:
 	rm main
+	rm *.o
 
 .PHONY: clean

@@ -72,7 +72,7 @@ void proc_read_word(Proc *p) {
             // 2 8
             // - - - -
             p->registers.b = p->memory[p->pc + 1];
-            bytes_ate = 1;
+            bytes_ate = 2;
             debug_print("LD B,d8\n", NULL);
 			break;
         case 0x7:
@@ -1316,6 +1316,9 @@ void proc_read_word(Proc *p) {
             // 1 16
             // - - - -
             debug_print("PUSH BC\n", NULL);
+            p->memory[p->sp] = p->registers.c;
+            p->memory[p->sp - 1] = (p->registers.b >> 8);
+            p->sp -= 2;
 			break;
         case 0xC6:
             // ADD A,d8
@@ -1408,6 +1411,9 @@ void proc_read_word(Proc *p) {
             // 1 16
             // - - - -
             debug_print("PUSH DE\n", NULL);
+            p->memory[p->sp] = p->registers.e;
+            p->memory[p->sp - 1] = (p->registers.d >> 8);
+            p->sp -= 2;
 			break;
         case 0xD6:
             // SUB d8
@@ -1492,6 +1498,9 @@ void proc_read_word(Proc *p) {
             // 1 16
             // - - - -
             debug_print("PUSH HL\n", NULL);
+            p->memory[p->sp] = p->registers.l;
+            p->memory[p->sp - 1] = (p->registers.h >> 8);
+            p->sp -= 2;
 			break;
         case 0xE6:
             // AND d8
@@ -1578,6 +1587,9 @@ void proc_read_word(Proc *p) {
             // 1 16
             // - - - -
             debug_print("PUSH AF\n", NULL);
+            p->memory[p->sp] = p->registers.f;
+            p->memory[p->sp - 1] = (p->registers.a >> 8);
+            p->sp -= 2;
 			break;
         case 0xF6:
             // OR d8
