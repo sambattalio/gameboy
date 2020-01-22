@@ -13,6 +13,7 @@
 #define RESET_CARRY p->flagRegister.carry = CLEAR;
 #define SET_CARRY p->flagRegister.carry = SET;
 
+#define CHECK_AND_SET_ZERO(x) p->flagRegister.zero = (x == 0);
 
 Proc* proc_create() {
     Proc* p = calloc(1, sizeof(Proc));
@@ -34,6 +35,9 @@ void proc_read_word(Proc *p) {
 
     /* set a variable instead of just ++ -- to account for changing PC value as inst */
     int bytes_ate = 1;
+
+    /* the next 8 bits of data */
+    uint8_t d8;
 
     /* https:/www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html */
     /* LITTLE ENDIAN I THINK */
@@ -74,6 +78,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC B\n", NULL);
+
+            CHECK_AND_SET_ZERO(p->registers.b);
 			break;
         case 0x5:
             // DEC B
@@ -82,6 +88,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC B\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.b);
 			break;
         case 0x6:
             // LD B,d8
@@ -136,6 +143,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC C\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.c);
 			break;
         case 0xD:
             // DEC C
@@ -144,6 +152,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC C\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.c);
 			break;
         case 0xE:
             // LD C,d8
@@ -198,6 +207,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC D\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.d);
 			break;
         case 0x15:
             // DEC D
@@ -206,6 +216,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC D\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.d);
 			break;
         case 0x16:
             // LD D,d8
@@ -259,6 +270,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC E\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.e);
 			break;
         case 0x1D:
             // DEC E
@@ -267,6 +279,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC E\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.e);
 			break;
         case 0x1E:
             // LD E,d8
@@ -322,6 +335,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC H\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.h);
 			break;
         case 0x25:
             // DEC H
@@ -330,6 +344,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC H\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.h);
 			break;
         case 0x26:
             // LD H,d8
@@ -382,6 +397,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC L\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.l);
 			break;
         case 0x2D:
             // DEC L
@@ -390,6 +406,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC L\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.l);
 			break;
         case 0x2E:
             // LD L,d8
@@ -503,6 +520,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC A\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.a);
 			break;
         case 0x3D:
             // DEC A
@@ -511,6 +529,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC A\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.a);
 			break;
         case 0x3E:
             // LD A,d8
@@ -985,7 +1004,7 @@ void proc_read_word(Proc *p) {
 
             p->registers.a += p->registers.b;
 
-			p->flagRegister.zero = (p->registers.a == 0);
+			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
 			break;
         case 0x81:
@@ -998,7 +1017,7 @@ void proc_read_word(Proc *p) {
 
             p->registers.a += p->registers.c;
 
-			p->flagRegister.zero = (p->registers.a == 0);
+			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
 			break;
         case 0x82:
@@ -1011,7 +1030,7 @@ void proc_read_word(Proc *p) {
 
             p->registers.a += p->registers.d;
 
-			p->flagRegister.zero = (p->registers.a == 0);
+			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
 			break;
         case 0x83:
@@ -1024,7 +1043,7 @@ void proc_read_word(Proc *p) {
 
             p->registers.a += p->registers.e;
 
-			p->flagRegister.zero = (p->registers.a == 0);
+			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
 			break;
         case 0x84:
@@ -1037,7 +1056,7 @@ void proc_read_word(Proc *p) {
 
             p->registers.a += p->registers.h;
 
-			p->flagRegister.zero = (p->registers.a == 0);
+			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
 			break;
         case 0x85:
@@ -1050,7 +1069,7 @@ void proc_read_word(Proc *p) {
 
             p->registers.a += p->registers.l;
 
-			p->flagRegister.zero = (p->registers.a == 0);
+			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
 			break;
         case 0x86: {
@@ -1064,7 +1083,7 @@ void proc_read_word(Proc *p) {
 
             p->registers.a += val;
 
-			p->flagRegister.zero = (p->registers.a == 0);
+			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
 			break;
         }
@@ -1078,7 +1097,7 @@ void proc_read_word(Proc *p) {
 
             p->registers.a += p->registers.a;
 
-			p->flagRegister.zero = (p->registers.a == 0);
+			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
             break;
         case 0x88:
@@ -1086,6 +1105,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             RESET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,B\n", NULL);
 			break;
         case 0x89:
@@ -1093,6 +1113,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             RESET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,C\n", NULL);
 			break;
         case 0x8A:
@@ -1100,6 +1121,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             RESET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,D\n", NULL);
 			break;
         case 0x8B:
@@ -1107,6 +1129,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             RESET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,E\n", NULL);
 			break;
         case 0x8C:
@@ -1114,6 +1137,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             RESET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,H\n", NULL);
 			break;
         case 0x8D:
@@ -1121,6 +1145,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             RESET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,L\n", NULL);
 			break;
         case 0x8E:
@@ -1128,6 +1153,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // Z 0 H C
             RESET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,(HL)\n", NULL);
 			break;
         case 0x8F:
@@ -1135,6 +1161,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             RESET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,A\n", NULL);
 			break;
         case 0x90:
@@ -1142,6 +1169,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB B\n", NULL);
 			break;
         case 0x91:
@@ -1149,6 +1177,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB C\n", NULL);
 			break;
         case 0x92:
@@ -1156,6 +1185,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB D\n", NULL);
 			break;
         case 0x93:
@@ -1163,6 +1193,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB E\n", NULL);
 			break;
         case 0x94:
@@ -1170,6 +1201,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB H\n", NULL);
 			break;
         case 0x95:
@@ -1177,6 +1209,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB L\n", NULL);
 			break;
         case 0x96:
@@ -1184,6 +1217,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB (HL)\n", NULL);
 			break;
         case 0x97:
@@ -1191,6 +1225,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB A\n", NULL);
 			break;
         case 0x98:
@@ -1198,6 +1233,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,B\n", NULL);
 			break;
         case 0x99:
@@ -1205,6 +1241,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,C\n", NULL);
 			break;
         case 0x9A:
@@ -1212,6 +1249,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,D\n", NULL);
 			break;
         case 0x9B:
@@ -1219,6 +1257,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,E\n", NULL);
 			break;
         case 0x9C:
@@ -1226,6 +1265,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,H\n", NULL);
 			break;
         case 0x9D:
@@ -1233,6 +1273,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,L\n", NULL);
 			break;
         case 0x9E:
@@ -1240,6 +1281,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,(HL)\n", NULL);
 			break;
         case 0x9F:
@@ -1247,6 +1289,7 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,A\n", NULL);
 			break;
         case 0xA0:
@@ -1571,22 +1614,20 @@ void proc_read_word(Proc *p) {
             p->memory[p->sp - 1] = p->registers.b;
             p->sp -= 2;
 			break;
-        case 0xC6: {
+        case 0xC6: 
             // ADD A,d8
             // 2 8
             // Z 0 H C
             debug_print("ADD A,d8\n", NULL);
-			uint8_t val = p->memory[p->pc + 1];
-            p->flagRegister.half_carry = is_half_carry(p->registers.a, val);
-            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) val);
+			d8 = p->memory[p->pc + 1];
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, d8);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) d8);
 
-            p->registers.a += val;
-
-			p->flagRegister.zero = (p->registers.a == 0);
+            p->registers.a += d8;
+			CHECK_AND_SET_ZERO(p->registers.a)
             RESET_SUBTRACT;
             bytes_ate = 2;
             break;
-        }
         case 0xC7:
             // RST 00H
             // 1 16
@@ -1634,6 +1675,8 @@ void proc_read_word(Proc *p) {
             // 2 8
             // Z 0 H C
             RESET_SUBTRACT;
+            d8 = p->memory[p->pc + 1];
+            bytes_ate = 2;
             debug_print("ADC A,d8\n", NULL);
 			break;
         case 0xCF:
@@ -1685,6 +1728,9 @@ void proc_read_word(Proc *p) {
             // 2 8
             // Z 1 H C
             debug_print("SUB d8\n", NULL);
+            d8 = p->memory[p->pc + 1];
+            bytes_ate = 2;
+            CHECK_AND_SET_ZERO(p->registers.a);
 			break;
         case 0xD7:
             // RST 10H
@@ -1725,7 +1771,10 @@ void proc_read_word(Proc *p) {
             // 2 8
             // Z 1 H C
             SET_SUBTRACT;
+            d8 = p->memory[p->pc + 1];
+            bytes_ate = 2;
             debug_print("SBC A,d8\n", NULL);
+            CHECK_AND_SET_ZERO(p->registers.a);
 			break;
         case 0xDF:
             // RST 18H
@@ -1778,6 +1827,10 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
+            
+            d8 = p->memory[p->pc + 1];
+            bytes_ate = 2;
+
             debug_print("AND d8\n", NULL);
 			break;
         case 0xE7:
@@ -1821,6 +1874,11 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
             RESET_CARRY;
+
+            d8 = p->memory[p->pc + 1];
+            bytes_ate = 2;
+
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("XOR d8\n", NULL);
 			break;
         case 0xEF:
@@ -1841,6 +1899,7 @@ void proc_read_word(Proc *p) {
             // POP AF
             // 1 12
             // Z N H C
+            // TODO not sure what it means to check if zero?
             debug_print("POP AF\n", NULL);
             p->registers.f = p->memory[p->sp];
             p->registers.a = p->memory[p->sp - 1];
@@ -1878,6 +1937,11 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
             RESET_CARRY;
+
+            d8 = p->memory[p->pc + 1];
+            bytes_ate = 2;
+
+            CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("OR d8\n", NULL);
 			break;
         case 0xF7:
@@ -1935,6 +1999,11 @@ void proc_read_word(Proc *p) {
             // 2 8
             // Z 1 H C
             SET_SUBTRACT;
+
+            d8 = p->memory[p->pc + 1];
+            bytes_ate = 2;
+
+            // TODO set zero if A == d8
             debug_print("CP d8\n", NULL);
 			break;
         case 0xFF:
