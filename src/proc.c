@@ -86,6 +86,7 @@ void proc_read_word(Proc *p) {
             // 3 20
             // - - - -
             debug_print("LD (a16),SP\n", NULL);
+            p->memory[p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8)] = p->sp;
 			break;
         case 0x9:
             // ADD HL,BC
@@ -1595,12 +1596,25 @@ void proc_read_word(Proc *p) {
             // 2 12
             // 0 0 H C
             debug_print("LD HL,SP+r8\n", NULL);
+            int8_t data  = p->memory[p->pc + 1];
+            uint16_t val = data + p->sp;
+
+            p->registers.h = (val && 0xFF00) >> 8;
+            p->registers.l = val && 0x00FF;
+            p->flagRegister.zero = CLEAR;
+            p->flagRegister.subtract = CLEAR;
+            // https://robdor.com/2016/08/10/gameboy-emulator-half-carry-flag/
+            p->flagRegister.half_carry = (((data & 0xf) + (p->sp & 0xf)) & 0x10) == 0x10;
+            // ERROR MaYBE SKETCH
+            p->flagRegister.carry = (data >= 0) ? (p->sp > val) : (p->sp < val);
+            bytes_ate = 2;
 			break;
         case 0xF9:
             // LD SP,HL
             // 1 8
             // - - - -
             debug_print("LD SP,HL\n", NULL);
+            p->sp = (p->registers.h << 8) + p->registers.l;
 			break;
         case 0xFA:
             // LD A,(a16)
