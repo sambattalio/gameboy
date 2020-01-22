@@ -1696,7 +1696,7 @@ void proc_read_word(Proc *p) {
             p->flagRegister.zero = CLEAR;
             p->flagRegister.subtract = CLEAR;
             // https://robdor.com/2016/08/10/gameboy-emulator-half-carry-flag/
-            p->flagRegister.half_carry = (((data & 0xf) + (p->sp & 0xf)) & 0x10) == 0x10;
+            p->flagRegister.half_carry = is_half_carry(data, p->sp);
             // ERROR MaYBE SKETCH
             p->flagRegister.carry = (data >= 0) ? (p->sp > val) : (p->sp < val);
             bytes_ate = 2;
