@@ -18,9 +18,7 @@ void proc_delete(Proc* p) {
 void proc_read_word(Proc *p) {
     if (!p) return;
 
-    unsigned char* word = &p->memory[p->pc];
-
-    uint8_t eightbit_opcode = p->memory[p->pc];
+    uint8_t eightbit_opcode = p->memory[p->pc + 1];
 
     /* https:/www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html */
     switch (eightbit_opcode) {

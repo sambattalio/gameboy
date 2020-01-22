@@ -6,7 +6,7 @@
 
 #include "helpers.h"
 
-#define MEM_SIZE (1 << 13)
+#define MEM_SIZE (1 << 16)
 
 // excluding the flags register
 typedef struct {
@@ -15,9 +15,15 @@ typedef struct {
     uint8_t c;
     uint8_t d;
     uint8_t e;
+    uint8_t f;
     uint8_t h;
     uint8_t l;
 } Registers;
+
+enum FlagState {
+    SET   = 1,
+    CLEAR = 0
+};
 
 typedef struct {
     int zero;

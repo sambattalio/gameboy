@@ -4,7 +4,7 @@ CFLAGS = -std=c99 -Wall
 
 all: main
 
-main: main.o proc.o
+main: main.o proc.o cart.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 %.o: %.c helpers.h
