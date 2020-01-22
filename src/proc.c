@@ -902,48 +902,106 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 0 H C
             debug_print("ADD A,B\n", NULL);
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, p->registers.b);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.b);
+
+            p->registers.a += p->registers.b;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
 			break;
         case 0x81:
             // ADD A,C
             // 1 4
             // Z 0 H C
             debug_print("ADD A,C\n", NULL);
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, p->registers.c);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.c);
+
+            p->registers.a += p->registers.c;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
 			break;
         case 0x82:
             // ADD A,D
             // 1 4
             // Z 0 H C
             debug_print("ADD A,D\n", NULL);
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, p->registers.d);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.d);
+
+            p->registers.a += p->registers.d;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
 			break;
         case 0x83:
             // ADD A,E
             // 1 4
             // Z 0 H C
             debug_print("ADD A,E\n", NULL);
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, p->registers.e);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.e);
+
+            p->registers.a += p->registers.e;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
 			break;
         case 0x84:
             // ADD A,H
             // 1 4
             // Z 0 H C
             debug_print("ADD A,H\n", NULL);
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, p->registers.h);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.h);
+
+            p->registers.a += p->registers.h;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
 			break;
         case 0x85:
             // ADD A,L
             // 1 4
             // Z 0 H C
             debug_print("ADD A,L\n", NULL);
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, p->registers.l);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.l);
+
+            p->registers.a += p->registers.l;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
 			break;
-        case 0x86:
+        case 0x86: {
             // ADD A,(HL)
             // 1 8
             // Z 0 H C
             debug_print("ADD A,(HL)\n", NULL);
+            uint8_t val = p->memory[(p->registers.h << 8) + p->registers.l];
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, val);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) val);
+
+            p->registers.a += val;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
 			break;
+        }
         case 0x87:
             // ADD A,A
             // 1 4
             // Z 0 H C
             debug_print("ADD A,A\n", NULL);
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, p->registers.a);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.a);
+
+            p->registers.a += p->registers.a;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
             break;
         case 0x88:
             // ADC A,B
@@ -1323,12 +1381,22 @@ void proc_read_word(Proc *p) {
             p->memory[p->sp - 1] = p->registers.b;
             p->sp -= 2;
 			break;
-        case 0xC6:
+        case 0xC6: {
             // ADD A,d8
             // 2 8
             // Z 0 H C
             debug_print("ADD A,d8\n", NULL);
-			break;
+			uint8_t val = p->memory[p->pc + 1];
+            p->flagRegister.half_carry = is_half_carry(p->registers.a, val);
+            p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) val);
+
+            p->registers.a += val;
+
+			p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.subtract = CLEAR;
+            bytes_ate = 2;
+            break;
+        }
         case 0xC7:
             // RST 00H
             // 1 16
@@ -1623,8 +1691,8 @@ void proc_read_word(Proc *p) {
             int8_t data  = p->memory[p->pc + 1];
             uint16_t val = data + p->sp;
 
-            p->registers.h = (val && 0xFF00) >> 8;
-            p->registers.l = val && 0x00FF;
+            p->registers.h = (val & 0xFF00) >> 8;
+            p->registers.l = val & 0x00FF;
             p->flagRegister.zero = CLEAR;
             p->flagRegister.subtract = CLEAR;
             // https://robdor.com/2016/08/10/gameboy-emulator-half-carry-flag/
