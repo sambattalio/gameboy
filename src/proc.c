@@ -1,6 +1,18 @@
 // proc.c
 #include "proc.h"
 
+#define RESET_ZERO p->flagRegister.zero = CLEAR;
+#define SET_ZERO p->flagRegister.zero = SET;
+
+#define RESET_SUBTRACT p->flagRegister.subtract = CLEAR;
+#define SET_SUBTRACT p->flagRegister.subtract = SET;
+
+#define RESET_HALF_CARRY p->flagRegister.half_carry = CLEAR;
+#define SET_HALF_CARRY p->flagRegister.half_carry = SET;
+
+#define RESET_CARRY p->flagRegister.carry = CLEAR;
+#define SET_CARRY p->flagRegister.carry = SET;
+
 
 Proc* proc_create() {
     Proc* p = calloc(1, sizeof(Proc));
@@ -59,12 +71,16 @@ void proc_read_word(Proc *p) {
             // INC B
             // 1 4
             // Z 0 H -
+            RESET_SUBTRACT;
+
             debug_print("INC B\n", NULL);
 			break;
         case 0x5:
             // DEC B
             // 1 4
             // Z 1 H -
+            SET_SUBTRACT;
+
             debug_print("DEC B\n", NULL);
 			break;
         case 0x6:
@@ -79,6 +95,10 @@ void proc_read_word(Proc *p) {
             //  RLCA
             // 1 4
             // 0 0 0 C
+            RESET_ZERO;
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RLCA\n", NULL);
 			break;
         case 0x8:
@@ -92,6 +112,8 @@ void proc_read_word(Proc *p) {
             // ADD HL,BC
             // 1 8
             // - 0 H C
+            RESET_SUBTRACT;
+
             debug_print("ADD HL,BC\n", NULL);
 			break;
         case 0xA:
@@ -111,12 +133,16 @@ void proc_read_word(Proc *p) {
             // INC C
             // 1 4
             // Z 0 H -
+            RESET_SUBTRACT;
+
             debug_print("INC C\n", NULL);
 			break;
         case 0xD:
             // DEC C
             // 1 4
             // Z 1 H -
+            SET_SUBTRACT;
+
             debug_print("DEC C\n", NULL);
 			break;
         case 0xE:
@@ -131,6 +157,10 @@ void proc_read_word(Proc *p) {
             //  RRCA
             // 1 4
             // 0 0 0 C
+            RESET_ZERO;
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RRCA\n", NULL);
 			break;
         case 0x10:
@@ -165,12 +195,16 @@ void proc_read_word(Proc *p) {
             // INC D
             // 1 4
             // Z 0 H -
+            RESET_SUBTRACT;
+
             debug_print("INC D\n", NULL);
 			break;
         case 0x15:
             // DEC D
             // 1 4
             // Z 1 H -
+            SET_SUBTRACT;
+
             debug_print("DEC D\n", NULL);
 			break;
         case 0x16:
@@ -185,6 +219,10 @@ void proc_read_word(Proc *p) {
             //  RLA
             // 1 4
             // 0 0 0 C
+            RESET_ZERO;
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RLA\n", NULL);
 			break;
         case 0x18:
@@ -197,6 +235,8 @@ void proc_read_word(Proc *p) {
             // ADD HL,DE
             // 1 8
             // - 0 H C
+            RESET_SUBTRACT;
+
             debug_print("ADD HL,DE\n", NULL);
 			break;
         case 0x1A:
@@ -216,12 +256,16 @@ void proc_read_word(Proc *p) {
             // INC E
             // 1 4
             // Z 0 H -
+            RESET_SUBTRACT;
+
             debug_print("INC E\n", NULL);
 			break;
         case 0x1D:
             // DEC E
             // 1 4
             // Z 1 H -
+            SET_SUBTRACT;
+
             debug_print("DEC E\n", NULL);
 			break;
         case 0x1E:
@@ -236,6 +280,10 @@ void proc_read_word(Proc *p) {
             //  RRA
             // 1 4
             // 0 0 0 C
+            RESET_ZERO;
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RRA\n", NULL);
 			break;
         case 0x20:
@@ -271,12 +319,16 @@ void proc_read_word(Proc *p) {
             // INC H
             // 1 4
             // Z 0 H -
+            RESET_SUBTRACT;
+
             debug_print("INC H\n", NULL);
 			break;
         case 0x25:
             // DEC H
             // 1 4
             // Z 1 H -
+            SET_SUBTRACT;
+
             debug_print("DEC H\n", NULL);
 			break;
         case 0x26:
@@ -291,6 +343,8 @@ void proc_read_word(Proc *p) {
             //  DAA
             // 1 4
             // Z - 0 C
+            RESET_HALF_CARRY;
+
             debug_print("DAA\n", NULL);
 			break;
         case 0x28:
@@ -303,6 +357,8 @@ void proc_read_word(Proc *p) {
             // ADD HL,HL
             // 1 8
             // - 0 H C
+            RESET_SUBTRACT;
+
             debug_print("ADD HL,HL\n", NULL);
 			break;
         case 0x2A:
@@ -323,12 +379,16 @@ void proc_read_word(Proc *p) {
             // INC L
             // 1 4
             // Z 0 H -
+            RESET_SUBTRACT;
+
             debug_print("INC L\n", NULL);
 			break;
         case 0x2D:
             // DEC L
             // 1 4
             // Z 1 H -
+            SET_SUBTRACT;
+
             debug_print("DEC L\n", NULL);
 			break;
         case 0x2E:
@@ -343,6 +403,9 @@ void proc_read_word(Proc *p) {
             //  CPL
             // 1 4
             // - 1 1 -
+            SET_SUBTRACT;
+            SET_HALF_CARRY;
+
             debug_print("CPL\n", NULL);
 			break;
         case 0x30:
@@ -377,12 +440,16 @@ void proc_read_word(Proc *p) {
             // INC (HL)
             // 1 12
             // Z 0 H -
+            RESET_SUBTRACT;
+
             debug_print("INC (HL)\n", NULL);
 			break;
         case 0x35:
             // DEC (HL)
             // 1 12
             // Z 1 H -
+            SET_SUBTRACT;
+
             debug_print("DEC (HL)\n", NULL);
 			break;
         case 0x36:
@@ -397,6 +464,10 @@ void proc_read_word(Proc *p) {
             //  SCF
             // 1 4
             // - 0 0 1
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            SET_CARRY;
+
             debug_print("SCF\n", NULL);
 			break;
         case 0x38:
@@ -429,12 +500,16 @@ void proc_read_word(Proc *p) {
             // INC A
             // 1 4
             // Z 0 H -
+            RESET_SUBTRACT;
+
             debug_print("INC A\n", NULL);
 			break;
         case 0x3D:
             // DEC A
             // 1 4
             // Z 1 H -
+            SET_SUBTRACT;
+
             debug_print("DEC A\n", NULL);
 			break;
         case 0x3E:
@@ -449,6 +524,9 @@ void proc_read_word(Proc *p) {
             //  CCF
             // 1 4
             // - 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("CCF\n", NULL);
 			break;
         case 0x40:
@@ -908,7 +986,7 @@ void proc_read_word(Proc *p) {
             p->registers.a += p->registers.b;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
 			break;
         case 0x81:
             // ADD A,C
@@ -921,7 +999,7 @@ void proc_read_word(Proc *p) {
             p->registers.a += p->registers.c;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
 			break;
         case 0x82:
             // ADD A,D
@@ -934,7 +1012,7 @@ void proc_read_word(Proc *p) {
             p->registers.a += p->registers.d;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
 			break;
         case 0x83:
             // ADD A,E
@@ -947,7 +1025,7 @@ void proc_read_word(Proc *p) {
             p->registers.a += p->registers.e;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
 			break;
         case 0x84:
             // ADD A,H
@@ -960,7 +1038,7 @@ void proc_read_word(Proc *p) {
             p->registers.a += p->registers.h;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
 			break;
         case 0x85:
             // ADD A,L
@@ -973,7 +1051,7 @@ void proc_read_word(Proc *p) {
             p->registers.a += p->registers.l;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
 			break;
         case 0x86: {
             // ADD A,(HL)
@@ -987,7 +1065,7 @@ void proc_read_word(Proc *p) {
             p->registers.a += val;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
 			break;
         }
         case 0x87:
@@ -1001,342 +1079,454 @@ void proc_read_word(Proc *p) {
             p->registers.a += p->registers.a;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
             break;
         case 0x88:
             // ADC A,B
             // 1 4
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,B\n", NULL);
 			break;
         case 0x89:
             // ADC A,C
             // 1 4
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,C\n", NULL);
 			break;
         case 0x8A:
             // ADC A,D
             // 1 4
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,D\n", NULL);
 			break;
         case 0x8B:
             // ADC A,E
             // 1 4
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,E\n", NULL);
 			break;
         case 0x8C:
             // ADC A,H
             // 1 4
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,H\n", NULL);
 			break;
         case 0x8D:
             // ADC A,L
             // 1 4
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,L\n", NULL);
 			break;
         case 0x8E:
             // ADC A,(HL)
             // 1 8
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,(HL)\n", NULL);
 			break;
         case 0x8F:
             // ADC A,A
             // 1 4
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,A\n", NULL);
 			break;
         case 0x90:
             // SUB B
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SUB B\n", NULL);
 			break;
         case 0x91:
             // SUB C
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SUB C\n", NULL);
 			break;
         case 0x92:
             // SUB D
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SUB D\n", NULL);
 			break;
         case 0x93:
             // SUB E
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SUB E\n", NULL);
 			break;
         case 0x94:
             // SUB H
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SUB H\n", NULL);
 			break;
         case 0x95:
             // SUB L
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SUB L\n", NULL);
 			break;
         case 0x96:
             // SUB (HL)
             // 1 8
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SUB (HL)\n", NULL);
 			break;
         case 0x97:
             // SUB A
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SUB A\n", NULL);
 			break;
         case 0x98:
             // SBC A,B
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,B\n", NULL);
 			break;
         case 0x99:
             // SBC A,C
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,C\n", NULL);
 			break;
         case 0x9A:
             // SBC A,D
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,D\n", NULL);
 			break;
         case 0x9B:
             // SBC A,E
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,E\n", NULL);
 			break;
         case 0x9C:
             // SBC A,H
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,H\n", NULL);
 			break;
         case 0x9D:
             // SBC A,L
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,L\n", NULL);
 			break;
         case 0x9E:
             // SBC A,(HL)
             // 1 8
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,(HL)\n", NULL);
 			break;
         case 0x9F:
             // SBC A,A
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,A\n", NULL);
 			break;
         case 0xA0:
             // AND B
             // 1 4
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
+
             debug_print("AND B\n", NULL);
 			break;
         case 0xA1:
             // AND C
             // 1 4
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
+
             debug_print("AND C\n", NULL);
 			break;
         case 0xA2:
             // AND D
             // 1 4
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
+
             debug_print("AND D\n", NULL);
 			break;
         case 0xA3:
             // AND E
             // 1 4
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
+
             debug_print("AND E\n", NULL);
 			break;
         case 0xA4:
             // AND H
             // 1 4
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
+
             debug_print("AND H\n", NULL);
 			break;
         case 0xA5:
             // AND L
             // 1 4
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
+
             debug_print("AND L\n", NULL);
 			break;
         case 0xA6:
             // AND (HL)
             // 1 8
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
+
             debug_print("AND (HL)\n", NULL);
 			break;
         case 0xA7:
             // AND A
             // 1 4
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
+
             debug_print("AND A\n", NULL);
 			break;
         case 0xA8:
             // XOR B
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR B\n", NULL);
 			break;
         case 0xA9:
             // XOR C
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR C\n", NULL);
 			break;
         case 0xAA:
             // XOR D
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR D\n", NULL);
 			break;
         case 0xAB:
             // XOR E
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR E\n", NULL);
 			break;
         case 0xAC:
             // XOR H
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR H\n", NULL);
 			break;
         case 0xAD:
             // XOR L
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR L\n", NULL);
 			break;
         case 0xAE:
             // XOR (HL)
             // 1 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR (HL)\n", NULL);
 			break;
         case 0xAF:
             // XOR A
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR A\n", NULL);
 			break;
         case 0xB0:
             // OR B
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR B\n", NULL);
 			break;
         case 0xB1:
             // OR C
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR C\n", NULL);
 			break;
         case 0xB2:
             // OR D
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR D\n", NULL);
 			break;
         case 0xB3:
             // OR E
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR E\n", NULL);
 			break;
         case 0xB4:
             // OR H
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR H\n", NULL);
 			break;
         case 0xB5:
             // OR L
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR L\n", NULL);
 			break;
         case 0xB6:
             // OR (HL)
             // 1 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR (HL)\n", NULL);
 			break;
         case 0xB7:
             // OR A
             // 1 4
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR A\n", NULL);
 			break;
         case 0xB8:
             // CP B
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP B\n", NULL);
 			break;
         case 0xB9:
             // CP C
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP C\n", NULL);
 			break;
         case 0xBA:
             // CP D
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP D\n", NULL);
 			break;
         case 0xBB:
             // CP E
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP E\n", NULL);
 			break;
         case 0xBC:
             // CP H
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP H\n", NULL);
 			break;
         case 0xBD:
             // CP L
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP L\n", NULL);
 			break;
         case 0xBE:
             // CP (HL)
             // 1 8
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP (HL)\n", NULL);
 			break;
         case 0xBF:
             // CP A
             // 1 4
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP A\n", NULL);
 			break;
         case 0xC0:
@@ -1393,7 +1583,7 @@ void proc_read_word(Proc *p) {
             p->registers.a += val;
 
 			p->flagRegister.zero = (p->registers.a == 0);
-            p->flagRegister.subtract = CLEAR;
+            RESET_SUBTRACT;
             bytes_ate = 2;
             break;
         }
@@ -1443,6 +1633,7 @@ void proc_read_word(Proc *p) {
             // ADC A,d8
             // 2 8
             // Z 0 H C
+            RESET_SUBTRACT;
             debug_print("ADC A,d8\n", NULL);
 			break;
         case 0xCF:
@@ -1533,6 +1724,7 @@ void proc_read_word(Proc *p) {
             // SBC A,d8
             // 2 8
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("SBC A,d8\n", NULL);
 			break;
         case 0xDF:
@@ -1583,6 +1775,9 @@ void proc_read_word(Proc *p) {
             // AND d8
             // 2 8
             // Z 0 1 0
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("AND d8\n", NULL);
 			break;
         case 0xE7:
@@ -1595,6 +1790,8 @@ void proc_read_word(Proc *p) {
             // ADD SP,r8
             // 2 16
             // 0 0 H C
+            RESET_ZERO;
+            RESET_SUBTRACT;
             debug_print("ADD SP,r8\n", NULL);
 			break;
         case 0xE9:
@@ -1621,6 +1818,9 @@ void proc_read_word(Proc *p) {
             // XOR d8
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("XOR d8\n", NULL);
 			break;
         case 0xEF:
@@ -1675,6 +1875,9 @@ void proc_read_word(Proc *p) {
             // OR d8
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("OR d8\n", NULL);
 			break;
         case 0xF7:
@@ -1687,14 +1890,15 @@ void proc_read_word(Proc *p) {
             // LD HL,SP+r8
             // 2 12
             // 0 0 H C
+            RESET_ZERO;
+            RESET_SUBTRACT;
+
             debug_print("LD HL,SP+r8\n", NULL);
             int8_t data  = p->memory[p->pc + 1];
             uint16_t val = data + p->sp;
 
             p->registers.h = (val & 0xFF00) >> 8;
             p->registers.l = val & 0x00FF;
-            p->flagRegister.zero = CLEAR;
-            p->flagRegister.subtract = CLEAR;
             // https://robdor.com/2016/08/10/gameboy-emulator-half-carry-flag/
             p->flagRegister.half_carry = is_half_carry(data, p->sp);
             // ERROR MaYBE SKETCH
@@ -1730,6 +1934,7 @@ void proc_read_word(Proc *p) {
             // CP d8
             // 2 8
             // Z 1 H C
+            SET_SUBTRACT;
             debug_print("CP d8\n", NULL);
 			break;
         case 0xFF:
@@ -1753,768 +1958,1046 @@ void proc_handle_cb_prefix(Proc *p) {
             // RLC B
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RLC B\n", NULL);
 			break;
         case 0x1:
             // RLC C
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RLC C\n", NULL);
 			break;
         case 0x2:
             // RLC D
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RLC D\n", NULL);
 			break;
         case 0x3:
             // RLC E
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RLC E\n", NULL);
 			break;
         case 0x4:
             // RLC H
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+
             debug_print("RLC H\n", NULL);
 			break;
         case 0x5:
             // RLC L
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RLC L\n", NULL);
 			break;
         case 0x6:
             // RLC (HL)
             // 2 16
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RLC (HL)\n", NULL);
 			break;
         case 0x7:
             // RLC A
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RLC A\n", NULL);
 			break;
         case 0x8:
             // RRC B
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RRC B\n", NULL);
 			break;
         case 0x9:
             // RRC C
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RRC C\n", NULL);
 			break;
         case 0xA:
             // RRC D
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RRC D\n", NULL);
 			break;
         case 0xB:
             // RRC E
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RRC E\n", NULL);
 			break;
         case 0xC:
             // RRC H
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RRC H\n", NULL);
 			break;
         case 0xD:
             // RRC L
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RRC L\n", NULL);
 			break;
         case 0xE:
             // RRC (HL)
             // 2 16
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RRC (HL)\n", NULL);
 			break;
         case 0xF:
             // RRC A
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RRC A\n", NULL);
 			break;
         case 0x10:
             // RL B
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RL B\n", NULL);
 			break;
         case 0x11:
             // RL C
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RL C\n", NULL);
 			break;
         case 0x12:
             // RL D
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RL D\n", NULL);
 			break;
         case 0x13:
             // RL E
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RL E\n", NULL);
 			break;
         case 0x14:
             // RL H
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RL H\n", NULL);
 			break;
         case 0x15:
             // RL L
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RL L\n", NULL);
 			break;
         case 0x16:
             // RL (HL)
             // 2 16
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RL (HL)\n", NULL);
 			break;
         case 0x17:
             // RL A
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RL A\n", NULL);
 			break;
         case 0x18:
             // RR B
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RR B\n", NULL);
 			break;
         case 0x19:
             // RR C
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RR C\n", NULL);
 			break;
         case 0x1A:
             // RR D
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RR D\n", NULL);
 			break;
         case 0x1B:
             // RR E
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RR E\n", NULL);
 			break;
         case 0x1C:
             // RR H
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RR H\n", NULL);
 			break;
         case 0x1D:
             // RR L
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RR L\n", NULL);
 			break;
         case 0x1E:
             // RR (HL)
             // 2 16
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RR (HL)\n", NULL);
 			break;
         case 0x1F:
             // RR A
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("RR A\n", NULL);
 			break;
         case 0x20:
             // SLA B
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SLA B\n", NULL);
 			break;
         case 0x21:
             // SLA C
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SLA C\n", NULL);
 			break;
         case 0x22:
             // SLA D
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SLA D\n", NULL);
 			break;
         case 0x23:
             // SLA E
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SLA E\n", NULL);
 			break;
         case 0x24:
             // SLA H
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SLA H\n", NULL);
 			break;
         case 0x25:
             // SLA L
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SLA L\n", NULL);
 			break;
         case 0x26:
             // SLA (HL)
             // 2 16
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SLA (HL)\n", NULL);
 			break;
         case 0x27:
             // SLA A
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SLA A\n", NULL);
 			break;
         case 0x28:
             // SRA B
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SRA B\n", NULL);
 			break;
         case 0x29:
             // SRA C
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SRA C\n", NULL);
 			break;
         case 0x2A:
             // SRA D
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SRA D\n", NULL);
 			break;
         case 0x2B:
             // SRA E
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SRA E\n", NULL);
 			break;
         case 0x2C:
             // SRA H
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SRA H\n", NULL);
 			break;
         case 0x2D:
             // SRA L
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SRA L\n", NULL);
 			break;
         case 0x2E:
             // SRA (HL)
             // 2 16
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SRA (HL)\n", NULL);
 			break;
         case 0x2F:
             // SRA A
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SRA A\n", NULL);
 			break;
         case 0x30:
             // SWAP B
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SWAP B\n", NULL);
 			break;
         case 0x31:
             // SWAP C
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SWAP C\n", NULL);
 			break;
         case 0x32:
             // SWAP D
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SWAP D\n", NULL);
 			break;
         case 0x33:
             // SWAP E
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SWAP E\n", NULL);
 			break;
         case 0x34:
             // SWAP H
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SWAP H\n", NULL);
 			break;
         case 0x35:
             // SWAP L
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SWAP L\n", NULL);
 			break;
         case 0x36:
             // SWAP (HL)
             // 2 16
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SWAP (HL)\n", NULL);
 			break;
         case 0x37:
             // SWAP A
             // 2 8
             // Z 0 0 0
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
+            RESET_CARRY;
             debug_print("SWAP A\n", NULL);
 			break;
         case 0x38:
             // SRL B
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SRL B\n", NULL);
 			break;
         case 0x39:
             // SRL C
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SRL C\n", NULL);
 			break;
         case 0x3A:
             // SRL D
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SRL D\n", NULL);
 			break;
         case 0x3B:
             // SRL E
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SRL E\n", NULL);
 			break;
         case 0x3C:
             // SRL H
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SRL H\n", NULL);
 			break;
         case 0x3D:
             // SRL L
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SRL L\n", NULL);
 			break;
         case 0x3E:
             // SRL (HL)
             // 2 16
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SRL (HL)\n", NULL);
 			break;
         case 0x3F:
             // SRL A
             // 2 8
             // Z 0 0 C
+            RESET_SUBTRACT;
+            RESET_HALF_CARRY;
             debug_print("SRL A\n", NULL);
 			break;
         case 0x40:
             // BIT 0,B
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
+
             debug_print("BIT 0,B\n", NULL);
 			break;
         case 0x41:
             // BIT 0,C
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 0,C\n", NULL);
 			break;
         case 0x42:
             // BIT 0,D
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 0,D\n", NULL);
 			break;
         case 0x43:
             // BIT 0,E
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 0,E\n", NULL);
 			break;
         case 0x44:
             // BIT 0,H
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 0,H\n", NULL);
 			break;
         case 0x45:
             // BIT 0,L
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 0,L\n", NULL);
 			break;
         case 0x46:
             // BIT 0,(HL)
             // 2 16
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 0,(HL)\n", NULL);
 			break;
         case 0x47:
             // BIT 0,A
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 0,A\n", NULL);
 			break;
         case 0x48:
             // BIT 1,B
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 1,B\n", NULL);
 			break;
         case 0x49:
             // BIT 1,C
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 1,C\n", NULL);
 			break;
         case 0x4A:
             // BIT 1,D
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 1,D\n", NULL);
 			break;
         case 0x4B:
             // BIT 1,E
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 1,E\n", NULL);
 			break;
         case 0x4C:
             // BIT 1,H
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 1,H\n", NULL);
 			break;
         case 0x4D:
             // BIT 1,L
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 1,L\n", NULL);
 			break;
         case 0x4E:
             // BIT 1,(HL)
             // 2 16
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 1,(HL)\n", NULL);
 			break;
         case 0x4F:
             // BIT 1,A
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 1,A\n", NULL);
 			break;
         case 0x50:
             // BIT 2,B
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 2,B\n", NULL);
 			break;
         case 0x51:
             // BIT 2,C
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 2,C\n", NULL);
 			break;
         case 0x52:
             // BIT 2,D
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 2,D\n", NULL);
 			break;
         case 0x53:
             // BIT 2,E
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 2,E\n", NULL);
 			break;
         case 0x54:
             // BIT 2,H
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 2,H\n", NULL);
 			break;
         case 0x55:
             // BIT 2,L
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 2,L\n", NULL);
 			break;
         case 0x56:
             // BIT 2,(HL)
             // 2 16
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 2,(HL)\n", NULL);
 			break;
         case 0x57:
             // BIT 2,A
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 2,A\n", NULL);
 			break;
         case 0x58:
             // BIT 3,B
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 3,B\n", NULL);
 			break;
         case 0x59:
             // BIT 3,C
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 3,C\n", NULL);
 			break;
         case 0x5A:
             // BIT 3,D
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 3,D\n", NULL);
 			break;
         case 0x5B:
             // BIT 3,E
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 3,E\n", NULL);
 			break;
         case 0x5C:
             // BIT 3,H
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 3,H\n", NULL);
 			break;
         case 0x5D:
             // BIT 3,L
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 3,L\n", NULL);
 			break;
         case 0x5E:
             // BIT 3,(HL)
             // 2 16
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 3,(HL)\n", NULL);
 			break;
         case 0x5F:
             // BIT 3,A
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 3,A\n", NULL);
 			break;
         case 0x60:
             // BIT 4,B
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 4,B\n", NULL);
 			break;
         case 0x61:
             // BIT 4,C
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 4,C\n", NULL);
 			break;
         case 0x62:
             // BIT 4,D
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 4,D\n", NULL);
 			break;
         case 0x63:
             // BIT 4,E
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 4,E\n", NULL);
 			break;
         case 0x64:
             // BIT 4,H
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 4,H\n", NULL);
 			break;
         case 0x65:
             // BIT 4,L
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 4,L\n", NULL);
 			break;
         case 0x66:
             // BIT 4,(HL)
             // 2 16
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 4,(HL)\n", NULL);
 			break;
         case 0x67:
             // BIT 4,A
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 4,A\n", NULL);
 			break;
         case 0x68:
             // BIT 5,B
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 5,B\n", NULL);
 			break;
         case 0x69:
             // BIT 5,C
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 5,C\n", NULL);
 			break;
         case 0x6A:
             // BIT 5,D
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 5,D\n", NULL);
 			break;
         case 0x6B:
             // BIT 5,E
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 5,E\n", NULL);
 			break;
         case 0x6C:
             // BIT 5,H
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 5,H\n", NULL);
 			break;
         case 0x6D:
             // BIT 5,L
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 5,L\n", NULL);
 			break;
         case 0x6E:
             // BIT 5,(HL)
             // 2 16
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 5,(HL)\n", NULL);
 			break;
         case 0x6F:
             // BIT 5,A
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 5,A\n", NULL);
 			break;
         case 0x70:
             // BIT 6,B
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 6,B\n", NULL);
 			break;
         case 0x71:
             // BIT 6,C
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 6,C\n", NULL);
 			break;
         case 0x72:
             // BIT 6,D
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 6,D\n", NULL);
 			break;
         case 0x73:
             // BIT 6,E
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 6,E\n", NULL);
 			break;
         case 0x74:
             // BIT 6,H
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 6,H\n", NULL);
 			break;
         case 0x75:
             // BIT 6,L
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 6,L\n", NULL);
 			break;
         case 0x76:
             // BIT 6,(HL)
             // 2 16
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 6,(HL)\n", NULL);
 			break;
         case 0x77:
             // BIT 6,A
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 6,A\n", NULL);
 			break;
         case 0x78:
             // BIT 7,B
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 7,B\n", NULL);
 			break;
         case 0x79:
             // BIT 7,C
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 7,C\n", NULL);
 			break;
         case 0x7A:
             // BIT 7,D
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 7,D\n", NULL);
 			break;
         case 0x7B:
             // BIT 7,E
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 7,E\n", NULL);
 			break;
         case 0x7C:
             // BIT 7,H
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 7,H\n", NULL);
 			break;
         case 0x7D:
             // BIT 7,L
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 7,L\n", NULL);
 			break;
         case 0x7E:
             // BIT 7,(HL)
             // 2 16
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 7,(HL)\n", NULL);
 			break;
         case 0x7F:
             // BIT 7,A
             // 2 8
             // Z 0 1 -
+            RESET_SUBTRACT;
+            SET_HALF_CARRY;
             debug_print("BIT 7,A\n", NULL);
 			break;
         case 0x80:
