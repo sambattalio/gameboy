@@ -2,20 +2,20 @@
 #include "proc.h"
 
 
-proc* proc_create() {
-    proc *p = calloc(1, sizeof(proc));
+Proc* proc_create() {
+    Proc* p = calloc(1, sizeof(Proc));
     if (p) {
         p->pc = 0x100;
     }
     return p;
 }
 
-void proc_delete(proc* p) {
+void proc_delete(Proc* p) {
     if (!p) return;
     free(p);
 }
 
-void proc_read_word(proc *p) {
+void proc_read_word(Proc *p) {
     if (!p) return;
 
     unsigned char* word = &p->memory[p->pc];
@@ -1519,7 +1519,7 @@ void proc_read_word(proc *p) {
     }
 }
 
-void proc_handle_cb_prefix(proc *p) {
+void proc_handle_cb_prefix(Proc *p) {
 
     uint8_t opcode_two = 0x00; // REPLACE ME
 
