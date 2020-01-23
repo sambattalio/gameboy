@@ -1,5 +1,6 @@
 // proc.c
 #include "proc.h"
+#include "memory.h"
 
 #define RESET_ZERO p->flagRegister.zero = CLEAR;
 #define SET_ZERO p->flagRegister.zero = SET;
@@ -33,6 +34,7 @@ Proc* proc_create() {
         p->pc = 0x100;
         p->sp = 0xFFFE;
     }
+    proc_initialize_memory(p);
     return p;
 }
 

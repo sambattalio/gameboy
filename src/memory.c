@@ -1,5 +1,29 @@
-#include "proc.h"
+#include "memory.h"
 
+#define BOUNDS_CHECK \
+    if (DEBUG) {\
+        if (address < 0 || address > MEM_SIZE) {\
+            debug_print("memory out of bounds error", NULL);\
+        }\
+    }\
+
+uint8_t read_byte(Proc * p, uint16_t address) {
+    BOUNDS_CHECK;
+    return p->memory[address];
+}
+
+void write_byte(Proc * p, uint16_t address, uint8_t value) {
+    BOUNDS_CHECK;
+    p->memory[address] = value;
+}
+
+// TODO not sure if we are ever going to use this?
+// uint16_t read_word(Proc * p, uint16_t address)
+
+// void write_word(Proc * p, uint16_t address, uint16_t word);
+
+
+// TODO get this to use the write_byte function
 void proc_initialize_memory(Proc * p) { 
     /* initializes the memory, always set these on reset */
     p->memory[0xFF05] = 0;
