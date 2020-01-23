@@ -5,7 +5,7 @@ DEBUG_FLAGS = -std=c99 -Wall -DDEBUG
 
 all: main
 
-main: main.o proc.o cart.o helpers.o
+main: main.o proc.o cart.o helpers.o memory.o
 	$(CC) $(CFLAGS) $^ -o $@
 
 test: test.o helpers.o
@@ -16,7 +16,7 @@ test: test.o helpers.o
 %.o: %.c helpers.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-debug: main_debug.o proc_debug.o cart_debug.o helpers_debug.o
+debug: main_debug.o proc_debug.o cart_debug.o helpers_debug.o memory_debug.o
 	$(CC) $(CFLAGS) $^ -o $@
 	@mv debug main
 

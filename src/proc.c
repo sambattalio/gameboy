@@ -1,5 +1,6 @@
 // proc.c
 #include "proc.h"
+#include "memory.h"
 
 #define RESET_ZERO p->flagRegister.zero = CLEAR;
 #define SET_ZERO p->flagRegister.zero = SET;
@@ -33,6 +34,7 @@ Proc* proc_create() {
         p->pc = 0x100;
         p->sp = 0xFFFE;
     }
+    proc_initialize_memory(p);
     return p;
 }
 
@@ -49,7 +51,11 @@ void proc_read_word(Proc *p) {
     int bytes_ate = 1;
 
     /* the next 8 bits of data */
-    uint8_t d8;
+    uint8_t d8 = 0;
+
+    uint8_t value_in_memory = 0;
+
+    uint16_t combined_value = 0;
 
     /* https:/www.pastraiser.com/cpu/gameboy/gameboy_opcodes.html */
     /* LITTLE ENDIAN I THINK */
@@ -82,6 +88,10 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("INC BC\n", NULL);
+            combined_value = get_16bit_value(p->registers.b, p->registers.c);
+            combined_value ++;
+            p->registers.b= get_upper_8bit_value(combined_value);
+            p->registers.c = get_lower_8bit_value(combined_value);
 			break;
         case 0x4:
             // INC B
@@ -148,6 +158,10 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("DEC BC\n", NULL);
+            combined_value = get_16bit_value(p->registers.b, p->registers.c);
+            combined_value --;
+            p->registers.b = get_upper_8bit_value(combined_value);
+            p->registers.c = get_lower_8bit_value(combined_value);
 			break;
         case 0xC:
             // INC C
@@ -214,6 +228,10 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("INC DE\n", NULL);
+            combined_value = get_16bit_value(p->registers.d, p->registers.e);
+            combined_value ++;
+            p->registers.d = get_upper_8bit_value(combined_value);
+            p->registers.e = get_lower_8bit_value(combined_value);
 			break;
         case 0x14:
             // INC D
@@ -279,6 +297,10 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("DEC DE\n", NULL);
+            combined_value = get_16bit_value(p->registers.d, p->registers.e);
+            combined_value --;
+            p->registers.d = get_upper_8bit_value(combined_value);
+            p->registers.e = get_lower_8bit_value(combined_value);
 			break;
         case 0x1C:
             // INC E
@@ -346,6 +368,10 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("INC HL\n", NULL);
+            combined_value = get_16bit_value(p->registers.h, p->registers.l);
+            combined_value ++;
+            p->registers.h = get_upper_8bit_value(combined_value);
+            p->registers.l = get_lower_8bit_value(combined_value);
 			break;
         case 0x24:
             // INC H
@@ -410,6 +436,10 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("DEC HL\n", NULL);
+            combined_value = get_16bit_value(p->registers.h, p->registers.l);
+            combined_value --;
+            p->registers.h = get_upper_8bit_value(combined_value);
+            p->registers.l = get_lower_8bit_value(combined_value);
 			break;
         case 0x2C:
             // INC L
@@ -475,13 +505,17 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("INC SP\n", NULL);
+            p->sp ++;
 			break;
         case 0x34:
             // INC (HL)
             // 1 12
             // Z 0 H -
             RESET_SUBTRACT;
-
+            combined_value = get_16bit_value(p->registers.h, p->registers.l);
+            value_in_memory = p->memory[combined_value];
+            INCREMENT_AND_CHECK(value_in_memory);
+            p->memory[combined_value] = value_in_memory;
             debug_print("INC (HL)\n", NULL);
 			break;
         case 0x35:
@@ -489,7 +523,10 @@ void proc_read_word(Proc *p) {
             // 1 12
             // Z 1 H -
             SET_SUBTRACT;
-
+            combined_value = get_16bit_value(p->registers.h, p->registers.l);
+            value_in_memory = p->memory[combined_value];
+            DECREMENT_AND_CHECK(value_in_memory);
+            p->memory[combined_value] = value_in_memory;
             debug_print("DEC (HL)\n", NULL);
 			break;
         case 0x36:
@@ -535,6 +572,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("DEC SP\n", NULL);
+            p->sp --;
 			break;
         case 0x3C:
             // INC A
@@ -1643,6 +1681,9 @@ void proc_read_word(Proc *p) {
             // 1 20/8
             // - - - -
             debug_print("RET NZ\n", NULL);
+            if (p->flagRegister.zero == CLEAR) {
+                goto RETURN_CASE;
+            }
 			break;
         case 0xC1:
             // POP BC
@@ -1705,13 +1746,24 @@ void proc_read_word(Proc *p) {
             // 1 20/8
             // - - - -
             debug_print("RET Z\n", NULL);
+            if (p->flagRegister.zero == SET) {
+                goto RETURN_CASE;
+            }
 			break;
-        case 0xC9:
+        case 0xC9: { 
             //  RET
             // 1 16
             // - - - -
             debug_print("RET\n", NULL);
-			break;
+            // Remember - stack grows DOWNWARD in value, when you pop you go up in value
+RETURN_CASE:;
+            uint8_t lower_bits = p->memory[p->sp++];
+            uint8_t upper_bits = p->memory[p->sp++];
+            combined_value = get_16bit_value(upper_bits, lower_bits);
+            // Jump to the address specified by the combined_value
+            p->pc = combined_value;
+			return; 
+        }
         case 0xCA:
             // JP Z,a16
             // 3 16/12
@@ -1756,6 +1808,9 @@ void proc_read_word(Proc *p) {
             // 1 20/8
             // - - - -
             debug_print("RET NC\n", NULL);
+            if (p->flagRegister.carry == CLEAR) {
+                goto RETURN_CASE;
+            }
 			break;
         case 0xD1:
             // POP DE
@@ -1809,6 +1864,9 @@ void proc_read_word(Proc *p) {
             // 1 20/8
             // - - - -
             debug_print("RET C\n", NULL);
+            if (p->flagRegister.carry == SET) {
+                goto RETURN_CASE;
+            }
 			break;
         case 0xD9:
             //  RETI
