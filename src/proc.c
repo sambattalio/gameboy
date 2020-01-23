@@ -1892,8 +1892,8 @@ RETURN_CASE:;
             bytes_ate = 2;
             uint16_t result = (uint16_t) p->registers.a - (uint16_t) d8;
             p->flagRegister.carry = (result & 0xFF00) > 0;
-            p->flagRegister.half_carry = is_half_carry_sub(p->register.a, d8);
-            p->registers.a = result & 0xFF
+            p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, d8);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
 			break;
         }
