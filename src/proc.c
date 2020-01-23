@@ -1883,15 +1883,20 @@ RETURN_CASE:;
             p->memory[p->sp - 1] = p->registers.d;
             p->sp -= 2;
 			break;
-        case 0xD6:
+        case 0xD6: {
             // SUB d8
             // 2 8
             // Z 1 H C
             debug_print("SUB d8\n", NULL);
             d8 = p->memory[p->pc + 1];
             bytes_ate = 2;
+            uint16_t result = (uint16_t) p->registers.a - (uint16_t) d8;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_half_carry_sub(p->register.a, d8);
+            p->registers.a = result & 0xFF
             CHECK_AND_SET_ZERO(p->registers.a);
 			break;
+        }
         case 0xD7:
             // RST 10H
             // 1 16
