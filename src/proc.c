@@ -15,6 +15,18 @@
 
 #define CHECK_AND_SET_ZERO(x) p->flagRegister.zero = (x == 0);
 
+#define DECREMENT_AND_CHECK(x) \
+    if (is_half_carry_sub(x, 1)) {\
+        SET_HALF_CARRY;\
+    }\
+    x --;
+
+#define INCREMENT_AND_CHECK(x) \
+    if (is_half_carry_add(x, 1)) {\
+        SET_HALF_CARRY;\
+    }\
+    x ++;
+
 Proc* proc_create() {
     Proc* p = calloc(1, sizeof(Proc));
     if (p) {
@@ -78,7 +90,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC B\n", NULL);
-
+            INCREMENT_AND_CHECK(p->registers.b);
             CHECK_AND_SET_ZERO(p->registers.b);
 			break;
         case 0x5:
@@ -88,6 +100,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC B\n", NULL);
+            DECREMENT_AND_CHECK(p->registers.b);
             CHECK_AND_SET_ZERO(p->registers.b);
 			break;
         case 0x6:
@@ -143,6 +156,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC C\n", NULL);
+            INCREMENT_AND_CHECK(p->registers.c);
             CHECK_AND_SET_ZERO(p->registers.c);
 			break;
         case 0xD:
@@ -152,6 +166,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC C\n", NULL);
+            DECREMENT_AND_CHECK(p->registers.c);
             CHECK_AND_SET_ZERO(p->registers.c);
 			break;
         case 0xE:
@@ -207,6 +222,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC D\n", NULL);
+            INCREMENT_AND_CHECK(p->registers.d);
             CHECK_AND_SET_ZERO(p->registers.d);
 			break;
         case 0x15:
@@ -216,6 +232,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC D\n", NULL);
+            DECREMENT_AND_CHECK(p->registers.d);
             CHECK_AND_SET_ZERO(p->registers.d);
 			break;
         case 0x16:
@@ -270,6 +287,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC E\n", NULL);
+            INCREMENT_AND_CHECK(p->registers.e);
             CHECK_AND_SET_ZERO(p->registers.e);
 			break;
         case 0x1D:
@@ -279,6 +297,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC E\n", NULL);
+            DECREMENT_AND_CHECK(p->registers.e);
             CHECK_AND_SET_ZERO(p->registers.e);
 			break;
         case 0x1E:
@@ -335,6 +354,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC H\n", NULL);
+            INCREMENT_AND_CHECK(p->registers.h);
             CHECK_AND_SET_ZERO(p->registers.h);
 			break;
         case 0x25:
@@ -344,6 +364,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC H\n", NULL);
+            DECREMENT_AND_CHECK(p->registers.h);
             CHECK_AND_SET_ZERO(p->registers.h);
 			break;
         case 0x26:
@@ -397,6 +418,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC L\n", NULL);
+            INCREMENT_AND_CHECK(p->registers.l);
             CHECK_AND_SET_ZERO(p->registers.l);
 			break;
         case 0x2D:
@@ -406,6 +428,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC L\n", NULL);
+            DECREMENT_AND_CHECK(p->registers.l);
             CHECK_AND_SET_ZERO(p->registers.l);
 			break;
         case 0x2E:
@@ -520,6 +543,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC A\n", NULL);
+            INCREMENT_AND_CHECK(p->registers.a);
             CHECK_AND_SET_ZERO(p->registers.a);
 			break;
         case 0x3D:
@@ -529,6 +553,7 @@ void proc_read_word(Proc *p) {
             SET_SUBTRACT;
 
             debug_print("DEC A\n", NULL);
+            DECREMENT_AND_CHECK(p->registers.a);
             CHECK_AND_SET_ZERO(p->registers.a);
 			break;
         case 0x3E:
