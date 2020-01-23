@@ -156,7 +156,6 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
 
             debug_print("INC C\n", NULL);
-
             INCREMENT_AND_CHECK(p->registers.c);
             CHECK_AND_SET_ZERO(p->registers.c);
 			break;

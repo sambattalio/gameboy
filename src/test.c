@@ -47,4 +47,38 @@ int main() {
     } else {
         print("\tcorrect");
     }
+
+    first_number = (uint8_t) 120; // 0x78
+    second_number = (uint8_t) 20; // 0x14;
+
+    print("testing two 8 bit -> 16 bit conversion")
+    // should be 0x7814
+    uint16_t combined_value = get_16bit_value(first_number, second_number);
+    if (combined_value != 30740) {
+        incorrect("\twrong number from get 16 bit value");
+        printf("\t%d\n", combined_value);
+    } else {
+        print("\tcorrect");
+        printf("\t%d\n", combined_value);
+    }
+
+    print("testing splitting 16 bit value into lower 8 bits")
+    uint8_t lower = get_lower_8bit_value(combined_value);
+    if (lower != 20) {
+        incorrect("\tincorrect")
+    } else {
+        print("\tcorrect");
+    }
+    printf("\t%d\n", lower);
+
+    print("testing splitting 16 bit value into upper 8 bits")
+    uint8_t upper = get_upper_8bit_value(combined_value);
+    if (upper != 120) {
+        incorrect("\tincorrect")
+    } else {
+        print("\tcorrect");
+    }
+    printf("\t%d\n", upper);
+
+    return RET_STATUS;
 }
