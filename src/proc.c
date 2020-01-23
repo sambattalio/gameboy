@@ -1268,66 +1268,105 @@ void proc_read_word(Proc *p) {
             debug_print("ADC A,A\n", NULL);
 			break;
         }
-        case 0x90:
+        case 0x90: {
             // SUB B
             // 1 4
             // Z 1 H C
+            uint16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.b;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, p->registers.b);
+            p->registers.a = result & 0xFF;
             SET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB B\n", NULL);
 			break;
-        case 0x91:
+        }
+        case 0x91: {
             // SUB C
             // 1 4
             // Z 1 H C
+            uint16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.c;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, p->registers.c);
+            p->registers.a = result & 0xFF;
             SET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB C\n", NULL);
 			break;
-        case 0x92:
+        }
+        case 0x92: {
             // SUB D
             // 1 4
             // Z 1 H C
+            uint16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.d;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, p->registers.d);
+            p->registers.a = result & 0xFF;
             SET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB D\n", NULL);
 			break;
-        case 0x93:
+        }
+        case 0x93: {
             // SUB E
             // 1 4
             // Z 1 H C
+            uint16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.e;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, p->registers.e);
+            p->registers.a = result & 0xFF;
             SET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB E\n", NULL);
 			break;
-        case 0x94:
+        }
+        case 0x94: {
             // SUB H
             // 1 4
             // Z 1 H C
+            uint16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.h;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, p->registers.h);
+            p->registers.a = result & 0xFF;
             SET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB H\n", NULL);
 			break;
-        case 0x95:
+        }
+        case 0x95: {
             // SUB L
             // 1 4
             // Z 1 H C
+            uint16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.l;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, p->registers.l);
+            p->registers.a = result & 0xFF;
             SET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB L\n", NULL);
 			break;
-        case 0x96:
+        }
+        case 0x96: {
             // SUB (HL)
             // 1 8
             // Z 1 H C
+            uint16_t val = p->memory[(p->registers.h << 8) + p->registers.l];
+            uint16_t result = (uint16_t) p->registers.a - (uint16_t) val;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, val);
+            p->registers.a = result & 0xFF;
             SET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB (HL)\n", NULL);
 			break;
+        }
         case 0x97:
             // SUB A
             // 1 4
             // Z 1 H C
+            p->registers.a = 0x00;
+            p->flagRegister.half_carry = 0;
+            p->flagRegister.carry      = 0;
             SET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB A\n", NULL);
