@@ -1125,70 +1125,111 @@ void proc_read_word(Proc *p) {
 			CHECK_AND_SET_ZERO(p->registers.a);
             RESET_SUBTRACT;
             break;
-        case 0x88:
+        case 0x88: {
             // ADC A,B
             // 1 4
             // Z 0 H C
+            uint8_t result = p->registers.a + p->registers.b + p->flagRegister.carry;
+            p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, p->registers.b, p->flagRegister.carry);
+            p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.b + (uint16_t) p->flagRegister.carry);
+            p->registers.a = result;
             RESET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,B\n", NULL);
 			break;
-        case 0x89:
+        }
+        case 0x89: {
             // ADC A,C
             // 1 4
             // Z 0 H C
+            uint8_t result = p->registers.a + p->registers.c + p->flagRegister.carry;
+            p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, p->registers.c, p->flagRegister.carry);
+            p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.c + (uint16_t) p->flagRegister.carry);
+            p->registers.a = result;
             RESET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,C\n", NULL);
 			break;
-        case 0x8A:
+        }
+        case 0x8A: {
             // ADC A,D
             // 1 4
             // Z 0 H C
+            uint8_t result = p->registers.a + p->registers.d + p->flagRegister.carry;
+            p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, p->registers.d, p->flagRegister.carry);
+            p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.d + (uint16_t) p->flagRegister.carry);
+            p->registers.a = result;
             RESET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,D\n", NULL);
 			break;
-        case 0x8B:
+        }
+        case 0x8B: {
             // ADC A,E
             // 1 4
             // Z 0 H C
+            uint8_t result = p->registers.a + p->registers.e + p->flagRegister.carry;
+            p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, p->registers.e, p->flagRegister.carry);
+            p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.e + (uint16_t) p->flagRegister.carry);
+            p->registers.a = result;
             RESET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,E\n", NULL);
 			break;
-        case 0x8C:
+        }
+        case 0x8C: {
             // ADC A,H
             // 1 4
             // Z 0 H C
+            uint8_t result = p->registers.a + p->registers.h + p->flagRegister.carry;
+            p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, p->registers.h, p->flagRegister.carry);
+            p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.h + (uint16_t) p->flagRegister.carry);
+            p->registers.a = result;
             RESET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,H\n", NULL);
 			break;
-        case 0x8D:
+        }
+        case 0x8D: {
             // ADC A,L
             // 1 4
             // Z 0 H C
+            uint8_t result = p->registers.a + p->registers.l + p->flagRegister.carry;
+            p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, p->registers.l, p->flagRegister.carry);
+            p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.l + (uint16_t) p->flagRegister.carry);
+            p->registers.a = result;
             RESET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,L\n", NULL);
 			break;
-        case 0x8E:
+        }
+        case 0x8E: {
             // ADC A,(HL)
             // 1 8
             // Z 0 H C
+            uint8_t maccess = p->memory[(p->registers.h << 8) + p->registers.l];
+            uint8_t result = p->registers.a + maccess + p->flagRegister.carry;
+            p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, maccess, p->flagRegister.carry);
+            p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) maccess + (uint16_t) p->flagRegister.carry);
+            p->registers.a = result;
             RESET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,(HL)\n", NULL);
 			break;
-        case 0x8F:
+        }
+        case 0x8F: {
             // ADC A,A
             // 1 4
             // Z 0 H C
+            uint8_t result = p->registers.a + p->registers.a + p->flagRegister.carry;
+            p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, p->registers.a, p->flagRegister.carry);
+            p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) p->registers.a + (uint16_t) p->flagRegister.carry);
+            p->registers.a = result;
             RESET_SUBTRACT;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("ADC A,A\n", NULL);
 			break;
+        }
         case 0x90:
             // SUB B
             // 1 4
