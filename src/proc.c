@@ -81,7 +81,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("LD (BC),A\n", NULL);
-            p->memory[(p->registers.b << 8) + p->registers.c] = p->registers.a;
+            write_byte(p, (p->registers.b << 8) + p->registers.c, p->registers.a);
 			break;
         case 0x3:
             // INC BC
@@ -90,7 +90,7 @@ void proc_read_word(Proc *p) {
             debug_print("INC BC\n", NULL);
             combined_value = get_16bit_value(p->registers.b, p->registers.c);
             combined_value ++;
-            p->registers.b= get_upper_8bit_value(combined_value);
+            p->registers.b = get_upper_8bit_value(combined_value);
             p->registers.c = get_lower_8bit_value(combined_value);
 			break;
         case 0x4:
@@ -136,7 +136,11 @@ void proc_read_word(Proc *p) {
             // 3 20
             // - - - -
             debug_print("LD (a16),SP\n", NULL);
-            p->memory[p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8)] = p->sp;
+            write_byte(
+                p, 
+                p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8), 
+                p->sp
+            );
 			break;
         case 0x9:
             // ADD HL,BC
@@ -220,7 +224,7 @@ void proc_read_word(Proc *p) {
             // LD (DE),A
             // 1 8
             // - - - -
-            p->memory[(p->registers.d << 8) + p->registers.e] = p->registers.a;
+            write_byte(p, (p->registers.d << 8) + p->registers.e, p->registers.a);
             debug_print("LD (DE),A\n", NULL);
 			break;
         case 0x13:
@@ -360,7 +364,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("LD (HL+),A\n", NULL);
-            p->memory[(p->registers.h << 8) + p->registers.l] = p->registers.a;
+            write_byte(p, (p->registers.h << 8) + p->registers.l, p->registers.a);
             proc_inc_hl(p);
 			break;
         case 0x23:
@@ -497,7 +501,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("LD (HL-),A\n", NULL);
-            p->memory[(p->registers.h << 8) + p->registers.l] = p->registers.a;
+            write_byte(p, (p->registers.h << 8) + p->registers.l, p->registers.a);
             proc_dec_hl(p);
 			break;
         case 0x33:
@@ -515,7 +519,7 @@ void proc_read_word(Proc *p) {
             combined_value = get_16bit_value(p->registers.h, p->registers.l);
             value_in_memory = p->memory[combined_value];
             INCREMENT_AND_CHECK(value_in_memory);
-            p->memory[combined_value] = value_in_memory;
+            write_byte(p, combined_value, value_in_memory);
             debug_print("INC (HL)\n", NULL);
 			break;
         case 0x35:
@@ -526,7 +530,7 @@ void proc_read_word(Proc *p) {
             combined_value = get_16bit_value(p->registers.h, p->registers.l);
             value_in_memory = p->memory[combined_value];
             DECREMENT_AND_CHECK(value_in_memory);
-            p->memory[combined_value] = value_in_memory;
+            write_byte(p, combined_value, value_in_memory);
             debug_print("DEC (HL)\n", NULL);
 			break;
         case 0x36:
@@ -534,7 +538,7 @@ void proc_read_word(Proc *p) {
             // 2 12
             // - - - -
             debug_print("LD (HL),d8\n", NULL);
-            p->memory[(p->registers.h << 8) + p->registers.l] = p->memory[p->pc + 1];
+            write_byte(p, (p->registers.h << 8) + p->registers.l, p->memory[p->pc + 1]);
             bytes_ate = 2;
 			break;
         case 0x37:
@@ -950,42 +954,42 @@ void proc_read_word(Proc *p) {
             // LD (HL),B
             // 1 8
             // - - - -
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->registers.b;
+            write_byte(p, p->registers.l + (p->registers.h << 8), p->registers.b);
             debug_print("LD (HL),B\n", NULL);
 			break;
         case 0x71:
             // LD (HL),C
             // 1 8
             // - - - -
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->registers.c;
+            write_byte(p, p->registers.l + (p->registers.h << 8), p->registers.c);
             debug_print("LD (HL),C\n", NULL);
 			break;
         case 0x72:
             // LD (HL),D
             // 1 8
             // - - - -
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->registers.d;
+            write_byte(p, p->registers.l + (p->registers.h << 8), p->registers.d);
             debug_print("LD (HL),D\n", NULL);
 			break;
         case 0x73:
             // LD (HL),E
             // 1 8
             // - - - -
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->registers.e;
+            write_byte(p, p->registers.l + (p->registers.h << 8), p->registers.e);
             debug_print("LD (HL),E\n", NULL);
 			break;
         case 0x74:
             // LD (HL),H
             // 1 8
             // - - - -
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->registers.h;
+            write_byte(p, p->registers.l + (p->registers.h << 8), p->registers.h);
             debug_print("LD (HL),H\n", NULL);
 			break;
         case 0x75:
             // LD (HL),L
             // 1 8
             // - - - -
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->registers.l;
+            write_byte(p, p->registers.l + (p->registers.h << 8), p->registers.l);
             debug_print("LD (HL),L\n", NULL);
 			break;
         case 0x76:
@@ -999,7 +1003,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("LD (HL),A\n", NULL);
-            p->memory[(p->registers.h << 8) + p->registers.l] = p->registers.a;
+            write_byte(p, p->registers.l + (p->registers.h << 8), p->registers.a);
 			break;
         case 0x78:
             // LD A,B
@@ -2049,7 +2053,7 @@ RETURN_CASE:;
             // - - - -
             debug_print("LD (C),A\n", NULL);
             // another possible error
-            p->memory[0xFF00 + p->registers.c] = p->registers.a;
+            write_byte(p, 0xFF00 + p->registers.c, p->registers.a);
 			break;
         case 0xE3:
             break;
@@ -2060,8 +2064,8 @@ RETURN_CASE:;
             // 1 16
             // - - - -
             debug_print("PUSH HL\n", NULL);
-            p->memory[p->sp] = p->registers.l;
-            p->memory[p->sp - 1] = p->registers.h;
+            write_byte(p, p->sp, p->registers.l);
+            write_byte(p, p->sp - 1, p->registers.h);
             p->sp -= 2;
 			break;
         case 0xE6:
@@ -2103,7 +2107,7 @@ RETURN_CASE:;
             // 3 16
             // - - - -
             debug_print("LD (a16),A\n", NULL);
-            p->memory[(p->memory[p->pc + 2] << 8) + p->memory[p->pc + 1]] = p->registers.a;
+            write_byte(p, (p->memory[p->pc + 2] << 8) + p->memory[p->pc + 1], p->registers.a);
 			bytes_ate = 3;
             break;
         case 0xEB:
@@ -2171,8 +2175,8 @@ RETURN_CASE:;
             // 1 16
             // - - - -
             debug_print("PUSH AF\n", NULL);
-            p->memory[p->sp] = p->registers.f;
-            p->memory[p->sp - 1] = p->registers.a;
+            write_byte(p, p->sp, p->registers.f);
+            write_byte(p, p->sp - 1, p->registers.a);
             p->sp -= 2;
 			break;
         case 0xF6:
