@@ -25,7 +25,7 @@ debug: main_debug.o proc_debug.o cart_debug.o helpers_debug.o memory_debug.o vid
 	$(CC) $(DEBUG_FLAGS) -c $< -o $@
 
 clean:
-	rm main
-	rm *.o
+	rm -f main
+	rm -f *.o
 
 .PHONY: clean
