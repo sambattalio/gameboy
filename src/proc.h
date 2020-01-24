@@ -7,6 +7,9 @@
 #include "helpers.h"
 
 #define MEM_SIZE (1 << 16)
+#define NUM_TILES 256
+#define TILE_HEIGHT 8
+#define TILE_WIDTH 8
 
 // excluding the flags register
 typedef struct {
@@ -40,6 +43,8 @@ typedef struct {
     
     uint16_t pc;
     uint16_t sp;
+
+    uint8_t tileset [NUM_TILES][TILE_HEIGHT][TILE_WIDTH];
 } Proc;
 
 Proc*          proc_create();

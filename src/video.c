@@ -52,3 +52,16 @@ void render(Screen * s, Proc * p) {
     SDL_RenderPresent(s->renderer);
 }
 
+uint32_t get_pixel_value(uint8_t value) {
+    /* Switches the 2 bit color value from memory to a hex value for SDL to render */
+    switch (value) {
+        case 0: 
+            return 0xFFFFFF;
+        case 1:
+            return 0xC0C0C0;
+        case 2:
+            return 0x606060;
+        default:
+            return 0;
+    }
+}

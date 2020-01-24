@@ -34,4 +34,8 @@ void * video_thread(void *);
 
 void render(Screen * s, Proc * p);
 
+// Transforms the 2 bit value that is held in memory to the emulated pixel color
+uint32_t get_pixel_value(uint8_t value);
+
+
 #endif
