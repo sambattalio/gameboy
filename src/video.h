@@ -32,4 +32,6 @@ pthread_t dispatch_thread(Screen * s, Proc * p);
 
 void * video_thread(void *);
 
+void render(Screen * s, Proc * p);
+
 #endif

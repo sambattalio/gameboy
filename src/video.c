@@ -32,10 +32,23 @@ pthread_t dispatch_thread(Screen * s, Proc * p) {
 void * video_thread(void * varg) {
     /* Video thread that handles the while loop for the video displaying */
     VideoThreadArg * arg = (VideoThreadArg *) varg;
+
     while (1) {
         // TODO do the video updating in here
         // TODO make sure if we are accessing data in here from proc, it is going to not have 
         // any concurrency issues
+        // NOTE - EVENT POLLING CANNOT HAPPEN IN A THREAD ON OSX
     }
+}
+
+void render(Screen * s, Proc * p) {
+    uint32_t pixels[SCREEN_W * SCREEN_H] = {0};
+
+    // TODO figure out how to decide what to render before updating screen 
+
+    SDL_UpdateTexture(s->texture, NULL, pixels, SCREEN_W * sizeof(Uint32));
+    SDL_RenderClear(s->renderer);
+    SDL_RenderCopy(s->renderer, s->texture, NULL, NULL);
+    SDL_RenderPresent(s->renderer);
 }
 

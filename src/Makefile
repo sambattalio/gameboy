@@ -1,12 +1,13 @@
 CC = gcc
 
-CFLAGS = -std=c99 -Wall
-DEBUG_FLAGS = -std=c99 -Wall -DDEBUG
+CFLAGS = -std=c99 -Wall -lpthread
+DEBUG_FLAGS = -std=c99 -Wall -DDEBUG -lpthread
+SDL_FLAGS = -D_THREAD_SAFE -I/usr/local/include/SDL2 -L/usr/local/lib -lSDL2
 
 all: main
 
-main: main.o proc.o cart.o helpers.o memory.o
-	$(CC) $(CFLAGS) $^ -o $@
+main: main.o proc.o cart.o helpers.o memory.o video.o
+	$(CC) $(CFLAGS) $(SDL_FLAGS) $^ -o $@
 
 test: test.o helpers.o
 	$(CC) $(CFLAGS) $^ -o $@
@@ -16,7 +17,7 @@ test: test.o helpers.o
 %.o: %.c helpers.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-debug: main_debug.o proc_debug.o cart_debug.o helpers_debug.o memory_debug.o
+debug: main_debug.o proc_debug.o cart_debug.o helpers_debug.o memory_debug.o video_debug.o
 	$(CC) $(CFLAGS) $^ -o $@
 	@mv debug main
 
