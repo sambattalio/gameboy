@@ -1663,7 +1663,11 @@ void proc_read_word(Proc *p) {
             // CP B
             // 1 4
             // Z 1 H C
+            p->flagRegister.zero = p->registers.a == p->registers.b;
             SET_SUBTRACT;
+            // set if "no borrow"
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, p->registers.b);
+            p->flagRegister.carry = p->registers.a < p->registers.b;
             debug_print("CP B\n", NULL);
 			break;
         case 0xB9:
@@ -1671,6 +1675,9 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            p->flagRegister.zero = p->registers.a == p->registers.c;
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, p->registers.c);
+            p->flagRegister.carry = p->registers.a < p->registers.c;
             debug_print("CP C\n", NULL);
 			break;
         case 0xBA:
@@ -1678,6 +1685,9 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            p->flagRegister.zero = p->registers.a == p->registers.d;
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, p->registers.d);
+            p->flagRegister.carry = p->registers.a < p->registers.d;
             debug_print("CP D\n", NULL);
 			break;
         case 0xBB:
@@ -1685,6 +1695,9 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            p->flagRegister.zero = p->registers.a == p->registers.e;
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, p->registers.e);
+            p->flagRegister.carry = p->registers.a < p->registers.e;
             debug_print("CP E\n", NULL);
 			break;
         case 0xBC:
@@ -1692,6 +1705,9 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            p->flagRegister.zero = p->registers.a == p->registers.h;
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, p->registers.h);
+            p->flagRegister.carry = p->registers.a < p->registers.h;
             debug_print("CP H\n", NULL);
 			break;
         case 0xBD:
@@ -1699,20 +1715,31 @@ void proc_read_word(Proc *p) {
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            p->flagRegister.zero = p->registers.a == p->registers.l;
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, p->registers.l);
+            p->flagRegister.carry = p->registers.a < p->registers.l;
             debug_print("CP L\n", NULL);
 			break;
-        case 0xBE:
+        case 0xBE: {
             // CP (HL)
             // 1 8
             // Z 1 H C
             SET_SUBTRACT;
+            uint8_t val = p->memory[(p->registers.h << 8) + p->registers.l];
+            p->flagRegister.zero = p->registers.a == val;
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, val);
+            p->flagRegister.carry = p->registers.a <  val;
             debug_print("CP (HL)\n", NULL);
 			break;
+        }
         case 0xBF:
             // CP A
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            p->flagRegister.zero = 1;
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, p->registers.a);
+            p->flagRegister.carry = 0;
             debug_print("CP A\n", NULL);
 			break;
         case 0xC0:
@@ -2162,18 +2189,19 @@ RETURN_CASE:;
             break;
         case 0xFD:
             break;
-        case 0xFE:
+        case 0xFE: {
             // CP d8
             // 2 8
             // Z 1 H C
             SET_SUBTRACT;
-
             d8 = p->memory[p->pc + 1];
+            p->flagRegister.zero = p->registers.a == d8;
+            p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, d8);
+            p->flagRegister.carry = p->registers.a < d8;
             bytes_ate = 2;
-
-            // TODO set zero if A == d8
             debug_print("CP d8\n", NULL);
 			break;
+        }
         case 0xFF:
             // RST 38H
             // 1 16
