@@ -1371,70 +1371,111 @@ void proc_read_word(Proc *p) {
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SUB A\n", NULL);
 			break;
-        case 0x98:
+        case 0x98: {
             // SBC A,B
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            int16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.b - (uint16_t) p->flagRegister.carry;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, p->registers.b, p->flagRegister.carry);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,B\n", NULL);
 			break;
-        case 0x99:
+        }
+        case 0x99: {
             // SBC A,C
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            int16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.c - (uint16_t) p->flagRegister.carry;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, p->registers.c, p->flagRegister.carry);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,C\n", NULL);
 			break;
-        case 0x9A:
+        }
+        case 0x9A: {
             // SBC A,D
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            int16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.d - (uint16_t) p->flagRegister.carry;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, p->registers.d, p->flagRegister.carry);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,D\n", NULL);
 			break;
-        case 0x9B:
+        }
+        case 0x9B: {
             // SBC A,E
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            int16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.e - (uint16_t) p->flagRegister.carry;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, p->registers.e, p->flagRegister.carry);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,E\n", NULL);
 			break;
-        case 0x9C:
+        }
+        case 0x9C: {
             // SBC A,H
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            int16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.h - (uint16_t) p->flagRegister.carry;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, p->registers.h, p->flagRegister.carry);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,H\n", NULL);
 			break;
-        case 0x9D:
+        }
+        case 0x9D: {
             // SBC A,L
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            int16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.l - (uint16_t) p->flagRegister.carry;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, p->registers.l, p->flagRegister.carry);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,L\n", NULL);
 			break;
-        case 0x9E:
+        }
+        case 0x9E: {
             // SBC A,(HL)
             // 1 8
             // Z 1 H C
             SET_SUBTRACT;
+            int8_t     val = p->memory[(p->registers.h << 8) + p->registers.l];
+            int16_t result = (uint16_t) p->registers.a - (uint16_t) val - (uint16_t) p->flagRegister.carry;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, val, p->flagRegister.carry);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,(HL)\n", NULL);
 			break;
-        case 0x9F:
+        }
+        case 0x9F: {
             // SBC A,A
             // 1 4
             // Z 1 H C
             SET_SUBTRACT;
+            int16_t result = (uint16_t) p->registers.a - (uint16_t) p->registers.a - (uint16_t) p->flagRegister.carry;
+            p->flagRegister.carry = (result & 0xFF00) > 0;
+            p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, p->registers.a, p->flagRegister.carry);
+            p->registers.a = result & 0xFF;
             CHECK_AND_SET_ZERO(p->registers.a);
             debug_print("SBC A,A\n", NULL);
 			break;
+        }
         case 0xA0:
             // AND B
             // 1 4
