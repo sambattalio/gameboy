@@ -1483,7 +1483,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-
+            p->registers.a = p->registers.a && p->registers.b;
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND B\n", NULL);
 			break;
         case 0xA1:
@@ -1493,7 +1494,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-
+            p->registers.a = p->registers.a && p->registers.c;
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND C\n", NULL);
 			break;
         case 0xA2:
@@ -1503,7 +1505,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-
+            p->registers.a = p->registers.a && p->registers.d;
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND D\n", NULL);
 			break;
         case 0xA3:
@@ -1513,7 +1516,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-
+            p->registers.a = p->registers.a && p->registers.e;
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND E\n", NULL);
 			break;
         case 0xA4:
@@ -1523,7 +1527,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-
+            p->registers.a = p->registers.a && p->registers.h;
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND H\n", NULL);
 			break;
         case 0xA5:
@@ -1533,7 +1538,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-
+            p->registers.a = p->registers.a && p->registers.l;
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND L\n", NULL);
 			break;
         case 0xA6:
@@ -1543,7 +1549,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-
+            p->registers.a = p->registers.a && p->memory[(p->registers.h << 8) + p->registers.l];
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND (HL)\n", NULL);
 			break;
         case 0xA7:
@@ -1553,7 +1560,8 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-
+            p->registers.a = p->registers.a && p->registers.a;
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND A\n", NULL);
 			break;
         case 0xA8:
@@ -2066,7 +2074,8 @@ RETURN_CASE:;
             
             d8 = p->memory[p->pc + 1];
             bytes_ate = 2;
-
+            p->registers.a = p->registers.a && d8;
+            p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND d8\n", NULL);
 			break;
         case 0xE7:
