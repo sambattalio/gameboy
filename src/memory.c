@@ -6,7 +6,43 @@ uint8_t read_byte(Proc * p, uint16_t address) {
 
 void write_byte(Proc * p, uint16_t address, uint8_t value) {
     p->memory[address] = value;
+    
+    /* http://imrannazar.com/GameBoy-Emulation-in-JavaScript:-Graphics */
+    
+    /* if we are writing a byte that is in the vram, we should update the internal representation 
+     * of the tiles 
+     */
+
+    if ((address & 0xF000) == 0x8000 || (address & 0xF000) == 0x9000) {
+        // Then this should trigger an update to the tile map
+        write_tile(p, address, value);
+    }
 }
+
+void write_tile(Proc * p, uint16_t address, uint8_t value) {
+    uint16_t base_address = address & 0x1FFE;
+    int tile = (base_address >> 4) & 511;
+    int y = (base_address >> 1) & 7;
+    int bit_index;
+    
+    for (int i = 0; i < 8; i ++) {
+        bit_index = 1 << (7 - i);
+
+        /* 
+         * if memory looks like ..... 1 .....
+         *                      ..... 0 .....
+         * result should be 1, 
+         * if memory looks like ..... 1 .....
+         *                      ..... 1 .....
+         * result should be 3, etc
+         */
+
+        p->tileset[tile][i][y] = p->memory[address] & bit_index ? 1 : 0;
+        p->tileset[tile][i][y] += p->memory[address+1] & bit_index ? 2 : 0;
+    }
+
+}
+
 
 // TODO not sure if we are ever going to use this?
 // uint16_t read_word(Proc * p, uint16_t address)
