@@ -1,19 +1,10 @@
 #include "memory.h"
 
-#define BOUNDS_CHECK \
-    if (DEBUG) {\
-        if (address < 0 || address > MEM_SIZE) {\
-            debug_print("memory out of bounds error", NULL);\
-        }\
-    }\
-
 uint8_t read_byte(Proc * p, uint16_t address) {
-    BOUNDS_CHECK;
     return p->memory[address];
 }
 
 void write_byte(Proc * p, uint16_t address, uint8_t value) {
-    BOUNDS_CHECK;
     p->memory[address] = value;
 }
 
