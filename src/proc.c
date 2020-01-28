@@ -137,8 +137,8 @@ void proc_read_word(Proc *p) {
             // - - - -
             debug_print("LD (a16),SP\n", NULL);
             write_byte(
-                p, 
-                p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8), 
+                p,
+                p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8),
                 p->sp
             );
 			break;
@@ -1838,7 +1838,7 @@ void proc_read_word(Proc *p) {
             p->memory[p->sp - 1] = p->registers.b;
             p->sp -= 2;
 			break;
-        case 0xC6: 
+        case 0xC6:
             // ADD A,d8
             // 2 8
             // Z 0 H C
@@ -1867,7 +1867,7 @@ void proc_read_word(Proc *p) {
                 goto RETURN_CASE;
             }
 			break;
-        case 0xC9: { 
+        case 0xC9: {
             //  RET
             // 1 16
             // - - - -
@@ -1879,7 +1879,7 @@ RETURN_CASE:;
             combined_value = get_16bit_value(upper_bits, lower_bits);
             // Jump to the address specified by the combined_value
             p->pc = combined_value;
-			return; 
+			return;
         }
         case 0xCA:
             // JP Z,a16
@@ -2073,7 +2073,7 @@ RETURN_CASE:;
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-            
+
             d8 = p->memory[p->pc + 1];
             bytes_ate = 2;
             p->registers.a = p->registers.a && d8;
@@ -3322,384 +3322,520 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("RES 0,B\n", NULL);
+
+            // AND the current value in register b with 1111110
+            // to reset the 0th bit
+            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xFE;
 			break;
         case 0x81:
             // RES 0,C
             // 2 8
             // - - - -
             debug_print("RES 0,C\n", NULL);
+
+            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xFE;
 			break;
         case 0x82:
             // RES 0,D
             // 2 8
             // - - - -
             debug_print("RES 0,D\n", NULL);
+
+            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xFE;
 			break;
         case 0x83:
             // RES 0,E
             // 2 8
             // - - - -
             debug_print("RES 0,E\n", NULL);
+
+            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xFE;
 			break;
         case 0x84:
             // RES 0,H
             // 2 8
             // - - - -
             debug_print("RES 0,H\n", NULL);
+
+            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xFE;
 			break;
         case 0x85:
             // RES 0,L
             // 2 8
             // - - - -
             debug_print("RES 0,L\n", NULL);
+
+            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xFE;
 			break;
         case 0x86:
             // RES 0,(HL)
             // 2 16
             // - - - -
             debug_print("RES 0,(HL)\n", NULL);
+
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xFE;
 			break;
         case 0x87:
             // RES 0,A
             // 2 8
             // - - - -
             debug_print("RES 0,A\n", NULL);
+
+            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xFE;
 			break;
         case 0x88:
             // RES 1,B
             // 2 8
             // - - - -
             debug_print("RES 1,B\n", NULL);
+
+            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xFD;
 			break;
         case 0x89:
             // RES 1,C
             // 2 8
             // - - - -
             debug_print("RES 1,C\n", NULL);
+
+            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xFD;
 			break;
         case 0x8A:
             // RES 1,D
             // 2 8
             // - - - -
             debug_print("RES 1,D\n", NULL);
+
+            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xFD;
 			break;
         case 0x8B:
             // RES 1,E
             // 2 8
             // - - - -
             debug_print("RES 1,E\n", NULL);
+
+            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xFD;
 			break;
         case 0x8C:
             // RES 1,H
             // 2 8
             // - - - -
             debug_print("RES 1,H\n", NULL);
+
+            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xFD;
 			break;
         case 0x8D:
             // RES 1,L
             // 2 8
             // - - - -
             debug_print("RES 1,L\n", NULL);
+
+            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xFD;
 			break;
         case 0x8E:
             // RES 1,(HL)
             // 2 16
             // - - - -
             debug_print("RES 1,(HL)\n", NULL);
+
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xFD;
 			break;
         case 0x8F:
             // RES 1,A
             // 2 8
             // - - - -
             debug_print("RES 1,A\n", NULL);
+
+            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xFD;
 			break;
         case 0x90:
             // RES 2,B
             // 2 8
             // - - - -
             debug_print("RES 2,B\n", NULL);
+
+            // 11111011
+            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xFB;
 			break;
         case 0x91:
             // RES 2,C
             // 2 8
             // - - - -
             debug_print("RES 2,C\n", NULL);
+
+            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xFB;
 			break;
         case 0x92:
             // RES 2,D
             // 2 8
             // - - - -
             debug_print("RES 2,D\n", NULL);
+
+            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xFB;
 			break;
         case 0x93:
             // RES 2,E
             // 2 8
             // - - - -
             debug_print("RES 2,E\n", NULL);
+
+            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xFB;
 			break;
         case 0x94:
             // RES 2,H
             // 2 8
             // - - - -
             debug_print("RES 2,H\n", NULL);
+
+            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xFB;
 			break;
         case 0x95:
             // RES 2,L
             // 2 8
             // - - - -
             debug_print("RES 2,L\n", NULL);
+
+            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xFB;
 			break;
         case 0x96:
             // RES 2,(HL)
             // 2 16
             // - - - -
             debug_print("RES 2,(HL)\n", NULL);
+
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xFB;
 			break;
         case 0x97:
             // RES 2,A
             // 2 8
             // - - - -
             debug_print("RES 2,A\n", NULL);
+
+            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xFB;
 			break;
         case 0x98:
             // RES 3,B
             // 2 8
             // - - - -
             debug_print("RES 3,B\n", NULL);
+
+            // 1111 0111
+            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xF7;
 			break;
         case 0x99:
             // RES 3,C
             // 2 8
             // - - - -
             debug_print("RES 3,C\n", NULL);
+
+            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xF7;
 			break;
         case 0x9A:
             // RES 3,D
             // 2 8
             // - - - -
             debug_print("RES 3,D\n", NULL);
+
+            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xF7;
 			break;
         case 0x9B:
             // RES 3,E
             // 2 8
             // - - - -
             debug_print("RES 3,E\n", NULL);
+
+            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xF7;
 			break;
         case 0x9C:
             // RES 3,H
             // 2 8
             // - - - -
             debug_print("RES 3,H\n", NULL);
+
+            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xF7;
 			break;
         case 0x9D:
             // RES 3,L
             // 2 8
             // - - - -
             debug_print("RES 3,L\n", NULL);
+
+            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xF7;
 			break;
         case 0x9E:
             // RES 3,(HL)
             // 2 16
             // - - - -
             debug_print("RES 3,(HL)\n", NULL);
+
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xF7;
 			break;
         case 0x9F:
             // RES 3,A
             // 2 8
             // - - - -
             debug_print("RES 3,A\n", NULL);
+
+            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xF7;
 			break;
         case 0xA0:
             // RES 4,B
             // 2 8
             // - - - -
             debug_print("RES 4,B\n", NULL);
+
+            // 1110 1111
+            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xEF;
 			break;
         case 0xA1:
             // RES 4,C
             // 2 8
             // - - - -
             debug_print("RES 4,C\n", NULL);
+
+            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xEF;
 			break;
         case 0xA2:
             // RES 4,D
             // 2 8
             // - - - -
             debug_print("RES 4,D\n", NULL);
+
+            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xEF;
 			break;
         case 0xA3:
             // RES 4,E
             // 2 8
             // - - - -
             debug_print("RES 4,E\n", NULL);
+
+            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xEF;
 			break;
         case 0xA4:
             // RES 4,H
             // 2 8
             // - - - -
             debug_print("RES 4,H\n", NULL);
+
+            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xEF;
 			break;
         case 0xA5:
             // RES 4,L
             // 2 8
             // - - - -
             debug_print("RES 4,L\n", NULL);
+
+            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xEF;
 			break;
         case 0xA6:
             // RES 4,(HL)
             // 2 16
             // - - - -
             debug_print("RES 4,(HL)\n", NULL);
+
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xEF;
 			break;
         case 0xA7:
             // RES 4,A
             // 2 8
             // - - - -
             debug_print("RES 4,A\n", NULL);
+
+            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xEF;
 			break;
         case 0xA8:
             // RES 5,B
             // 2 8
             // - - - -
             debug_print("RES 5,B\n", NULL);
+
+            // 1101 1111
+            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xDF;
 			break;
         case 0xA9:
             // RES 5,C
             // 2 8
             // - - - -
             debug_print("RES 5,C\n", NULL);
+
+            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xDF;
 			break;
         case 0xAA:
             // RES 5,D
             // 2 8
             // - - - -
             debug_print("RES 5,D\n", NULL);
+
+            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xDF;
 			break;
         case 0xAB:
             // RES 5,E
             // 2 8
             // - - - -
             debug_print("RES 5,E\n", NULL);
+
+            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xDF;
 			break;
         case 0xAC:
             // RES 5,H
             // 2 8
             // - - - -
             debug_print("RES 5,H\n", NULL);
+
+            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xDF;
 			break;
         case 0xAD:
             // RES 5,L
             // 2 8
             // - - - -
             debug_print("RES 5,L\n", NULL);
+
+            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xDF;
 			break;
         case 0xAE:
             // RES 5,(HL)
             // 2 16
             // - - - -
             debug_print("RES 5,(HL)\n", NULL);
+
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xDF;
 			break;
         case 0xAF:
             // RES 5,A
             // 2 8
             // - - - -
             debug_print("RES 5,A\n", NULL);
+
+            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xDF;
 			break;
         case 0xB0:
             // RES 6,B
             // 2 8
             // - - - -
             debug_print("RES 6,B\n", NULL);
+
+            // 1011 1111
+            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xBF;
 			break;
         case 0xB1:
             // RES 6,C
             // 2 8
             // - - - -
             debug_print("RES 6,C\n", NULL);
+
+            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xBF;
 			break;
         case 0xB2:
             // RES 6,D
             // 2 8
             // - - - -
             debug_print("RES 6,D\n", NULL);
+
+            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xBF;
 			break;
         case 0xB3:
             // RES 6,E
             // 2 8
             // - - - -
             debug_print("RES 6,E\n", NULL);
+
+            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xBF;
 			break;
         case 0xB4:
             // RES 6,H
             // 2 8
             // - - - -
             debug_print("RES 6,H\n", NULL);
+
+            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xBF;
 			break;
         case 0xB5:
             // RES 6,L
             // 2 8
             // - - - -
             debug_print("RES 6,L\n", NULL);
+
+            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xBF;
 			break;
         case 0xB6:
             // RES 6,(HL)
             // 2 16
             // - - - -
             debug_print("RES 6,(HL)\n", NULL);
+
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xBF;
 			break;
         case 0xB7:
             // RES 6,A
             // 2 8
             // - - - -
             debug_print("RES 6,A\n", NULL);
+
+            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xBF;
 			break;
         case 0xB8:
             // RES 7,B
             // 2 8
             // - - - -
             debug_print("RES 7,B\n", NULL);
+
+            // 0111 1111
+            p->memory[p->registers.b] = p->memory[p->registers.b] & 0x7F;
 			break;
         case 0xB9:
             // RES 7,C
             // 2 8
             // - - - -
             debug_print("RES 7,C\n", NULL);
+
+            p->memory[p->registers.c] = p->memory[p->registers.c] & 0x7F;
 			break;
         case 0xBA:
             // RES 7,D
             // 2 8
             // - - - -
             debug_print("RES 7,D\n", NULL);
+
+            p->memory[p->registers.d] = p->memory[p->registers.d] & 0x7F;
 			break;
         case 0xBB:
             // RES 7,E
             // 2 8
             // - - - -
             debug_print("RES 7,E\n", NULL);
+
+            p->memory[p->registers.e] = p->memory[p->registers.e] & 0x7F;
 			break;
         case 0xBC:
             // RES 7,H
             // 2 8
             // - - - -
             debug_print("RES 7,H\n", NULL);
+
+            p->memory[p->registers.h] = p->memory[p->registers.h] & 0x7F;
 			break;
         case 0xBD:
             // RES 7,L
             // 2 8
             // - - - -
             debug_print("RES 7,L\n", NULL);
+
+            p->memory[p->registers.l] = p->memory[p->registers.l] & 0x7F;
 			break;
         case 0xBE:
             // RES 7,(HL)
             // 2 16
             // - - - -
             debug_print("RES 7,(HL)\n", NULL);
+
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0x7F;
 			break;
         case 0xBF:
             // RES 7,A
             // 2 8
             // - - - -
             debug_print("RES 7,A\n", NULL);
+
+            p->memory[p->registers.a] = p->memory[p->registers.a] & 0x7F;
 			break;
         case 0xC0:
             // SET 0,B
