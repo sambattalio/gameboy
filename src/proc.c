@@ -3325,7 +3325,7 @@ void proc_handle_cb_prefix(Proc *p) {
 
             // AND the current value in register b with 11111110
             // to reset the 0th bit
-            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xFE;
+            p->registers.b = p->registers.b & 0xFE;
 			break;
         case 0x81:
             // RES 0,C
@@ -3333,7 +3333,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 0,C\n", NULL);
 
-            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xFE;
+            p->registers.c = p->registers.c & 0xFE;
 			break;
         case 0x82:
             // RES 0,D
@@ -3341,7 +3341,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 0,D\n", NULL);
 
-            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xFE;
+            p->registers.d = p->registers.d & 0xFE;
 			break;
         case 0x83:
             // RES 0,E
@@ -3349,7 +3349,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 0,E\n", NULL);
 
-            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xFE;
+            p->registers.e = p->registers.e & 0xFE;
 			break;
         case 0x84:
             // RES 0,H
@@ -3357,7 +3357,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 0,H\n", NULL);
 
-            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xFE;
+            p->registers.h = p->registers.h & 0xFE;
 			break;
         case 0x85:
             // RES 0,L
@@ -3365,7 +3365,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 0,L\n", NULL);
 
-            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xFE;
+            p->registers.l = p->registers.l & 0xFE;
 			break;
         case 0x86:
             // RES 0,(HL)
@@ -3381,7 +3381,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 0,A\n", NULL);
 
-            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xFE;
+            p->registers.a = p->registers.a & 0xFE;
 			break;
         case 0x88:
             // RES 1,B
@@ -3389,7 +3389,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 1,B\n", NULL);
 
-            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xFD;
+            p->registers.b = p->registers.b & 0xFD;
 			break;
         case 0x89:
             // RES 1,C
@@ -3397,7 +3397,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 1,C\n", NULL);
 
-            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xFD;
+            p->registers.c = p->registers.c & 0xFD;
 			break;
         case 0x8A:
             // RES 1,D
@@ -3405,7 +3405,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 1,D\n", NULL);
 
-            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xFD;
+            p->registers.d = p->registers.d & 0xFD;
 			break;
         case 0x8B:
             // RES 1,E
@@ -3413,7 +3413,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 1,E\n", NULL);
 
-            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xFD;
+            p->registers.e = p->registers.e & 0xFD;
 			break;
         case 0x8C:
             // RES 1,H
@@ -3421,7 +3421,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 1,H\n", NULL);
 
-            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xFD;
+            p->registers.h = p->registers.h & 0xFD;
 			break;
         case 0x8D:
             // RES 1,L
@@ -3429,7 +3429,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 1,L\n", NULL);
 
-            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xFD;
+            p->registers.l = p->registers.l & 0xFD;
 			break;
         case 0x8E:
             // RES 1,(HL)
@@ -3445,7 +3445,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 1,A\n", NULL);
 
-            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xFD;
+            p->registers.a = p->registers.a & 0xFD;
 			break;
         case 0x90:
             // RES 2,B
@@ -3454,7 +3454,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("RES 2,B\n", NULL);
 
             // 11111011
-            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xFB;
+            p->registers.b = p->registers.b & 0xFB;
 			break;
         case 0x91:
             // RES 2,C
@@ -3462,7 +3462,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 2,C\n", NULL);
 
-            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xFB;
+            p->registers.c = p->registers.c & 0xFB;
 			break;
         case 0x92:
             // RES 2,D
@@ -3470,7 +3470,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 2,D\n", NULL);
 
-            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xFB;
+            p->registers.d = p->registers.d & 0xFB;
 			break;
         case 0x93:
             // RES 2,E
@@ -3478,7 +3478,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 2,E\n", NULL);
 
-            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xFB;
+            p->registers.e = p->registers.e & 0xFB;
 			break;
         case 0x94:
             // RES 2,H
@@ -3486,7 +3486,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 2,H\n", NULL);
 
-            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xFB;
+            p->registers.h = p->registers.h & 0xFB;
 			break;
         case 0x95:
             // RES 2,L
@@ -3494,7 +3494,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 2,L\n", NULL);
 
-            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xFB;
+            p->registers.l = p->registers.l & 0xFB;
 			break;
         case 0x96:
             // RES 2,(HL)
@@ -3510,7 +3510,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 2,A\n", NULL);
 
-            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xFB;
+            p->registers.a = p->registers.a & 0xFB;
 			break;
         case 0x98:
             // RES 3,B
@@ -3519,7 +3519,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("RES 3,B\n", NULL);
 
             // 1111 0111
-            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xF7;
+            p->registers.b = p->registers.b & 0xF7;
 			break;
         case 0x99:
             // RES 3,C
@@ -3527,7 +3527,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 3,C\n", NULL);
 
-            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xF7;
+            p->registers.c = p->registers.c & 0xF7;
 			break;
         case 0x9A:
             // RES 3,D
@@ -3535,7 +3535,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 3,D\n", NULL);
 
-            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xF7;
+            p->registers.d = p->registers.d & 0xF7;
 			break;
         case 0x9B:
             // RES 3,E
@@ -3543,7 +3543,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 3,E\n", NULL);
 
-            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xF7;
+            p->registers.e = p->registers.e & 0xF7;
 			break;
         case 0x9C:
             // RES 3,H
@@ -3551,7 +3551,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 3,H\n", NULL);
 
-            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xF7;
+            p->registers.h = p->registers.h & 0xF7;
 			break;
         case 0x9D:
             // RES 3,L
@@ -3559,7 +3559,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 3,L\n", NULL);
 
-            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xF7;
+            p->registers.l = p->registers.l & 0xF7;
 			break;
         case 0x9E:
             // RES 3,(HL)
@@ -3575,7 +3575,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 3,A\n", NULL);
 
-            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xF7;
+            p->registers.a = p->registers.a & 0xF7;
 			break;
         case 0xA0:
             // RES 4,B
@@ -3584,7 +3584,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("RES 4,B\n", NULL);
 
             // 1110 1111
-            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xEF;
+            p->registers.b = p->registers.b & 0xEF;
 			break;
         case 0xA1:
             // RES 4,C
@@ -3592,7 +3592,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 4,C\n", NULL);
 
-            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xEF;
+            p->registers.c = p->registers.c & 0xEF;
 			break;
         case 0xA2:
             // RES 4,D
@@ -3600,7 +3600,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 4,D\n", NULL);
 
-            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xEF;
+            p->registers.d = p->registers.d & 0xEF;
 			break;
         case 0xA3:
             // RES 4,E
@@ -3608,7 +3608,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 4,E\n", NULL);
 
-            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xEF;
+            p->registers.e = p->registers.e & 0xEF;
 			break;
         case 0xA4:
             // RES 4,H
@@ -3616,7 +3616,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 4,H\n", NULL);
 
-            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xEF;
+            p->registers.h = p->registers.h & 0xEF;
 			break;
         case 0xA5:
             // RES 4,L
@@ -3624,7 +3624,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 4,L\n", NULL);
 
-            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xEF;
+            p->registers.l = p->registers.l & 0xEF;
 			break;
         case 0xA6:
             // RES 4,(HL)
@@ -3640,7 +3640,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 4,A\n", NULL);
 
-            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xEF;
+            p->registers.a = p->registers.a & 0xEF;
 			break;
         case 0xA8:
             // RES 5,B
@@ -3649,7 +3649,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("RES 5,B\n", NULL);
 
             // 1101 1111
-            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xDF;
+            p->registers.b = p->registers.b & 0xDF;
 			break;
         case 0xA9:
             // RES 5,C
@@ -3657,7 +3657,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 5,C\n", NULL);
 
-            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xDF;
+            p->registers.c = p->registers.c & 0xDF;
 			break;
         case 0xAA:
             // RES 5,D
@@ -3665,7 +3665,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 5,D\n", NULL);
 
-            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xDF;
+            p->registers.d = p->registers.d & 0xDF;
 			break;
         case 0xAB:
             // RES 5,E
@@ -3673,7 +3673,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 5,E\n", NULL);
 
-            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xDF;
+            p->registers.e = p->registers.e & 0xDF;
 			break;
         case 0xAC:
             // RES 5,H
@@ -3681,7 +3681,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 5,H\n", NULL);
 
-            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xDF;
+            p->registers.h = p->registers.h & 0xDF;
 			break;
         case 0xAD:
             // RES 5,L
@@ -3689,7 +3689,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 5,L\n", NULL);
 
-            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xDF;
+            p->registers.l = p->registers.l & 0xDF;
 			break;
         case 0xAE:
             // RES 5,(HL)
@@ -3705,7 +3705,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 5,A\n", NULL);
 
-            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xDF;
+            p->registers.a = p->registers.a & 0xDF;
 			break;
         case 0xB0:
             // RES 6,B
@@ -3714,7 +3714,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("RES 6,B\n", NULL);
 
             // 1011 1111
-            p->memory[p->registers.b] = p->memory[p->registers.b] & 0xBF;
+            p->registers.b = p->registers.b & 0xBF;
 			break;
         case 0xB1:
             // RES 6,C
@@ -3722,7 +3722,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 6,C\n", NULL);
 
-            p->memory[p->registers.c] = p->memory[p->registers.c] & 0xBF;
+            p->registers.c = p->registers.c & 0xBF;
 			break;
         case 0xB2:
             // RES 6,D
@@ -3730,7 +3730,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 6,D\n", NULL);
 
-            p->memory[p->registers.d] = p->memory[p->registers.d] & 0xBF;
+            p->registers.d = p->registers.d & 0xBF;
 			break;
         case 0xB3:
             // RES 6,E
@@ -3738,7 +3738,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 6,E\n", NULL);
 
-            p->memory[p->registers.e] = p->memory[p->registers.e] & 0xBF;
+            p->registers.e = p->registers.e & 0xBF;
 			break;
         case 0xB4:
             // RES 6,H
@@ -3746,7 +3746,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 6,H\n", NULL);
 
-            p->memory[p->registers.h] = p->memory[p->registers.h] & 0xBF;
+            p->registers.h = p->registers.h & 0xBF;
 			break;
         case 0xB5:
             // RES 6,L
@@ -3754,7 +3754,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 6,L\n", NULL);
 
-            p->memory[p->registers.l] = p->memory[p->registers.l] & 0xBF;
+            p->registers.l = p->registers.l & 0xBF;
 			break;
         case 0xB6:
             // RES 6,(HL)
@@ -3770,7 +3770,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 6,A\n", NULL);
 
-            p->memory[p->registers.a] = p->memory[p->registers.a] & 0xBF;
+            p->registers.a = p->registers.a & 0xBF;
 			break;
         case 0xB8:
             // RES 7,B
@@ -3779,7 +3779,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("RES 7,B\n", NULL);
 
             // 0111 1111
-            p->memory[p->registers.b] = p->memory[p->registers.b] & 0x7F;
+            p->registers.b = p->registers.b & 0x7F;
 			break;
         case 0xB9:
             // RES 7,C
@@ -3787,7 +3787,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 7,C\n", NULL);
 
-            p->memory[p->registers.c] = p->memory[p->registers.c] & 0x7F;
+            p->registers.c = p->registers.c & 0x7F;
 			break;
         case 0xBA:
             // RES 7,D
@@ -3795,7 +3795,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 7,D\n", NULL);
 
-            p->memory[p->registers.d] = p->memory[p->registers.d] & 0x7F;
+            p->registers.d = p->registers.d & 0x7F;
 			break;
         case 0xBB:
             // RES 7,E
@@ -3803,7 +3803,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 7,E\n", NULL);
 
-            p->memory[p->registers.e] = p->memory[p->registers.e] & 0x7F;
+            p->registers.e = p->registers.e & 0x7F;
 			break;
         case 0xBC:
             // RES 7,H
@@ -3811,7 +3811,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 7,H\n", NULL);
 
-            p->memory[p->registers.h] = p->memory[p->registers.h] & 0x7F;
+            p->registers.h = p->registers.h & 0x7F;
 			break;
         case 0xBD:
             // RES 7,L
@@ -3819,7 +3819,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 7,L\n", NULL);
 
-            p->memory[p->registers.l] = p->memory[p->registers.l] & 0x7F;
+            p->registers.l = p->registers.l & 0x7F;
 			break;
         case 0xBE:
             // RES 7,(HL)
@@ -3835,7 +3835,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 7,A\n", NULL);
 
-            p->memory[p->registers.a] = p->memory[p->registers.a] & 0x7F;
+            p->registers.a = p->registers.a & 0x7F;
 			break;
         case 0xC0:
             // SET 0,B
@@ -3844,7 +3844,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("SET 0,B\n", NULL);
             // OR the current value in register b with 00000001
             // to set the 0th bit
-            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x1;
+            p->registers.b = p->registers.b | 0x1;
 			break;
         case 0xC1:
             // SET 0,C
@@ -3853,7 +3853,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("SET 0,C\n", NULL);
             // OR the current value in register b with 00000001
             // to set the 0th bit
-            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x1;
+            p->registers.c = p->registers.c | 0x1;
 			break;
         case 0xC2:
             // SET 0,D
@@ -3862,7 +3862,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("SET 0,D\n", NULL);
             // OR the current value in register b with 00000001
             // to set the 0th bit
-            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x1;
+            p->registers.d = p->registers.d | 0x1;
 			break;
         case 0xC3:
             // SET 0,E
@@ -3871,7 +3871,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("SET 0,E\n", NULL);
             // OR the current value in register b with 00000001
             // to set the 0th bit
-            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x1;
+            p->registers.e = p->registers.e | 0x1;
 			break;
         case 0xC4:
             // SET 0,H
@@ -3880,7 +3880,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("SET 0,H\n", NULL);
             // OR the current value in register b with 00000001
             // to set the 0th bit
-            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x1;
+            p->registers.h = p->registers.h | 0x1;
 			break;
         case 0xC5:
             // SET 0,L
@@ -3889,7 +3889,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("SET 0,L\n", NULL);
             // OR the current value in register b with 00000001
             // to set the 0th bit
-            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x1;
+            p->registers.l = p->registers.l | 0x1;
 			break;
         case 0xC6:
             // SET 0,(HL)
@@ -3907,49 +3907,49 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("SET 0,A\n", NULL);
             // OR the current value in register b with 00000001
             // to set the 0th bit
-            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x1;
+            p->registers.a = p->registers.a | 0x1;
 			break;
         case 0xC8:
             // SET 1,B
             // 2 8
             // - - - -
             debug_print("SET 1,B\n", NULL);
-            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x2;
+            p->registers.b = p->registers.b | 0x2;
 			break;
         case 0xC9:
             // SET 1,C
             // 2 8
             // - - - -
             debug_print("SET 1,C\n", NULL);
-            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x2;
+            p->registers.c = p->registers.c | 0x2;
 			break;
         case 0xCA:
             // SET 1,D
             // 2 8
             // - - - -
             debug_print("SET 1,D\n", NULL);
-            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x2;
+            p->registers.d = p->registers.d | 0x2;
 			break;
         case 0xCB:
             // SET 1,E
             // 2 8
             // - - - -
             debug_print("SET 1,E\n", NULL);
-            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x2;
+            p->registers.e = p->registers.e | 0x2;
 			break;
         case 0xCC:
             // SET 1,H
             // 2 8
             // - - - -
             debug_print("SET 1,H\n", NULL);
-            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x2;
+            p->registers.h = p->registers.h | 0x2;
 			break;
         case 0xCD:
             // SET 1,L
             // 2 8
             // - - - -
             debug_print("SET 1,L\n", NULL);
-            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x2;
+            p->registers.l = p->registers.l | 0x2;
 			break;
         case 0xCE:
             // SET 1,(HL)
@@ -3963,49 +3963,49 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("SET 1,A\n", NULL);
-            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x2;
+            p->registers.a = p->registers.a | 0x2;
 			break;
         case 0xD0:
             // SET 2,B
             // 2 8
             // - - - -
             debug_print("SET 2,B\n", NULL);
-            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x4;
+            p->registers.b = p->registers.b | 0x4;
 			break;
         case 0xD1:
             // SET 2,C
             // 2 8
             // - - - -
             debug_print("SET 2,C\n", NULL);
-            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x4;
+            p->registers.c = p->registers.c | 0x4;
 			break;
         case 0xD2:
             // SET 2,D
             // 2 8
             // - - - -
             debug_print("SET 2,D\n", NULL);
-            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x4;
+            p->registers.d = p->registers.d | 0x4;
 			break;
         case 0xD3:
             // SET 2,E
             // 2 8
             // - - - -
             debug_print("SET 2,E\n", NULL);
-            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x4;
+            p->registers.e = p->registers.e | 0x4;
 			break;
         case 0xD4:
             // SET 2,H
             // 2 8
             // - - - -
             debug_print("SET 2,H\n", NULL);
-            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x4;
+            p->registers.h = p->registers.h | 0x4;
 			break;
         case 0xD5:
             // SET 2,L
             // 2 8
             // - - - -
             debug_print("SET 2,L\n", NULL);
-            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x4;
+            p->registers.l = p->registers.l | 0x4;
 			break;
         case 0xD6:
             // SET 2,(HL)
@@ -4019,49 +4019,49 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("SET 2,A\n", NULL);
-            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x4;
+            p->registers.a = p->registers.a | 0x4;
 			break;
         case 0xD8:
             // SET 3,B
             // 2 8
             // - - - -
             debug_print("SET 3,B\n", NULL);
-            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x8;
+            p->registers.b = p->registers.b | 0x8;
 			break;
         case 0xD9:
             // SET 3,C
             // 2 8
             // - - - -
             debug_print("SET 3,C\n", NULL);
-            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x8;
+            p->registers.c = p->registers.c | 0x8;
 			break;
         case 0xDA:
             // SET 3,D
             // 2 8
             // - - - -
             debug_print("SET 3,D\n", NULL);
-            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x8;
+            p->registers.d = p->registers.d | 0x8;
 			break;
         case 0xDB:
             // SET 3,E
             // 2 8
             // - - - -
             debug_print("SET 3,E\n", NULL);
-            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x8;
+            p->registers.e = p->registers.e | 0x8;
 			break;
         case 0xDC:
             // SET 3,H
             // 2 8
             // - - - -
             debug_print("SET 3,H\n", NULL);
-            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x8;
+            p->registers.h = p->registers.h | 0x8;
 			break;
         case 0xDD:
             // SET 3,L
             // 2 8
             // - - - -
             debug_print("SET 3,L\n", NULL);
-            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x8;
+            p->registers.l = p->registers.l | 0x8;
 			break;
         case 0xDE:
             // SET 3,(HL)
@@ -4075,49 +4075,49 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("SET 3,A\n", NULL);
-            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x8;
+            p->registers.a = p->registers.a | 0x8;
 			break;
         case 0xE0:
             // SET 4,B
             // 2 8
             // - - - -
             debug_print("SET 4,B\n", NULL);
-            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x10;
+            p->registers.b = p->registers.b | 0x10;
 			break;
         case 0xE1:
             // SET 4,C
             // 2 8
             // - - - -
             debug_print("SET 4,C\n", NULL);
-            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x10;
+            p->registers.c = p->registers.c | 0x10;
 			break;
         case 0xE2:
             // SET 4,D
             // 2 8
             // - - - -
             debug_print("SET 4,D\n", NULL);
-            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x10;
+            p->registers.d = p->registers.d | 0x10;
 			break;
         case 0xE3:
             // SET 4,E
             // 2 8
             // - - - -
             debug_print("SET 4,E\n", NULL);
-            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x10;
+            p->registers.e = p->registers.e | 0x10;
 			break;
         case 0xE4:
             // SET 4,H
             // 2 8
             // - - - -
             debug_print("SET 4,H\n", NULL);
-            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x10;
+            p->registers.h = p->registers.h | 0x10;
 			break;
         case 0xE5:
             // SET 4,L
             // 2 8
             // - - - -
             debug_print("SET 4,L\n", NULL);
-            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x10;
+            p->registers.l = p->registers.l | 0x10;
 			break;
         case 0xE6:
             // SET 4,(HL)
@@ -4131,49 +4131,49 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("SET 4,A\n", NULL);
-            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x10;
+            p->registers.a = p->registers.a | 0x10;
 			break;
         case 0xE8:
             // SET 5,B
             // 2 8
             // - - - -
             debug_print("SET 5,B\n", NULL);
-            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x20;
+            p->registers.b = p->registers.b | 0x20;
 			break;
         case 0xE9:
             // SET 5,C
             // 2 8
             // - - - -
             debug_print("SET 5,C\n", NULL);
-            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x20;
+            p->registers.c = p->registers.c | 0x20;
 			break;
         case 0xEA:
             // SET 5,D
             // 2 8
             // - - - -
             debug_print("SET 5,D\n", NULL);
-            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x20;
+            p->registers.d = p->registers.d | 0x20;
 			break;
         case 0xEB:
             // SET 5,E
             // 2 8
             // - - - -
             debug_print("SET 5,E\n", NULL);
-            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x20;
+            p->registers.e = p->registers.e | 0x20;
 			break;
         case 0xEC:
             // SET 5,H
             // 2 8
             // - - - -
             debug_print("SET 5,H\n", NULL);
-            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x20;
+            p->registers.h = p->registers.h | 0x20;
 			break;
         case 0xED:
             // SET 5,L
             // 2 8
             // - - - -
             debug_print("SET 5,L\n", NULL);
-            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x20;
+            p->registers.l = p->registers.l | 0x20;
 			break;
         case 0xEE:
             // SET 5,(HL)
@@ -4187,49 +4187,49 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("SET 5,A\n", NULL);
-            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x20;
+            p->registers.a = p->registers.a | 0x20;
 			break;
         case 0xF0:
             // SET 6,B
             // 2 8
             // - - - -
             debug_print("SET 6,B\n", NULL);
-            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x40;
+            p->registers.b = p->registers.b | 0x40;
 			break;
         case 0xF1:
             // SET 6,C
             // 2 8
             // - - - -
             debug_print("SET 6,C\n", NULL);
-            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x40;
+            p->registers.c = p->registers.c | 0x40;
 			break;
         case 0xF2:
             // SET 6,D
             // 2 8
             // - - - -
             debug_print("SET 6,D\n", NULL);
-            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x40;
+            p->registers.d = p->registers.d | 0x40;
 			break;
         case 0xF3:
             // SET 6,E
             // 2 8
             // - - - -
             debug_print("SET 6,E\n", NULL);
-            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x40;
+            p->registers.e = p->registers.e | 0x40;
 			break;
         case 0xF4:
             // SET 6,H
             // 2 8
             // - - - -
             debug_print("SET 6,H\n", NULL);
-            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x40;
+            p->registers.h = p->registers.h | 0x40;
 			break;
         case 0xF5:
             // SET 6,L
             // 2 8
             // - - - -
             debug_print("SET 6,L\n", NULL);
-            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x40;
+            p->registers.l = p->registers.l | 0x40;
 			break;
         case 0xF6:
             // SET 6,(HL)
@@ -4243,49 +4243,49 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("SET 6,A\n", NULL);
-            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x40;
+            p->registers.a = p->registers.a | 0x40;
 			break;
         case 0xF8:
             // SET 7,B
             // 2 8
             // - - - -
             debug_print("SET 7,B\n", NULL);
-            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x80;
+            p->registers.b = p->registers.b | 0x80;
 			break;
         case 0xF9:
             // SET 7,C
             // 2 8
             // - - - -
             debug_print("SET 7,C\n", NULL);
-            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x80;
+            p->registers.c = p->registers.c | 0x80;
 			break;
         case 0xFA:
             // SET 7,D
             // 2 8
             // - - - -
             debug_print("SET 7,D\n", NULL);
-            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x80;
+            p->registers.d = p->registers.d | 0x80;
 			break;
         case 0xFB:
             // SET 7,E
             // 2 8
             // - - - -
             debug_print("SET 7,E\n", NULL);
-            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x80;
+            p->registers.e = p->registers.e | 0x80;
 			break;
         case 0xFC:
             // SET 7,H
             // 2 8
             // - - - -
             debug_print("SET 7,H\n", NULL);
-            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x80;
+            p->registers.h = p->registers.h | 0x80;
 			break;
         case 0xFD:
             // SET 7,L
             // 2 8
             // - - - -
             debug_print("SET 7,L\n", NULL);
-            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x80;
+            p->registers.l = p->registers.l | 0x80;
 			break;
         case 0xFE:
             // SET 7,(HL)
@@ -4299,7 +4299,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("SET 7,A\n", NULL);
-            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x80;
+            p->registers.a = p->registers.a | 0x80;
 			break;
     }
 }
