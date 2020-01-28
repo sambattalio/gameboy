@@ -3706,384 +3706,464 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("SET 0,B\n", NULL);
+            // OR the current value in register b with 00000001
+            // to set the 0th bit
+            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x1;
 			break;
         case 0xC1:
             // SET 0,C
             // 2 8
             // - - - -
             debug_print("SET 0,C\n", NULL);
+            // OR the current value in register b with 00000001
+            // to set the 0th bit
+            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x1;
 			break;
         case 0xC2:
             // SET 0,D
             // 2 8
             // - - - -
             debug_print("SET 0,D\n", NULL);
+            // OR the current value in register b with 00000001
+            // to set the 0th bit
+            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x1;
 			break;
         case 0xC3:
             // SET 0,E
             // 2 8
             // - - - -
             debug_print("SET 0,E\n", NULL);
+            // OR the current value in register b with 00000001
+            // to set the 0th bit
+            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x1;
 			break;
         case 0xC4:
             // SET 0,H
             // 2 8
             // - - - -
             debug_print("SET 0,H\n", NULL);
+            // OR the current value in register b with 00000001
+            // to set the 0th bit
+            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x1;
 			break;
         case 0xC5:
             // SET 0,L
             // 2 8
             // - - - -
             debug_print("SET 0,L\n", NULL);
+            // OR the current value in register b with 00000001
+            // to set the 0th bit
+            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x1;
 			break;
         case 0xC6:
             // SET 0,(HL)
             // 2 16
             // - - - -
             debug_print("SET 0,(HL)\n", NULL);
+            // OR the current value in register b with 00000001
+            // to set the 0th bit
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x1;
 			break;
         case 0xC7:
             // SET 0,A
             // 2 8
             // - - - -
             debug_print("SET 0,A\n", NULL);
+            // OR the current value in register b with 00000001
+            // to set the 0th bit
+            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x1;
 			break;
         case 0xC8:
             // SET 1,B
             // 2 8
             // - - - -
             debug_print("SET 1,B\n", NULL);
+            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x2;
 			break;
         case 0xC9:
             // SET 1,C
             // 2 8
             // - - - -
             debug_print("SET 1,C\n", NULL);
+            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x2;
 			break;
         case 0xCA:
             // SET 1,D
             // 2 8
             // - - - -
             debug_print("SET 1,D\n", NULL);
+            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x2;
 			break;
         case 0xCB:
             // SET 1,E
             // 2 8
             // - - - -
             debug_print("SET 1,E\n", NULL);
+            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x2;
 			break;
         case 0xCC:
             // SET 1,H
             // 2 8
             // - - - -
             debug_print("SET 1,H\n", NULL);
+            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x2;
 			break;
         case 0xCD:
             // SET 1,L
             // 2 8
             // - - - -
             debug_print("SET 1,L\n", NULL);
+            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x2;
 			break;
         case 0xCE:
             // SET 1,(HL)
             // 2 16
             // - - - -
             debug_print("SET 1,(HL)\n", NULL);
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x2;
 			break;
         case 0xCF:
             // SET 1,A
             // 2 8
             // - - - -
             debug_print("SET 1,A\n", NULL);
+            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x2;
 			break;
         case 0xD0:
             // SET 2,B
             // 2 8
             // - - - -
             debug_print("SET 2,B\n", NULL);
+            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x4;
 			break;
         case 0xD1:
             // SET 2,C
             // 2 8
             // - - - -
             debug_print("SET 2,C\n", NULL);
+            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x4;
 			break;
         case 0xD2:
             // SET 2,D
             // 2 8
             // - - - -
             debug_print("SET 2,D\n", NULL);
+            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x4;
 			break;
         case 0xD3:
             // SET 2,E
             // 2 8
             // - - - -
             debug_print("SET 2,E\n", NULL);
+            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x4;
 			break;
         case 0xD4:
             // SET 2,H
             // 2 8
             // - - - -
             debug_print("SET 2,H\n", NULL);
+            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x4;
 			break;
         case 0xD5:
             // SET 2,L
             // 2 8
             // - - - -
             debug_print("SET 2,L\n", NULL);
+            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x4;
 			break;
         case 0xD6:
             // SET 2,(HL)
             // 2 16
             // - - - -
             debug_print("SET 2,(HL)\n", NULL);
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x4;
 			break;
         case 0xD7:
             // SET 2,A
             // 2 8
             // - - - -
             debug_print("SET 2,A\n", NULL);
+            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x4;
 			break;
         case 0xD8:
             // SET 3,B
             // 2 8
             // - - - -
             debug_print("SET 3,B\n", NULL);
+            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x8;
 			break;
         case 0xD9:
             // SET 3,C
             // 2 8
             // - - - -
             debug_print("SET 3,C\n", NULL);
+            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x8;
 			break;
         case 0xDA:
             // SET 3,D
             // 2 8
             // - - - -
             debug_print("SET 3,D\n", NULL);
+            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x8;
 			break;
         case 0xDB:
             // SET 3,E
             // 2 8
             // - - - -
             debug_print("SET 3,E\n", NULL);
+            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x8;
 			break;
         case 0xDC:
             // SET 3,H
             // 2 8
             // - - - -
             debug_print("SET 3,H\n", NULL);
+            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x8;
 			break;
         case 0xDD:
             // SET 3,L
             // 2 8
             // - - - -
             debug_print("SET 3,L\n", NULL);
+            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x8;
 			break;
         case 0xDE:
             // SET 3,(HL)
             // 2 16
             // - - - -
             debug_print("SET 3,(HL)\n", NULL);
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x8;
 			break;
         case 0xDF:
             // SET 3,A
             // 2 8
             // - - - -
             debug_print("SET 3,A\n", NULL);
+            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x8;
 			break;
         case 0xE0:
             // SET 4,B
             // 2 8
             // - - - -
             debug_print("SET 4,B\n", NULL);
+            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x10;
 			break;
         case 0xE1:
             // SET 4,C
             // 2 8
             // - - - -
             debug_print("SET 4,C\n", NULL);
+            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x10;
 			break;
         case 0xE2:
             // SET 4,D
             // 2 8
             // - - - -
             debug_print("SET 4,D\n", NULL);
+            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x10;
 			break;
         case 0xE3:
             // SET 4,E
             // 2 8
             // - - - -
             debug_print("SET 4,E\n", NULL);
+            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x10;
 			break;
         case 0xE4:
             // SET 4,H
             // 2 8
             // - - - -
             debug_print("SET 4,H\n", NULL);
+            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x10;
 			break;
         case 0xE5:
             // SET 4,L
             // 2 8
             // - - - -
             debug_print("SET 4,L\n", NULL);
+            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x10;
 			break;
         case 0xE6:
             // SET 4,(HL)
             // 2 16
             // - - - -
             debug_print("SET 4,(HL)\n", NULL);
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x10;
 			break;
         case 0xE7:
             // SET 4,A
             // 2 8
             // - - - -
             debug_print("SET 4,A\n", NULL);
+            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x10;
 			break;
         case 0xE8:
             // SET 5,B
             // 2 8
             // - - - -
             debug_print("SET 5,B\n", NULL);
+            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x20;
 			break;
         case 0xE9:
             // SET 5,C
             // 2 8
             // - - - -
             debug_print("SET 5,C\n", NULL);
+            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x20;
 			break;
         case 0xEA:
             // SET 5,D
             // 2 8
             // - - - -
             debug_print("SET 5,D\n", NULL);
+            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x20;
 			break;
         case 0xEB:
             // SET 5,E
             // 2 8
             // - - - -
             debug_print("SET 5,E\n", NULL);
+            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x20;
 			break;
         case 0xEC:
             // SET 5,H
             // 2 8
             // - - - -
             debug_print("SET 5,H\n", NULL);
+            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x20;
 			break;
         case 0xED:
             // SET 5,L
             // 2 8
             // - - - -
             debug_print("SET 5,L\n", NULL);
+            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x20;
 			break;
         case 0xEE:
             // SET 5,(HL)
             // 2 16
             // - - - -
             debug_print("SET 5,(HL)\n", NULL);
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x20;
 			break;
         case 0xEF:
             // SET 5,A
             // 2 8
             // - - - -
             debug_print("SET 5,A\n", NULL);
+            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x20;
 			break;
         case 0xF0:
             // SET 6,B
             // 2 8
             // - - - -
             debug_print("SET 6,B\n", NULL);
+            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x40;
 			break;
         case 0xF1:
             // SET 6,C
             // 2 8
             // - - - -
             debug_print("SET 6,C\n", NULL);
+            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x40;
 			break;
         case 0xF2:
             // SET 6,D
             // 2 8
             // - - - -
             debug_print("SET 6,D\n", NULL);
+            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x40;
 			break;
         case 0xF3:
             // SET 6,E
             // 2 8
             // - - - -
             debug_print("SET 6,E\n", NULL);
+            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x40;
 			break;
         case 0xF4:
             // SET 6,H
             // 2 8
             // - - - -
             debug_print("SET 6,H\n", NULL);
+            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x40;
 			break;
         case 0xF5:
             // SET 6,L
             // 2 8
             // - - - -
             debug_print("SET 6,L\n", NULL);
+            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x40;
 			break;
         case 0xF6:
             // SET 6,(HL)
             // 2 16
             // - - - -
             debug_print("SET 6,(HL)\n", NULL);
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x40;
 			break;
         case 0xF7:
             // SET 6,A
             // 2 8
             // - - - -
             debug_print("SET 6,A\n", NULL);
+            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x40;
 			break;
         case 0xF8:
             // SET 7,B
             // 2 8
             // - - - -
             debug_print("SET 7,B\n", NULL);
+            p->memory[p->registers.b] = p->memory[p->registers.b] | 0x80;
 			break;
         case 0xF9:
             // SET 7,C
             // 2 8
             // - - - -
             debug_print("SET 7,C\n", NULL);
+            p->memory[p->registers.c] = p->memory[p->registers.c] | 0x80;
 			break;
         case 0xFA:
             // SET 7,D
             // 2 8
             // - - - -
             debug_print("SET 7,D\n", NULL);
+            p->memory[p->registers.d] = p->memory[p->registers.d] | 0x80;
 			break;
         case 0xFB:
             // SET 7,E
             // 2 8
             // - - - -
             debug_print("SET 7,E\n", NULL);
+            p->memory[p->registers.e] = p->memory[p->registers.e] | 0x80;
 			break;
         case 0xFC:
             // SET 7,H
             // 2 8
             // - - - -
             debug_print("SET 7,H\n", NULL);
+            p->memory[p->registers.h] = p->memory[p->registers.h] | 0x80;
 			break;
         case 0xFD:
             // SET 7,L
             // 2 8
             // - - - -
             debug_print("SET 7,L\n", NULL);
+            p->memory[p->registers.l] = p->memory[p->registers.l] | 0x80;
 			break;
         case 0xFE:
             // SET 7,(HL)
             // 2 16
             // - - - -
             debug_print("SET 7,(HL)\n", NULL);
+            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x80;
 			break;
         case 0xFF:
             // SET 7,A
             // 2 8
             // - - - -
             debug_print("SET 7,A\n", NULL);
+            p->memory[p->registers.a] = p->memory[p->registers.a] | 0x80;
 			break;
     }
 }
