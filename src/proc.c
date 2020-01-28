@@ -3323,7 +3323,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 0,B\n", NULL);
 
-            // AND the current value in register b with 1111110
+            // AND the current value in register b with 11111110
             // to reset the 0th bit
             p->memory[p->registers.b] = p->memory[p->registers.b] & 0xFE;
 			break;
