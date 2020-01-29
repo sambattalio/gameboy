@@ -121,16 +121,25 @@ void proc_read_word(Proc *p) {
             bytes_ate = 2;
             debug_print("LD B,d8\n", NULL);
 			break;
-        case 0x7:
+        case 0x7: {
             //  RLCA
             // 1 4
             // 0 0 0 C
-            RESET_ZERO;
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
 
+            // grab carry bit
+            uint8_t c = p->registers.a >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->registers.a = (p->registers.a << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->registers.a == 0);
+
             debug_print("RLCA\n", NULL);
 			break;
+        }
         case 0x8:
             // LD (a16),SP
             // 3 20
@@ -194,16 +203,21 @@ void proc_read_word(Proc *p) {
             bytes_ate = 2;
             debug_print("LD C,d8\n", NULL);
 			break;
-        case 0xF:
+        case 0xF: {
             //  RRCA
             // 1 4
             // 0 0 0 C
-            RESET_ZERO;
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
 
+            uint8_t c = p->registers.a & 0x01; // right bit
+            p->registers.a = (p->registers.a >> 1) | (c << 7);
+
+            p->flagRegister.zero  = (p->registers.a == 0);
+            p->flagRegister.carry = c;
             debug_print("RRCA\n", NULL);
 			break;
+        }
         case 0x10:
             // STOP 0
             // 2 4
@@ -264,16 +278,22 @@ void proc_read_word(Proc *p) {
             bytes_ate = 2;
             debug_print("LD D,d8\n", NULL);
 			break;
-        case 0x17:
+        case 0x17: {
             //  RLA
             // 1 4
             // 0 0 0 C
-            RESET_ZERO;
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->registers.a >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->registers.a = (p->registers.a << 1) | p->flagRegister.carry;
 
+            p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.carry = c;
             debug_print("RLA\n", NULL);
 			break;
+        }
         case 0x18:
             // JR r8
             // 2 12
@@ -335,16 +355,21 @@ void proc_read_word(Proc *p) {
             bytes_ate = 2;
             debug_print("LD E,d8\n", NULL);
 			break;
-        case 0x1F:
+        case 0x1F: {
             //  RRA
             // 1 4
             // 0 0 0 C
-            RESET_ZERO;
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
 
+            uint8_t      c = p->registers.a & 0x01;
+            p->registers.a = (p->registers.a >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->registers.a == 0);
+            p->flagRegister.carry = c;
             debug_print("RRA\n", NULL);
 			break;
+        }
         case 0x20:
             // JR NZ,r8
             // 2 12/8
@@ -488,7 +513,7 @@ void proc_read_word(Proc *p) {
             // - 1 1 -
             SET_SUBTRACT;
             SET_HALF_CARRY;
-
+            p->registers.a = ~p->registers.a;
             debug_print("CPL\n", NULL);
 			break;
         case 0x30:
@@ -2316,75 +2341,149 @@ RETURN_CASE:;
 void proc_handle_cb_prefix(Proc *p) {
 
     switch (p->memory[++p->pc]) {
-        case 0x0:
+        case 0x0: {
             // RLC B
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // grab carry bit
+            uint8_t c = p->registers.b >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->registers.b = (p->registers.b << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->registers.b == 0);
 
             debug_print("RLC B\n", NULL);
 			break;
-        case 0x1:
+        }
+        case 0x1: {
             // RLC C
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // grab carry bit
+            uint8_t c = p->registers.c >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->registers.c = (p->registers.c << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->registers.c == 0);
 
             debug_print("RLC C\n", NULL);
 			break;
-        case 0x2:
+        }
+        case 0x2: {
             // RLC D
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // grab carry bit
+            uint8_t c = p->registers.d >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->registers.d = (p->registers.d << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->registers.d == 0);
 
             debug_print("RLC D\n", NULL);
 			break;
-        case 0x3:
+        }
+        case 0x3: {
             // RLC E
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
 
+            // grab carry bit
+            uint8_t c = p->registers.e >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->registers.e = (p->registers.e << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->registers.e == 0);
+
             debug_print("RLC E\n", NULL);
 			break;
-        case 0x4:
+        }
+        case 0x4: {
             // RLC H
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
 
+            // grab carry bit
+            uint8_t c = p->registers.h >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->registers.h = (p->registers.h << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->registers.h == 0);
+
             debug_print("RLC H\n", NULL);
 			break;
-        case 0x5:
+        }
+        case 0x5: {
             // RLC L
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // grab carry bit
+            uint8_t c = p->registers.l >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->registers.l = (p->registers.l << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->registers.l == 0);
             debug_print("RLC L\n", NULL);
 			break;
-        case 0x6:
+        }
+        case 0x6: {
             // RLC (HL)
             // 2 16
             // Z 0 0 C
+            // grab carry bit
+            uint8_t c = p->memory[(p->registers.h << 8) + p->registers.l] >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->memory[(p->registers.h << 8) + p->registers.l] = (p->memory[(p->registers.h << 8) + p->registers.l] << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->memory[(p->registers.h << 8) + p->registers.l] == 0);
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
             debug_print("RLC (HL)\n", NULL);
 			break;
-        case 0x7:
+        }
+        case 0x7: {
             // RLC A
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // grab carry bit
+            uint8_t c = p->registers.a >> 7;
+            // shift left 1 and drop carry on thurrr
+            p->registers.a = (p->registers.a << 1) | c;
+
+            // set extra flags
+            p->flagRegister.carry = c;
+            p->flagRegister.zero = (p->registers.a == 0);
             debug_print("RLC A\n", NULL);
 			break;
+        }
         case 0x8:
             // RRC B
             // 2 8
