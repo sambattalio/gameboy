@@ -2548,70 +2548,134 @@ void proc_handle_cb_prefix(Proc *p) {
             RESET_HALF_CARRY;
             debug_print("RRC A\n", NULL);
 			break;
-        case 0x10:
+        case 0x10: {
             // RL B
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->registers.b >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->registers.b = (p->registers.b << 1) | p->flagRegister.carry;
+
+            p->flagRegister.zero = (p->registers.b == 0);
+            p->flagRegister.carry = c;
             debug_print("RL B\n", NULL);
 			break;
-        case 0x11:
+        }
+        case 0x11: {
             // RL C
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->registers.c >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->registers.c = (p->registers.c << 1) | p->flagRegister.carry;
+
+            p->flagRegister.zero = (p->registers.c == 0);
+            p->flagRegister.carry = c;
             debug_print("RL C\n", NULL);
 			break;
-        case 0x12:
+        }
+        case 0x12: {
             // RL D
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->registers.d >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->registers.d = (p->registers.d << 1) | p->flagRegister.carry;
+
+            p->flagRegister.zero = (p->registers.d == 0);
+            p->flagRegister.carry = c;
             debug_print("RL D\n", NULL);
 			break;
-        case 0x13:
+        }
+        case 0x13: {
             // RL E
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->registers.e >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->registers.e = (p->registers.e << 1) | p->flagRegister.carry;
+
+            p->flagRegister.zero = (p->registers.e == 0);
+            p->flagRegister.carry = c;
             debug_print("RL E\n", NULL);
 			break;
-        case 0x14:
+        }
+        case 0x14: {
             // RL H
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->registers.h >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->registers.h = (p->registers.h << 1) | p->flagRegister.carry;
+
+            p->flagRegister.zero = (p->registers.h == 0);
+            p->flagRegister.carry = c;
             debug_print("RL H\n", NULL);
 			break;
-        case 0x15:
+        }
+        case 0x15: {
             // RL L
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->registers.l >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->registers.l = (p->registers.l << 1) | p->flagRegister.carry;
+
+            p->flagRegister.zero = (p->registers.l == 0);
+            p->flagRegister.carry = c;
             debug_print("RL L\n", NULL);
 			break;
-        case 0x16:
+        }
+        case 0x16: {
             // RL (HL)
             // 2 16
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->memory[(p->registers.h << 8) + p->registers.l] >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->memory[(p->registers.h << 8) + p->registers.l] = (p->memory[(p->registers.h << 8) + p->registers.l]<< 1) | p->flagRegister.carry;
+
+            p->flagRegister.zero = (p->memory[(p->registers.h << 8) + p->registers.l] == 0);
+            p->flagRegister.carry = c;
             debug_print("RL (HL)\n", NULL);
 			break;
-        case 0x17:
+        }
+        case 0x17: {
             // RL A
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            // shift to get carry
+            uint8_t c = p->registers.a >> 7;
+            // left 1 and then move old carry bit into bit 0
+            p->registers.a = (p->registers.a << 1) | p->flagRegister.carry;
+
+            p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.carry = c;
             debug_print("RL A\n", NULL);
 			break;
+        }
         case 0x18:
             // RR B
             // 2 8
