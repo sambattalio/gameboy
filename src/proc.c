@@ -1923,6 +1923,8 @@ RETURN_CASE:;
             // PREFIX CB
             // 1 4
             // - - - -
+            proc_handle_cb_prefix(p);
+            bytes_ate = 2;
             debug_print("PREFIX CB\n", NULL);
 			break;
         case 0xCC:
@@ -2313,9 +2315,7 @@ RETURN_CASE:;
 // TODO ...
 void proc_handle_cb_prefix(Proc *p) {
 
-    uint8_t opcode_two = 0x00; // REPLACE ME
-
-    switch (opcode_two) {
+    switch (p->memory[++p->pc]) {
         case 0x0:
             // RLC B
             // 2 8
@@ -4346,6 +4346,7 @@ void proc_handle_cb_prefix(Proc *p) {
             p->registers.a = p->registers.a | 0x80;
 			break;
     }
+
 }
 
 void proc_dec_hl(Proc* p) {
