@@ -279,7 +279,7 @@ void proc_read_word(Proc *p) {
             // 2 12
             // - - - -
             debug_print("JR r8\n", NULL);
-            p->pc += p->memory[p->pc + 1];
+            p->pc += (int8_t) p->memory[p->pc + 1];
             bytes_ate = 0;
 			break;
         case 0x19:
@@ -287,6 +287,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - 0 H C
             RESET_SUBTRACT;
+
             debug_print("ADD HL,DE\n", NULL);
 			break;
         case 0x1A:
@@ -349,6 +350,10 @@ void proc_read_word(Proc *p) {
             // 2 12/8
             // - - - -
             debug_print("JR NZ,r8\n", NULL);
+            if (!p->flagRegister.zero) {
+                p->pc += (int8_t)p->memory[p->pc + 1];
+                bytes_ate = 0;
+            }
 			break;
         case 0x21:
             // LD HL,d16
@@ -418,6 +423,10 @@ void proc_read_word(Proc *p) {
             // 2 12/8
             // - - - -
             debug_print("JR Z,r8\n", NULL);
+            if (p->flagRegister.zero) {
+                p->pc += (int8_t) p->memory[p->pc + 1];
+                bytes_ate = 0;
+            }
 			break;
         case 0x29:
             // ADD HL,HL
@@ -487,6 +496,10 @@ void proc_read_word(Proc *p) {
             // 2 12/8
             // - - - -
             debug_print("JR NC,r8\n", NULL);
+            if (!p->flagRegister.carry) {
+                p->pc += (int8_t) p->memory[p->pc + 1];
+                bytes_ate = 0;
+            }
 			break;
         case 0x31:
             // LD SP,d16
@@ -555,6 +568,10 @@ void proc_read_word(Proc *p) {
             // 2 12/8
             // - - - -
             debug_print("JR C,r8\n", NULL);
+            if (p->flagRegister.carry) {
+                p->pc += (int8_t) p->memory[p->pc + 1];
+                bytes_ate = 0;
+            }
 			break;
         case 0x39:
             // ADD HL,SP
