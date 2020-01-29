@@ -1816,12 +1816,18 @@ void proc_read_word(Proc *p) {
             // 3 16/12
             // - - - -
             debug_print("JP NZ,a16\n", NULL);
+            // jump to addr n if the zero flag is reset
+            if (!p->flagRegister.zero)
+                p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
 			break;
         case 0xC3:
             // JP a16
             // 3 16
             // - - - -
             debug_print("JP a16\n", NULL);
+            // jump to address nn
+            p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
+
 			break;
         case 0xC4:
             // CALL NZ,a16
@@ -1886,6 +1892,10 @@ RETURN_CASE:;
             // 3 16/12
             // - - - -
             debug_print("JP Z,a16\n", NULL);
+            // jump if z flag is set
+            if (p->flagRegister.zero)
+                p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
+			
 			break;
         case 0xCB:
             // PREFIX CB
@@ -1943,6 +1953,10 @@ RETURN_CASE:;
             // 3 16/12
             // - - - -
             debug_print("JP NC,a16\n", NULL);
+            
+            if (!p->flagRegister.carry)
+                p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
+			
 			break;
         case 0xD3:
             break;
@@ -2001,7 +2015,9 @@ RETURN_CASE:;
             // 3 16/12
             // - - - -
             debug_print("JP C,a16\n", NULL);
-			break;
+		    if (p->flagRegister.carry)
+                p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);	
+            break;
         case 0xDB:
             break;
         case 0xDC:
@@ -3461,7 +3477,6 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 8
             // - - - -
             debug_print("RES 2,C\n", NULL);
-
             p->registers.c = p->registers.c & 0xFB;
 			break;
         case 0x92:
