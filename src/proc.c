@@ -279,13 +279,14 @@ void proc_read_word(Proc *p) {
             // 2 12
             // - - - -
             debug_print("JR r8\n", NULL);
+            p->pc += p->memory[p->pc + 1];
+            bytes_ate = 0;
 			break;
         case 0x19:
             // ADD HL,DE
             // 1 8
             // - 0 H C
             RESET_SUBTRACT;
-
             debug_print("ADD HL,DE\n", NULL);
 			break;
         case 0x1A:
@@ -1817,8 +1818,10 @@ void proc_read_word(Proc *p) {
             // - - - -
             debug_print("JP NZ,a16\n", NULL);
             // jump to addr n if the zero flag is reset
-            if (!p->flagRegister.zero)
+            if (!p->flagRegister.zero) {
                 p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
+                bytes_ate = 0;
+            }
 			break;
         case 0xC3:
             // JP a16
@@ -1827,7 +1830,7 @@ void proc_read_word(Proc *p) {
             debug_print("JP a16\n", NULL);
             // jump to address nn
             p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
-
+            bytes_ate = 0;
 			break;
         case 0xC4:
             // CALL NZ,a16
@@ -1893,8 +1896,10 @@ RETURN_CASE:;
             // - - - -
             debug_print("JP Z,a16\n", NULL);
             // jump if z flag is set
-            if (p->flagRegister.zero)
+            if (p->flagRegister.zero) {
                 p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
+                bytes_ate = 0;
+            }
 			
 			break;
         case 0xCB:
@@ -1954,8 +1959,10 @@ RETURN_CASE:;
             // - - - -
             debug_print("JP NC,a16\n", NULL);
             
-            if (!p->flagRegister.carry)
+            if (!p->flagRegister.carry) {
                 p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
+                bytes_ate = 0;
+            }
 			
 			break;
         case 0xD3:
@@ -2015,8 +2022,10 @@ RETURN_CASE:;
             // 3 16/12
             // - - - -
             debug_print("JP C,a16\n", NULL);
-		    if (p->flagRegister.carry)
-                p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);	
+		    if (p->flagRegister.carry) {
+                p->pc = p->memory[p->pc + 1] + (p->memory[p->pc + 2] << 8);
+                bytes_ate = 0;
+            }
             break;
         case 0xDB:
             break;
@@ -2115,6 +2124,9 @@ RETURN_CASE:;
             // 1 4
             // - - - -
             debug_print("JP (HL)\n", NULL);
+            // todo i think this is right
+            p->pc = p->memory[(p->registers.h << 8) + p->registers.l];
+            bytes_ate = 0;
 			break;
         case 0xEA:
             // LD (a16),A
