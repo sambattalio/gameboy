@@ -2842,6 +2842,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.b >> 7);
+            p->registers.b        = p->registers.b << 1;
+            p->flagRegister.zero  = (p->registers.b == 0);
             debug_print("SLA B\n", NULL);
 			break;
         case 0x21:
@@ -2850,6 +2853,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.c >> 7);
+            p->registers.c        = p->registers.c << 1;
+            p->flagRegister.zero  = (p->registers.c == 0);
             debug_print("SLA C\n", NULL);
 			break;
         case 0x22:
@@ -2858,6 +2864,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.d >> 7);
+            p->registers.d        = p->registers.d << 1;
+            p->flagRegister.zero  = (p->registers.d == 0);
             debug_print("SLA D\n", NULL);
 			break;
         case 0x23:
@@ -2866,6 +2875,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.e >> 7);
+            p->registers.e        = p->registers.e << 1;
+            p->flagRegister.zero  = (p->registers.e == 0);
             debug_print("SLA E\n", NULL);
 			break;
         case 0x24:
@@ -2874,6 +2886,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.h >> 7);
+            p->registers.h        = p->registers.h << 1;
+            p->flagRegister.zero  = (p->registers.h == 0);
             debug_print("SLA H\n", NULL);
 			break;
         case 0x25:
@@ -2882,6 +2897,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.l >> 7);
+            p->registers.l        = p->registers.l << 1;
+            p->flagRegister.zero  = (p->registers.l == 0);
             debug_print("SLA L\n", NULL);
 			break;
         case 0x26:
@@ -2890,6 +2908,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->memory[(p->registers.h << 8) + p->registers.l] >> 7);
+            p->memory[(p->registers.h << 8) + p->registers.l] = p->memory[(p->registers.h << 8) + p->registers.l] << 1;
+            p->flagRegister.zero  = (p->memory[(p->registers.h << 8) + p->registers.l]== 0);
             debug_print("SLA (HL)\n", NULL);
 			break;
         case 0x27:
@@ -2898,6 +2919,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.a >> 7);
+            p->registers.a        = p->registers.a << 1;
+            p->flagRegister.zero  = (p->registers.a == 0);
             debug_print("SLA A\n", NULL);
 			break;
         case 0x28:
