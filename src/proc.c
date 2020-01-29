@@ -466,7 +466,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("LD A,(HL+)\n", NULL);
-            p->registers.a = p->memory[(p->registers.h << 8) + p->registers.l];
+            p->registers.a = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             proc_inc_hl(p);
 			break;
         case 0x2B:
@@ -609,7 +609,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - - - -
             debug_print("LD A,(HL-)\n", NULL);
-            p->registers.a = p->memory[(p->registers.h << 8) + p->registers.l];
+            p->registers.a = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             proc_dec_hl(p);
             break;
         case 0x3B:
@@ -700,7 +700,7 @@ void proc_read_word(Proc *p) {
             // LD B,(HL)
             // 1 8
             // - - - -
-            p->registers.b = p->memory[p->registers.l + (p->registers.h << 8)];
+            p->registers.b = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             debug_print("LD B,(HL)\n", NULL);
 			break;
         case 0x47:
@@ -756,7 +756,7 @@ void proc_read_word(Proc *p) {
             // LD C,(HL)
             // 1 8
             // - - - -
-            p->registers.c = p->memory[p->registers.l + (p->registers.h << 8)];
+            p->registers.c = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             debug_print("LD C,(HL)\n", NULL);
 			break;
         case 0x4F:
@@ -812,7 +812,7 @@ void proc_read_word(Proc *p) {
             // LD D,(HL)
             // 1 8
             // - - - -
-            p->registers.d = p->memory[p->registers.l + (p->registers.h << 8)];
+            p->registers.d = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             debug_print("LD D,(HL)\n", NULL);
 			break;
         case 0x57:
@@ -868,7 +868,7 @@ void proc_read_word(Proc *p) {
             // LD E,(HL)
             // 1 8
             // - - - -
-            p->registers.e = p->memory[p->registers.l + (p->registers.h << 8)];
+            p->registers.e = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             debug_print("LD E,(HL)\n", NULL);
 			break;
         case 0x5F:
@@ -924,7 +924,7 @@ void proc_read_word(Proc *p) {
             // LD H,(HL)
             // 1 8
             // - - - -
-            p->registers.h = p->memory[p->registers.l + (p->registers.h << 8)];
+            p->registers.h = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             debug_print("LD H,(HL)\n", NULL);
 			break;
         case 0x67:
@@ -980,7 +980,7 @@ void proc_read_word(Proc *p) {
             // LD L,(HL)
             // 1 8
             // - - - -
-            p->registers.l = p->memory[p->registers.l + (p->registers.h << 8)];
+            p->registers.l = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             debug_print("LD L,(HL)\n", NULL);
 			break;
         case 0x6F:
@@ -1091,7 +1091,7 @@ void proc_read_word(Proc *p) {
             // LD A,(HL)
             // 1 8
             // - - - -
-            p->registers.a = p->memory[p->registers.l + (p->registers.h << 8)];
+            p->registers.a = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             debug_print("LD A,(HL)\n", NULL);
 			break;
         case 0x7F:
@@ -1184,7 +1184,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // Z 0 H C
             debug_print("ADD A,(HL)\n", NULL);
-            uint8_t val = p->memory[(p->registers.h << 8) + p->registers.l];
+            uint8_t val = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             p->flagRegister.half_carry = is_half_carry_add(p->registers.a, val);
             p->flagRegister.carry = 0xFF < ((uint16_t) p->registers.a + (uint16_t) val);
 
@@ -1289,7 +1289,7 @@ void proc_read_word(Proc *p) {
             // ADC A,(HL)
             // 1 8
             // Z 0 H C
-            uint8_t maccess = p->memory[(p->registers.h << 8) + p->registers.l];
+            uint8_t maccess = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             uint8_t result = p->registers.a + maccess + p->flagRegister.carry;
             p->flagRegister.half_carry = is_three_half_carry_add(p->registers.a, maccess, p->flagRegister.carry);
             p->flagRegister.carry      = 0xFF < ((uint16_t) p->registers.a + (uint16_t) maccess + (uint16_t) p->flagRegister.carry);
@@ -1395,7 +1395,7 @@ void proc_read_word(Proc *p) {
             // SUB (HL)
             // 1 8
             // Z 1 H C
-            uint16_t val = p->memory[(p->registers.h << 8) + p->registers.l];
+            uint16_t val = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             uint16_t result = (uint16_t) p->registers.a - (uint16_t) val;
             p->flagRegister.carry = (result & 0xFF00) > 0;
             p->flagRegister.half_carry = is_half_carry_sub(p->registers.a, val);
@@ -1499,7 +1499,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // Z 1 H C
             SET_SUBTRACT;
-            int8_t     val = p->memory[(p->registers.h << 8) + p->registers.l];
+            int8_t     val = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             int16_t result = (uint16_t) p->registers.a - (uint16_t) val - (uint16_t) p->flagRegister.carry;
             p->flagRegister.carry = (result & 0xFF00) > 0;
             p->flagRegister.half_carry = is_three_half_carry_sub(p->registers.a, val, p->flagRegister.carry);
@@ -1594,7 +1594,7 @@ void proc_read_word(Proc *p) {
             RESET_SUBTRACT;
             SET_HALF_CARRY;
             RESET_CARRY;
-            p->registers.a = p->registers.a && p->memory[(p->registers.h << 8) + p->registers.l];
+            p->registers.a = p->registers.a && p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             p->flagRegister.zero = p->registers.a == 0;
             debug_print("AND (HL)\n", NULL);
 			break;
@@ -1819,7 +1819,7 @@ void proc_read_word(Proc *p) {
             // 1 8
             // Z 1 H C
             SET_SUBTRACT;
-            uint8_t val = p->memory[(p->registers.h << 8) + p->registers.l];
+            uint8_t val = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             p->flagRegister.zero = p->registers.a == val;
             p->flagRegister.half_carry = !is_half_carry_sub(p->registers.a, val);
             p->flagRegister.carry = p->registers.a <  val;
@@ -2169,7 +2169,7 @@ RETURN_CASE:;
             // - - - -
             debug_print("JP (HL)\n", NULL);
             // todo i think this is right
-            p->pc = p->memory[(p->registers.h << 8) + p->registers.l];
+            p->pc = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)];
             bytes_ate = 0;
 			break;
         case 0xEA:
@@ -2455,13 +2455,13 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 16
             // Z 0 0 C
             // grab carry bit
-            uint8_t c = p->memory[(p->registers.h << 8) + p->registers.l] >> 7;
+            uint8_t c = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] >> 7;
             // shift left 1 and drop carry on thurrr
-            p->memory[(p->registers.h << 8) + p->registers.l] = (p->memory[(p->registers.h << 8) + p->registers.l] << 1) | c;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] << 1) | c;
 
             // set extra flags
             p->flagRegister.carry = c;
-            p->flagRegister.zero = (p->memory[(p->registers.h << 8) + p->registers.l] == 0);
+            p->flagRegister.zero = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] == 0);
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
             debug_print("RLC (HL)\n", NULL);
@@ -2574,10 +2574,10 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            uint8_t c = p->memory[(p->registers.h << 8) + p->registers.l] & 0x01; // right bit
-            p->memory[(p->registers.h << 8) + p->registers.l] = (p->memory[(p->registers.h << 8) + p->registers.l] >> 1) | (c << 7);
+            uint8_t c = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0x01; // right bit
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] >> 1) | (c << 7);
 
-            p->flagRegister.zero  = (p->memory[(p->registers.h << 8) + p->registers.l] == 0);
+            p->flagRegister.zero  = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] == 0);
             p->flagRegister.carry = c;
             debug_print("RRC (HL)\n", NULL);
 			break;
@@ -2699,11 +2699,11 @@ void proc_handle_cb_prefix(Proc *p) {
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
             // shift to get carry
-            uint8_t c = p->memory[(p->registers.h << 8) + p->registers.l] >> 7;
+            uint8_t c = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] >> 7;
             // left 1 and then move old carry bit into bit 0
-            p->memory[(p->registers.h << 8) + p->registers.l] = (p->memory[(p->registers.h << 8) + p->registers.l]<< 1) | p->flagRegister.carry;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)]<< 1) | p->flagRegister.carry;
 
-            p->flagRegister.zero = (p->memory[(p->registers.h << 8) + p->registers.l] == 0);
+            p->flagRegister.zero = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] == 0);
             p->flagRegister.carry = c;
             debug_print("RL (HL)\n", NULL);
 			break;
@@ -2814,10 +2814,10 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            uint8_t      c = p->memory[(p->registers.h << 8) + p->registers.l] & 0x01;
-            p->memory[(p->registers.h << 8) + p->registers.l] = (p->memory[(p->registers.h << 8) + p->registers.l] >> 1) | (p->flagRegister.carry << 7);
+            uint8_t      c = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0x01;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] >> 1) | (p->flagRegister.carry << 7);
 
-            p->flagRegister.zero  = (p->memory[(p->registers.h << 8) + p->registers.l] == 0);
+            p->flagRegister.zero  = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] == 0);
             p->flagRegister.carry = c;
             debug_print("RR (HL)\n", NULL);
 			break;
@@ -2843,7 +2843,7 @@ void proc_handle_cb_prefix(Proc *p) {
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
             p->flagRegister.carry = (p->registers.b >> 7);
-            p->registers.b        = p->registers.b << 1;
+            p->registers.b        = (p->registers.b << 1);
             p->flagRegister.zero  = (p->registers.b == 0);
             debug_print("SLA B\n", NULL);
 			break;
@@ -2908,9 +2908,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            p->flagRegister.carry = (p->memory[(p->registers.h << 8) + p->registers.l] >> 7);
-            p->memory[(p->registers.h << 8) + p->registers.l] = p->memory[(p->registers.h << 8) + p->registers.l] << 1;
-            p->flagRegister.zero  = (p->memory[(p->registers.h << 8) + p->registers.l]== 0);
+            p->flagRegister.carry = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] >> 7);
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] << 1;
+            p->flagRegister.zero  = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)]== 0);
             debug_print("SLA (HL)\n", NULL);
 			break;
         case 0x27:
@@ -2924,78 +2924,127 @@ void proc_handle_cb_prefix(Proc *p) {
             p->flagRegister.zero  = (p->registers.a == 0);
             debug_print("SLA A\n", NULL);
 			break;
-        case 0x28:
+        case 0x28: {
             // SRA B
             // 2 8
             // Z 0 0 0
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            RESET_CARRY;
+            uint8_t c   = p->registers.b & 0x01;
+            uint8_t msb = p->registers.b & 0x80; // grab 1000 0000
+            p->registers.b = (p->registers.b >> 1) | msb;
+
+            p->flagRegister.zero = (p->registers.b == 0);
+            p->flagRegister.carry = c;
             debug_print("SRA B\n", NULL);
 			break;
-        case 0x29:
+        }
+        case 0x29: {
             // SRA C
             // 2 8
             // Z 0 0 0
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            RESET_CARRY;
+            uint8_t c   = p->registers.c & 0x01;
+            uint8_t msb = p->registers.c & 0x80; // grab 1000 0000
+            p->registers.c = (p->registers.c >> 1) | msb;
+
+            p->flagRegister.zero = (p->registers.c == 0);
+            p->flagRegister.carry = c;
             debug_print("SRA C\n", NULL);
 			break;
-        case 0x2A:
+        }
+        case 0x2A: {
             // SRA D
             // 2 8
             // Z 0 0 0
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            RESET_CARRY;
+            uint8_t c   = p->registers.d & 0x01;
+            uint8_t msb = p->registers.d & 0x80; // grab 1000 0000
+            p->registers.d = (p->registers.d >> 1) | msb;
+
+            p->flagRegister.zero = (p->registers.d == 0);
+            p->flagRegister.carry = c;
             debug_print("SRA D\n", NULL);
 			break;
-        case 0x2B:
+        }
+        case 0x2B: {
             // SRA E
             // 2 8
             // Z 0 0 0
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            RESET_CARRY;
+            uint8_t c   = p->registers.e & 0x01;
+            uint8_t msb = p->registers.e & 0x80; // grab 1000 0000
+            p->registers.e = (p->registers.e >> 1) | msb;
+
+            p->flagRegister.zero = (p->registers.e == 0);
+            p->flagRegister.carry = c;
             debug_print("SRA E\n", NULL);
 			break;
-        case 0x2C:
+        }
+        case 0x2C: {
             // SRA H
             // 2 8
             // Z 0 0 0
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            RESET_CARRY;
+            uint8_t c   = p->registers.h & 0x01;
+            uint8_t msb = p->registers.h & 0x80; // grab 1000 0000
+            p->registers.h = (p->registers.h >> 1) | msb;
+
+            p->flagRegister.zero = (p->registers.h == 0);
+            p->flagRegister.carry = c;
             debug_print("SRA H\n", NULL);
 			break;
-        case 0x2D:
+        }
+        case 0x2D: {
             // SRA L
             // 2 8
             // Z 0 0 0
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            RESET_CARRY;
+            uint8_t c   = p->registers.l & 0x01;
+            uint8_t msb = p->registers.l & 0x80; // grab 1000 0000
+            p->registers.l = (p->registers.l >> 1) | msb;
+
+            p->flagRegister.zero = (p->registers.l == 0);
+            p->flagRegister.carry = c;
             debug_print("SRA L\n", NULL);
 			break;
-        case 0x2E:
+        }
+        case 0x2E: {
             // SRA (HL)
             // 2 16
             // Z 0 0 0
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            RESET_CARRY;
+            uint16_t val = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t) p->registers.l];
+            uint8_t c    = val & 0x01;
+            uint8_t msb  = val & 0x80; // grab 1000 0000
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t) p->registers.l] = (val >> 1) | msb;
+
+            p->flagRegister.zero = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t) p->registers.l] == 0);
+            p->flagRegister.carry = c;
             debug_print("SRA (HL)\n", NULL);
 			break;
-        case 0x2F:
+        }
+        case 0x2F: {
             // SRA A
             // 2 8
             // Z 0 0 0
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
-            RESET_CARRY;
+            uint8_t c   = p->registers.a & 0x01;
+            uint8_t msb = p->registers.a & 0x80; // grab 1000 0000
+            p->registers.a = (p->registers.a >> 1) | msb; // idk why fam 
+
+            p->flagRegister.zero = (p->registers.a == 0);
+            p->flagRegister.carry = c;
             debug_print("SRA A\n", NULL);
 			break;
+        }
         case 0x30:
             // SWAP B
             // 2 8
@@ -3701,7 +3750,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 0,(HL)\n", NULL);
 
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xFE;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0xFE;
 			break;
         case 0x87:
             // RES 0,A
@@ -3765,7 +3814,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 1,(HL)\n", NULL);
 
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xFD;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0xFD;
 			break;
         case 0x8F:
             // RES 1,A
@@ -3829,7 +3878,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 2,(HL)\n", NULL);
 
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xFB;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0xFB;
 			break;
         case 0x97:
             // RES 2,A
@@ -3894,7 +3943,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 3,(HL)\n", NULL);
 
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xF7;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0xF7;
 			break;
         case 0x9F:
             // RES 3,A
@@ -3959,7 +4008,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 4,(HL)\n", NULL);
 
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xEF;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0xEF;
 			break;
         case 0xA7:
             // RES 4,A
@@ -4024,7 +4073,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 5,(HL)\n", NULL);
 
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xDF;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0xDF;
 			break;
         case 0xAF:
             // RES 5,A
@@ -4089,7 +4138,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 6,(HL)\n", NULL);
 
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0xBF;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0xBF;
 			break;
         case 0xB7:
             // RES 6,A
@@ -4154,7 +4203,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // - - - -
             debug_print("RES 7,(HL)\n", NULL);
 
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] & 0x7F;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0x7F;
 			break;
         case 0xBF:
             // RES 7,A
@@ -4225,7 +4274,7 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("SET 0,(HL)\n", NULL);
             // OR the current value in register b with 00000001
             // to set the 0th bit
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x1;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] | 0x1;
 			break;
         case 0xC7:
             // SET 0,A
@@ -4283,7 +4332,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 16
             // - - - -
             debug_print("SET 1,(HL)\n", NULL);
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x2;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] | 0x2;
 			break;
         case 0xCF:
             // SET 1,A
@@ -4339,7 +4388,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 16
             // - - - -
             debug_print("SET 2,(HL)\n", NULL);
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x4;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] | 0x4;
 			break;
         case 0xD7:
             // SET 2,A
@@ -4395,7 +4444,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 16
             // - - - -
             debug_print("SET 3,(HL)\n", NULL);
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x8;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] | 0x8;
 			break;
         case 0xDF:
             // SET 3,A
@@ -4451,7 +4500,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 16
             // - - - -
             debug_print("SET 4,(HL)\n", NULL);
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x10;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] | 0x10;
 			break;
         case 0xE7:
             // SET 4,A
@@ -4507,7 +4556,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 16
             // - - - -
             debug_print("SET 5,(HL)\n", NULL);
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x20;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] | 0x20;
 			break;
         case 0xEF:
             // SET 5,A
@@ -4563,7 +4612,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 16
             // - - - -
             debug_print("SET 6,(HL)\n", NULL);
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x40;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] | 0x40;
 			break;
         case 0xF7:
             // SET 6,A
@@ -4619,7 +4668,7 @@ void proc_handle_cb_prefix(Proc *p) {
             // 2 16
             // - - - -
             debug_print("SET 7,(HL)\n", NULL);
-            p->memory[p->registers.l + (p->registers.h << 8)] = p->memory[p->registers.l + (p->registers.h << 8)] | 0x80;
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] | 0x80;
 			break;
         case 0xFF:
             // SET 7,A
