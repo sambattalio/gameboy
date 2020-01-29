@@ -3123,6 +3123,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.b & 0x01);
+            p->registers.b        = (p->registers.b >> 1) & 0x7F; // MSB -> 0
+            p->flagRegister.zero  = (p->registers.b == 0);
             debug_print("SRL B\n", NULL);
 			break;
         case 0x39:
@@ -3131,6 +3134,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.c & 0x01);
+            p->registers.c        = (p->registers.c >> 1) & 0x7F; // MSB -> 0
+            p->flagRegister.zero  = (p->registers.c == 0);
             debug_print("SRL C\n", NULL);
 			break;
         case 0x3A:
@@ -3139,6 +3145,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.d & 0x01);
+            p->registers.d        = (p->registers.d >> 1) & 0x7F; // MSB -> 0
+            p->flagRegister.zero  = (p->registers.d == 0);
             debug_print("SRL D\n", NULL);
 			break;
         case 0x3B:
@@ -3147,6 +3156,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.e & 0x01);
+            p->registers.e        = (p->registers.e >> 1) & 0x7F; // MSB -> 0
+            p->flagRegister.zero  = (p->registers.e == 0);
             debug_print("SRL E\n", NULL);
 			break;
         case 0x3C:
@@ -3155,6 +3167,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.h & 0x01);
+            p->registers.h        = (p->registers.h >> 1) & 0x7F; // MSB -> 0
+            p->flagRegister.zero  = (p->registers.h == 0);
             debug_print("SRL H\n", NULL);
 			break;
         case 0x3D:
@@ -3163,6 +3178,9 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.l & 0x01);
+            p->registers.l        = (p->registers.l >> 1) & 0x7F; // MSB -> 0
+            p->flagRegister.zero  = (p->registers.l == 0);
             debug_print("SRL L\n", NULL);
 			break;
         case 0x3E:
@@ -3171,16 +3189,23 @@ void proc_handle_cb_prefix(Proc *p) {
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] & 0x01);
+            p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] >> 1) & 0x7F; // MSB -> 0
+            p->flagRegister.zero  = (p->memory[(uint16_t)(p->registers.h << 8) + (uint16_t)(p->registers.l)] == 0);
             debug_print("SRL (HL)\n", NULL);
 			break;
-        case 0x3F:
+        case 0x3F: {
             // SRL A
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            p->flagRegister.carry = (p->registers.a & 0x01);
+            p->registers.a        = (p->registers.a >> 1) & 0x7F; // MSB -> 0
+            p->flagRegister.zero  = (p->registers.a == 0);
             debug_print("SRL A\n", NULL);
 			break;
+        }
         case 0x40:
             // BIT 0,B
             // 2 8
