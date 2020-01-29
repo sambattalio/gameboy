@@ -2724,70 +2724,118 @@ void proc_handle_cb_prefix(Proc *p) {
             debug_print("RL A\n", NULL);
 			break;
         }
-        case 0x18:
+        case 0x18: {
             // RR B
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            uint8_t      c = p->registers.b & 0x01;
+            p->registers.b = (p->registers.b >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->registers.b == 0);
+            p->flagRegister.carry = c;
             debug_print("RR B\n", NULL);
 			break;
-        case 0x19:
+        }
+        case 0x19: {
             // RR C
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            uint8_t      c = p->registers.c & 0x01;
+            p->registers.c = (p->registers.c >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->registers.c == 0);
+            p->flagRegister.carry = c;
             debug_print("RR C\n", NULL);
 			break;
-        case 0x1A:
+        }
+        case 0x1A: {
             // RR D
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            uint8_t      c = p->registers.d & 0x01;
+            p->registers.d = (p->registers.d >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->registers.d == 0);
+            p->flagRegister.carry = c;
             debug_print("RR D\n", NULL);
 			break;
-        case 0x1B:
+        }
+        case 0x1B: {
             // RR E
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            uint8_t      c = p->registers.e & 0x01;
+            p->registers.e = (p->registers.e >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->registers.e == 0);
+            p->flagRegister.carry = c;
             debug_print("RR E\n", NULL);
 			break;
-        case 0x1C:
+        }
+        case 0x1C: {
             // RR H
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            uint8_t      c = p->registers.h & 0x01;
+            p->registers.h = (p->registers.h >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->registers.h == 0);
+            p->flagRegister.carry = c;
             debug_print("RR H\n", NULL);
 			break;
-        case 0x1D:
+        }
+        case 0x1D: {
             // RR L
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            uint8_t      c = p->registers.l & 0x01;
+            p->registers.l = (p->registers.l >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->registers.l == 0);
+            p->flagRegister.carry = c;
             debug_print("RR L\n", NULL);
 			break;
-        case 0x1E:
+        }
+        case 0x1E: {
             // RR (HL)
             // 2 16
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            uint8_t      c = p->memory[(p->registers.h << 8) + p->registers.l] & 0x01;
+            p->memory[(p->registers.h << 8) + p->registers.l] = (p->memory[(p->registers.h << 8) + p->registers.l] >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->memory[(p->registers.h << 8) + p->registers.l] == 0);
+            p->flagRegister.carry = c;
             debug_print("RR (HL)\n", NULL);
 			break;
-        case 0x1F:
+        }
+        case 0x1F: {
             // RR A
             // 2 8
             // Z 0 0 C
             RESET_SUBTRACT;
             RESET_HALF_CARRY;
+            uint8_t      c = p->registers.a & 0x01;
+            p->registers.a = (p->registers.a >> 1) | (p->flagRegister.carry << 7);
+
+            p->flagRegister.zero  = (p->registers.a == 0);
+            p->flagRegister.carry = c;
             debug_print("RR A\n", NULL);
 			break;
+        }
         case 0x20:
             // SLA B
             // 2 8
