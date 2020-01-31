@@ -3221,7 +3221,7 @@ void proc_handle_cb_prefix(Proc *p) {
             SET_HALF_CARRY;
             debug_print("BIT 0,B\n", NULL);
 
-            if( p->memory[p->registers.b] == (p->memory[p->registers.b] & 0xFE) ){
+            if( p->registers.b == (p->registers.b & 0xFE) ){
                 SET_ZERO;
             }
 			break;
@@ -3233,7 +3233,7 @@ void proc_handle_cb_prefix(Proc *p) {
             SET_HALF_CARRY;
             debug_print("BIT 0,C\n", NULL);
 
-            if( p->memory[p->registers.c] == (p->memory[p->registers.c] & 0xFE) ){
+            if( p->registers.c == (p->registers.c & 0xFE) ){
                 SET_ZERO;
             }
 			break;
@@ -3245,7 +3245,7 @@ void proc_handle_cb_prefix(Proc *p) {
             SET_HALF_CARRY;
             debug_print("BIT 0,D\n", NULL);
 
-            if( p->memory[p->registers.d] == (p->memory[p->registers.d] & 0xFE) ){
+            if( p->registers.d == (p->registers.d & 0xFE) ){
                 SET_ZERO;
             }
 			break;
@@ -3257,7 +3257,7 @@ void proc_handle_cb_prefix(Proc *p) {
             SET_HALF_CARRY;
             debug_print("BIT 0,E\n", NULL);
 
-            if( p->memory[p->registers.e] == (p->memory[p->registers.e] & 0xFE) ){
+            if( p->registers.e == (p->registers.e & 0xFE) ){
                 SET_ZERO;
             }
 			break;
@@ -3269,7 +3269,7 @@ void proc_handle_cb_prefix(Proc *p) {
             SET_HALF_CARRY;
             debug_print("BIT 0,H\n", NULL);
 
-            if( p->memory[p->registers.h] == (p->memory[p->registers.h] & 0xFE) ){
+            if( p->registers.h == (p->registers.h & 0xFE) ){
                 SET_ZERO;
             }
 			break;
@@ -3281,7 +3281,7 @@ void proc_handle_cb_prefix(Proc *p) {
             SET_HALF_CARRY;
             debug_print("BIT 0,L\n", NULL);
 
-            if( p->memory[p->registers.l] == (p->memory[p->registers.l] & 0xFE) ){
+            if( p->registers.l == (p->registers.l & 0xFE) ){
                 SET_ZERO;
             }
 			break;
@@ -3306,7 +3306,7 @@ void proc_handle_cb_prefix(Proc *p) {
             SET_HALF_CARRY;
             debug_print("BIT 0,A\n", NULL);
 
-            if( p->memory[p->registers.a] == (p->memory[p->registers.a] & 0xFE) ){
+            if( p->registers.a == (p->registers.a & 0xFE) ){
                 SET_ZERO;
             }
 			break;
@@ -3318,7 +3318,7 @@ void proc_handle_cb_prefix(Proc *p) {
             SET_HALF_CARRY;
             debug_print("BIT 1,B\n", NULL);
 
-            if( p->memory[p->registers.b] == (p->memory[p->registers.b] & 0xFD) ){
+            if( p->registers.b == (p->registers.b & 0xFD) ){
                 SET_ZERO;
             }
 			break;
