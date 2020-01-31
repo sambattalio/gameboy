@@ -20,13 +20,13 @@
     if (is_half_carry_sub(x, 1)) {\
         SET_HALF_CARRY;\
     }\
-    x --;
+    x--;
 
 #define INCREMENT_AND_CHECK(x) \
     if (is_half_carry_add(x, 1)) {\
         SET_HALF_CARRY;\
     }\
-    x ++;
+    x++;
 
 #define SET_REG(A,B) \
     *A = B;
@@ -312,7 +312,6 @@ void proc_read_word(Proc *p) {
             // 1 8
             // - 0 H C
             RESET_SUBTRACT;
-
             debug_print("ADD HL,DE\n", NULL);
 			break;
         case 0x1A:
