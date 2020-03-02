@@ -4,7 +4,7 @@ The goal for this project is to create a simple gameboy emulator for the 1st gen
 
 ## Development plan
 
-I am planning on splitting up the files logically, with a cartridge file, a processor file, ...
+I am currently reading up on VRAM before I dig into it. The plan is to take it down during breaks this semester!
 
 I Think most of the stuff for the processor and cartidges can be found in the Full manual referenced below.
 
